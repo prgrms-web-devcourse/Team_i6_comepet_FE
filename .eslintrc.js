@@ -12,5 +12,7 @@ module.exports = {
     sourceType: 'module'
   },
   plugins: ['react'],
-  rules: { 'react/react-in-jsx-scope': 'off' }
+  rules: {
+    'react/react-in-jsx-scope': 'off'
+  }
 };
