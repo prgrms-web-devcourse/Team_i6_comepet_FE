@@ -1,31 +1,19 @@
-import { useState, useEffect } from 'react';
-import { Image as ImageComponent } from '@/components/Image';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
+import { Image as ImageComponent } from '@/components/Image';
 
-const Avatar = ({ lazy, threshold, src, size, shape, placeholder, alt, mode }) => {
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    const image = new Image();
-    image.src = src;
-    image.onload = () => setLoaded(true);
-  }, [src]);
-
+const Avatar = ({ src, alt, size, placeholder, shape, mode }) => {
   return (
-    <AvatarWrapper shape={shape}>
+    <Wrapper shape={shape}>
       <ImageComponent
-        lazy={lazy}
-        threshold={threshold}
-        width={size ? size : '35rem'}
-        height={size ? size : '35rem'}
         src={src}
+        alt={alt || 'profile picture'}
+        width={size || '35rem'}
+        height={size || '35rem'}
         placeholder={placeholder}
-        alt={alt ? alt : 'profile picture'}
-        mode={mode ? mode : 'cover'}
-        style={{ opacity: loaded ? 1 : 0 }}
+        mode={mode || 'cover'}
       />
-    </AvatarWrapper>
+    </Wrapper>
   );
 };
 
@@ -34,9 +22,9 @@ const ShapeToCssValue = {
   round: '0.4rem',
   square: '0'
 };
-const AvatarWrapper = styled.div`
-  position: relative;
+const Wrapper = styled.div`
   display: inline-block;
+  position: relative;
   border: 0.1rem solid #dadada;
   border-radius: ${({ shape }) => (shape && ShapeToCssValue[shape]) || ShapeToCssValue['circle']};
   background-color: #eee;
@@ -48,13 +36,11 @@ const AvatarWrapper = styled.div`
 `;
 
 Avatar.propTypes = {
-  lazy: PropTypes.bool,
-  threshold: PropTypes.number,
   src: PropTypes.string.isRequired,
+  alt: PropTypes.string,
+  size: PropTypes.string,
   placeholder: PropTypes.string,
   shape: PropTypes.string,
-  size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  alt: PropTypes.string,
   mode: PropTypes.string
 };
 export default Avatar;
