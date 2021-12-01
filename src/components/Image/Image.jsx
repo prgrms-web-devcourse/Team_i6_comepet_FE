@@ -1,23 +1,30 @@
 import { PropTypes } from 'prop-types';
-
-const Image = ({ src, alt, width, height, placeholder, mode }) => {
+// import PostDefaultImage from '@/assets/post-image-default.jpg';
+// import ProfileDefaultImage from '@/assets/profile-image-default.jpg';
+const Image = ({ src, alt, width, height, type, mode }) => {
+  const { PUBLIC_URL } = process.env;
+  const ProfileDefaultImage = `${PUBLIC_URL}/images/profile-image-default.png`;
+  const PostDefaultImage = `${PUBLIC_URL}/images/post-image-default.jpg`;
+  const defaultSize = {
+    width: width ? width : type == 'profile' ? '3.5rem' : '20rem',
+    height: height ? height : type == 'profile' ? '3.5rem' : '20rem',
+    objectFit: mode || 'cover'
+  };
   return (
     <img
-      src={src || placeholder}
-      alt={alt}
-      width={width}
-      height={height}
-      objectFit={mode || 'cover'}
+      src={src ? src : type == 'profile' ? ProfileDefaultImage : PostDefaultImage}
+      alt={alt ? alt : type == 'profile' ? '프로필 이미지' : '게시글 이미지'}
+      style={defaultSize}
     />
   );
 };
 
 Image.propTypes = {
-  src: PropTypes.string.isRequired,
-  alt: PropTypes.string.isRequired,
-  width: PropTypes.string.isRequired,
-  height: PropTypes.string.isRequired,
-  placeholder: PropTypes.string,
+  type: PropTypes.string.isRequired,
+  width: PropTypes.string,
+  height: PropTypes.string,
+  src: PropTypes.string,
+  alt: PropTypes.string,
   mode: PropTypes.string
 };
 
