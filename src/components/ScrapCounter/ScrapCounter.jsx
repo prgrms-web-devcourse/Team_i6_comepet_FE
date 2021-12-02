@@ -37,7 +37,7 @@ const StyledStarIcon = styled(StarIcon)`
   color: #fecc00;
 `;
 
-const Counter = styled.span`
+const Counter = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
