@@ -53,13 +53,6 @@ const Wrapper = styled.div`
 `;
 
 const Selection = styled.select`
-  -o-appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  ::-ms-expand {
-    display: none;
-  }
-  appearance: none;
   width: 100%;
   height: 100%;
   padding-right: 2.5rem;
