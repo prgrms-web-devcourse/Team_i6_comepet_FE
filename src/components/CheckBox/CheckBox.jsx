@@ -4,22 +4,18 @@ import PropTypes from 'prop-types';
 
 const CheckBox = ({ id, text, marginBetween, fontSize, margin }) => {
   return (
-    <Wrapper>
-      <CheckBoxContainer margin={margin}>
-        <StyledInput type="checkbox" id={id} marginBetween={marginBetween} />
-        <StyledLabel htmlFor={id} fontSize={fontSize}>
-          {text || '모름'}
-        </StyledLabel>
-      </CheckBoxContainer>
+    <Wrapper margin={margin}>
+      <StyledInput type="checkbox" id={id} marginBetween={marginBetween} />
+      <StyledLabel htmlFor={id} fontSize={fontSize}>
+        {text || '모름'}
+      </StyledLabel>
     </Wrapper>
   );
 };
 
-const Wrapper = styled.div``;
-
-const CheckBoxContainer = styled.span`
+const Wrapper = styled.div`
   display: flex;
-  align-content: center;
+  align-items: center;
   margin: ${({ margin }) => margin || '0'};
 `;
 
