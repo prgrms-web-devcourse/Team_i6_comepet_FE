@@ -21,11 +21,12 @@ const Wrapper = styled.div`
 
 const StyledInput = styled.input`
   margin-right: ${({ marginBetween }) => marginBetween || '1rem'};
-  font-size: ${({ fontSize }) => fontSize || '1rem'};
   cursor: pointer;
 `;
 
-const StyledLabel = styled.label``;
+const StyledLabel = styled.label`
+  font-size: ${({ fontSize }) => fontSize || '1rem'};
+`;
 
 CheckBox.propTypes = {
   id: PropTypes.string.isRequired,
