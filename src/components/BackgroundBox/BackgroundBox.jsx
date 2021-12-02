@@ -2,14 +2,19 @@ import React from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 
-const BackgroundBox = ({ children }) => {
-  return <Wrapper>{children}</Wrapper>;
+const BackgroundBox = ({ children, width, height, boxShadow, borderRadius }) => {
+  return (
+    <Wrapper width={width} height={height} boxShadow={boxShadow} borderRadius={borderRadius}>
+      {children}
+    </Wrapper>
+  );
 };
 
 const Wrapper = styled.div`
-  background: #ffffff;
-  box-shadow: 0 0.8rem 2.4rem rgba(0, 0, 0, 0.16);
-  border-radius: 1.6rem;
+  width: ${({ width }) => width || '100%'};
+  height: ${({ height }) => height};
+  box-shadow: ${({ boxShadow, theme }) => boxShadow || theme.shadows.normal};
+  border-radius: ${({ borderRadius }) => borderRadius || '1.6rem'};
 `;
 
 BackgroundBox.defaultProps = {
@@ -17,7 +22,11 @@ BackgroundBox.defaultProps = {
 };
 
 BackgroundBox.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node.isRequired,
+  width: PropTypes.string,
+  height: PropTypes.string,
+  boxShadow: PropTypes.string,
+  borderRadius: PropTypes.string
 };
 
 export default BackgroundBox;
