@@ -7,10 +7,10 @@ const Avatar = ({ src, size, shape, mode }) => {
     <Wrapper size={size} shape={shape}>
       <ImageComponent
         src={src}
-        alt={'프로필 이미지'}
+        alt="프로필 이미지"
         width={size}
         height={size}
-        type={'profile'}
+        type="profile"
         mode={mode}
       />
     </Wrapper>
@@ -22,6 +22,7 @@ const ShapeToCssValue = {
   round: '0.4rem',
   square: '0'
 };
+
 const Wrapper = styled.div`
   display: inline-block;
   width: ${({ size }) => size || '4.5rem'};
@@ -38,4 +39,5 @@ Avatar.propTypes = {
   shape: PropTypes.string,
   mode: PropTypes.string
 };
+
 export default Avatar;
