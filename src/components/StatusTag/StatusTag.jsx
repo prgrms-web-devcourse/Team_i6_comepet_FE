@@ -2,8 +2,14 @@ import React from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import { STATUS } from '@/utils/constants';
+import { DEV_ERROR } from '@/utils/constants';
 
 const StatusTag = ({ status, children, padding, color, bgColor, fontSize, borderRadius }) => {
+  if (isWronglyUsed(status, bgColor, children)) {
+    console.error(DEV_ERROR.INVALID_PROP);
+    return;
+  }
+
   return (
     <Wrapper>
       <StyledSpan
@@ -13,11 +19,20 @@ const StatusTag = ({ status, children, padding, color, bgColor, fontSize, border
         color={color}
         fontSize={fontSize}
         borderRadius={borderRadius}>
-        {decideText(status, bgColor, children)}
+        {(status && STATUS[status]) || children}
       </StyledSpan>
     </Wrapper>
   );
 };
+
+const isWronglyUsed = (status, bgColor, children) => {
+  return (
+    doesExistOneOfThem(bgColor, children) || (!status && !doesExistBothOfThem(bgColor, children))
+  );
+};
+
+const doesExistOneOfThem = (a, b) => (!a && b) || (a && !b);
+const doesExistBothOfThem = (a, b) => a && b;
 
 const decideColor = ({ status, bgColor, theme }) => {
   if (bgColor) {
@@ -29,20 +44,6 @@ const decideColor = ({ status, bgColor, theme }) => {
   }
 
   return theme.colors.lighterGray;
-};
-
-const decideText = (status, bgColor, children) => {
-  if (bgColor && children) {
-    return children;
-  }
-
-  if ((bgColor && !children) || (!bgColor && children)) return '배경색과 텍스트 둘 다 입력해주세요';
-
-  if (status) {
-    return STATUS[status];
-  }
-
-  return '내용을 입력해 주세요';
 };
 
 const Wrapper = styled.div``;
