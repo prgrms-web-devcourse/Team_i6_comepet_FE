@@ -26,7 +26,7 @@ const theme = {
 const App = function () {
   return (
     <ThemeProvider theme={theme}>
-      <StatusTag status="missing" />
+      <StatusTag bgColor="#B91C1C"></StatusTag>
     </ThemeProvider>
   );
 };
