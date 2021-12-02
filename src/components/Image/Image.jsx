@@ -9,7 +9,7 @@ const Image = ({ src, alt, width, height, type, mode }) => {
   return (
     <StyledImage
       src={src || (type == 'profile' && ProfileDefaultImage) || PostDefaultImage}
-      alt={alt || '프로필 이미지'}
+      alt={alt || '게시글 이미지'}
       width={width}
       height={height}
       type={type}
@@ -25,8 +25,8 @@ const StyledImage = styled.img`
 `;
 
 Image.propTypes = {
-  src: PropTypes.string.isRequired,
-  alt: PropTypes.string.isRequired,
+  src: PropTypes.string,
+  alt: PropTypes.string,
   width: PropTypes.string,
   height: PropTypes.string,
   mode: PropTypes.string,
