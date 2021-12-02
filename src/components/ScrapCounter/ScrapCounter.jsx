@@ -2,8 +2,15 @@ import React from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import StarIcon from '@mui/icons-material/Star';
+import { isNotValidSize } from '@/utils/helpers';
+import { DEV_ERROR } from '@/utils/constants';
 
 const ScrapCounter = ({ children, size }) => {
+  if (isNotValidSize(size, ['small', 'medium'])) {
+    console.error(DEV_ERROR.INVALID_PROP);
+    return;
+  }
+
   return (
     <Wrapper size={size}>
       <StyledStarIcon size={size} />
