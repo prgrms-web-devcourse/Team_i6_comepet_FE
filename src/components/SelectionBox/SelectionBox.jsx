@@ -84,7 +84,6 @@ SelectionBox.propTypes = {
   defaultOption: PropTypes.string.isRequired,
   fontSize: PropTypes.string,
   height: PropTypes.string,
-  theme: PropTypes.node,
   disabled: PropTypes.bool,
   required: PropTypes.bool
 };
