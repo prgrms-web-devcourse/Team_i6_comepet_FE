@@ -46,3 +46,14 @@ button {
   cursor: pointer;
   outline: 0;
 }
+
+select {
+  -o-appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+select::-ms-expand {
+  display: none;
+}
