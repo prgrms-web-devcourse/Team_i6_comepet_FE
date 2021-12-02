@@ -13,37 +13,16 @@ const StatusTag = ({ status, children, padding, color, bgColor, fontSize, border
   return (
     <Wrapper>
       <StyledSpan
-        status={status}
         padding={padding}
+        status={status}
         bgColor={bgColor}
         color={color}
         fontSize={fontSize}
         borderRadius={borderRadius}>
-        {(status && STATUS[status]) || children}
+        {STATUS[status] || children}
       </StyledSpan>
     </Wrapper>
   );
-};
-
-const isWronglyUsed = (status, bgColor, children) => {
-  return (
-    doesExistOneOfThem(bgColor, children) || (!status && !doesExistBothOfThem(bgColor, children))
-  );
-};
-
-const doesExistOneOfThem = (a, b) => (!a && b) || (a && !b);
-const doesExistBothOfThem = (a, b) => a && b;
-
-const decideColor = ({ status, bgColor, theme }) => {
-  if (bgColor) {
-    return bgColor;
-  }
-
-  if (status) {
-    return theme.colors[status];
-  }
-
-  return theme.colors.lighterGray;
 };
 
 const Wrapper = styled.div``;
@@ -69,3 +48,26 @@ StatusTag.propTypes = {
 };
 
 export default StatusTag;
+
+const isWronglyUsed = (status, bgColor, children) => {
+  return (
+    (status && (XOR(bgColor, children) || AND(bgColor, children))) ||
+    (!status && (XOR(bgColor, children) || NAND(bgColor, children)))
+  );
+};
+
+const XOR = (a, b) => (!a && b) || (a && !b);
+const AND = (a, b) => a && b;
+const NAND = (a, b) => !(a && b);
+
+const decideColor = ({ status, bgColor, theme }) => {
+  if (bgColor) {
+    return bgColor;
+  }
+
+  if (status) {
+    return theme.colors[status];
+  }
+
+  return theme.colors.lighterGray;
+};
