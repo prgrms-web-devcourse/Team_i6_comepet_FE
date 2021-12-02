@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 
 const Input = ({
+  id,
   padding,
   width,
   height,
@@ -10,10 +11,17 @@ const Input = ({
   borderRadius,
   fontSize,
   placeholder,
+  type,
+  name,
+  value,
+  minlength,
+  maxlength,
+  accept,
   required
 }) => {
   return (
     <StyledInput
+      id={id}
       padding={padding}
       width={width}
       height={height}
@@ -21,7 +29,14 @@ const Input = ({
       borderRadius={borderRadius}
       fontSize={fontSize}
       required={required}
-      placeholder={placeholder}></StyledInput>
+      placeholder={placeholder}
+      type={type}
+      name={name}
+      value={value}
+      maxlength={maxlength}
+      minlength={minlength}
+      accept={accept}
+    />
   );
 };
 
@@ -49,12 +64,19 @@ const StyledInput = styled.input`
 
 Input.propTypes = {
   placeholder: PropTypes.string.isRequired,
+  id: PropTypes.string,
   width: PropTypes.string,
   height: PropTypes.string,
   borderRadius: PropTypes.string,
   padding: PropTypes.string,
   border: PropTypes.string,
   fontSize: PropTypes.string,
+  type: PropTypes.string,
+  name: PropTypes.string,
+  value: PropTypes.string,
+  minlength: PropTypes.string,
+  maxlength: PropTypes.string,
+  accept: PropTypes.string,
   required: PropTypes.bool
 };
 
