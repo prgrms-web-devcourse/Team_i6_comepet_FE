@@ -1,8 +1,7 @@
 import React from 'react';
-import { ThemeProvider } from '@emotion/react';
-import { StatusTag } from '@/components/StatusTag';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
-const theme = {
+const theme = createTheme({
   colors: {
     brand: '#2A2E56',
     normalWhite: '#ffffff',
@@ -21,14 +20,10 @@ const theme = {
     sighting: '#FF8F5E',
     protection: '#1E1AFF'
   }
-};
+});
 
 const App = function () {
-  return (
-    <ThemeProvider theme={theme}>
-      <StatusTag bgColor="#B91C1C"></StatusTag>
-    </ThemeProvider>
-  );
+  return <ThemeProvider theme={theme}></ThemeProvider>;
 };
 
 export default App;
