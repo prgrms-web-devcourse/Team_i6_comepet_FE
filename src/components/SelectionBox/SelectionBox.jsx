@@ -21,21 +21,19 @@ const SelectionBox = ({ options, defaultOption, required, disabled, fontSize, he
   };
 
   return (
-    <Wrapper>
-      <SelectionWrapper color={color}>
-        <Selection
-          onChange={changeHandler}
-          disabled={disabled}
-          color={color}
-          fontSize={fontSize}
-          height={height}>
-          <Option>{defaultOption}</Option>
-          {options.map((option) => (
-            <Option key={option.id}>{option.text}</Option>
-          ))}
-        </Selection>
-        <Arrow color={color} />
-      </SelectionWrapper>
+    <Wrapper color={color}>
+      <Selection
+        onChange={changeHandler}
+        disabled={disabled}
+        color={color}
+        fontSize={fontSize}
+        height={height}>
+        <Option>{defaultOption}</Option>
+        {options.map((option) => (
+          <Option key={option.id}>{option.text}</Option>
+        ))}
+      </Selection>
+      <Arrow color={color} />
     </Wrapper>
   );
 };
@@ -47,9 +45,7 @@ const decideColor = ({ chosen, disabled, required }) => {
   return COLOR_SET.brand;
 };
 
-const Wrapper = styled.div``;
-
-const SelectionWrapper = styled.div`
+const Wrapper = styled.div`
   display: inline-block;
   position: relative;
   height: ${({ height }) => height || '2.4rem'};
