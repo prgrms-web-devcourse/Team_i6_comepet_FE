@@ -3,28 +3,18 @@ import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import { STATUS } from '@/utils/constants';
 
-const StatusTag = ({
-  status,
-  children,
-  padding,
-  color,
-  bgColor,
-  width,
-  fontSize,
-  borderRadius
-}) => {
+const StatusTag = ({ status, children, padding, color, bgColor, fontSize, borderRadius }) => {
   return (
     <Wrapper>
-      <StyledDiv
+      <StyledSpan
         status={status}
         padding={padding}
         bgColor={bgColor}
         color={color}
-        width={width}
         fontSize={fontSize}
         borderRadius={borderRadius}>
         {decideText(status, bgColor, children)}
-      </StyledDiv>
+      </StyledSpan>
     </Wrapper>
   );
 };
@@ -57,10 +47,9 @@ const decideText = (status, bgColor, children) => {
 
 const Wrapper = styled.div``;
 
-const StyledDiv = styled.div`
+const StyledSpan = styled.span`
   background-color: ${(props) => decideColor(props)};
   padding: ${({ padding }) => padding || '0.6rem'};
-  width: ${({ width }) => width || '5.6rem'};
   border-radius: ${({ borderRadius }) => borderRadius || '0 1.6rem'};
   font-size: ${({ fontSize }) => fontSize || '1.6rem'};
   font-weight: bold;
@@ -74,8 +63,6 @@ StatusTag.propTypes = {
   color: PropTypes.string,
   status: PropTypes.string,
   padding: PropTypes.string,
-  height: PropTypes.string,
-  width: PropTypes.string,
   fontSize: PropTypes.string,
   borderRadius: PropTypes.string
 };
