@@ -19,6 +19,16 @@ const theme = createTheme({
     completion: '#53CE50',
     sighting: '#FF8F5E',
     protection: '#1E1AFF'
+  },
+  sizes: {
+    scrapCounter: {
+      wrapper: {
+        small: { width: '3.6rem', height: '1.6rem' },
+        medium: { width: '4.8rem', height: '2.1rem' }
+      },
+      icon: { small: '1.2rem', medium: '1.6rem' },
+      font: { small: '0.8rem', medium: '1.6rem' }
+    }
   }
 });
 
