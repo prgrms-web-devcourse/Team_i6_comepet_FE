@@ -29,10 +29,10 @@ const StyledInput = styled.input`
   width: ${({ width }) => width || '100%'};
   height: ${({ height }) => height || '3rem'};
   padding: ${({ padding }) => padding || '2rem'};
-  border: ${({ border }) => border || 'none'};
+  border: ${({ border }) => border || '0'};
   border-radius: ${({ borderRadius }) => borderRadius || '1rem'};
   font-size: ${({ fontSize }) => fontSize || '1.6rem'};
-  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 0.4rem 1.6rem rgba(0, 0, 0, 0.08);
   ::-ms-input-placeholder {
     color: ${({ required, theme }) => (required && theme.colors.normalPink) || 'auto'};
     font-weight: bold;
