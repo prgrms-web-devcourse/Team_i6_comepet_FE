@@ -59,7 +59,6 @@ const Selection = styled.select`
   background: transparent;
   border: 0 none;
   outline: 0 none;
-  z-index: 3;
   font-size: ${({ fontSize }) => fontSize || '1.6rem'};
   color: ${({ color }) => color};
   font-weight: bold;
@@ -74,7 +73,6 @@ const Arrow = styled(KeyboardArrowDownIcon)`
   position: absolute;
   top: -0.1rem;
   right: 0;
-  z-index: 1;
   width: 2rem;
   height: inherit;
 `;
