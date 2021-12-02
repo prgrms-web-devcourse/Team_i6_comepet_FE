@@ -2,10 +2,17 @@ import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import { Image as ImageComponent } from '@/components/Image';
 
-const Avatar = ({ src, alt, size, shape, mode }) => {
+const Avatar = ({ src, size, shape, mode }) => {
   return (
     <Wrapper size={size} shape={shape}>
-      <ImageComponent src={src} alt={alt} width={size} height={size} type={'profile'} mode={mode} />
+      <ImageComponent
+        src={src}
+        alt={'프로필 이미지'}
+        width={size}
+        height={size}
+        type={'profile'}
+        mode={mode}
+      />
     </Wrapper>
   );
 };
@@ -17,22 +24,16 @@ const ShapeToCssValue = {
 };
 const Wrapper = styled.div`
   display: inline-block;
-  position: relative;
-  width: ${({ size }) => size || '3.5rem'};
-  height: ${({ size }) => size || '3.5rem'};
-  border: 0.1rem solid #dadada;
+  width: ${({ size }) => size || '4.5rem'};
+  height: ${({ size }) => size || '4.5rem'};
+  border: 0.1rem solid ${({ theme }) => theme.colors.lighterGray};
   border-radius: ${({ shape }) => (shape && ShapeToCssValue[shape]) || ShapeToCssValue['circle']};
   background-color: ${({ theme }) => theme.colors.lighterGray};
   overflow: hidden;
-
-  > img {
-    transition: opacity 0.2s ease-out;
-  }
 `;
 
 Avatar.propTypes = {
-  src: PropTypes.string.isRequired,
-  alt: PropTypes.string,
+  src: PropTypes.string,
   size: PropTypes.string,
   shape: PropTypes.string,
   mode: PropTypes.string
