@@ -3,43 +3,53 @@ import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import { STATUS } from '@/utils/constants';
 
-const StatusTag = ({ as, children, padding, color, bgColor, width, fontSize, borderRadius }) => {
+const StatusTag = ({
+  status,
+  children,
+  padding,
+  color,
+  bgColor,
+  width,
+  fontSize,
+  borderRadius
+}) => {
   return (
     <Wrapper>
       <StyledDiv
+        status={status}
         padding={padding}
         bgColor={bgColor}
         color={color}
         width={width}
         fontSize={fontSize}
         borderRadius={borderRadius}>
-        {decideText(as, bgColor, children)}
+        {decideText(status, bgColor, children)}
       </StyledDiv>
     </Wrapper>
   );
 };
 
-const decideColor = ({ as, bgColor, theme }) => {
+const decideColor = ({ status, bgColor, theme }) => {
   if (bgColor) {
     return bgColor;
   }
 
-  if (as) {
-    return theme.colors[STATUS[as]];
+  if (status) {
+    return theme.colors[status];
   }
 
   return theme.colors.lighterGray;
 };
 
-const decideText = (as, bgColor, children) => {
+const decideText = (status, bgColor, children) => {
   if (bgColor && children) {
     return children;
   }
 
   if ((bgColor && !children) || (!bgColor && children)) return '배경색과 텍스트 둘 다 입력해주세요';
 
-  if (as) {
-    return STATUS[as];
+  if (status) {
+    return STATUS[status];
   }
 
   return '내용을 입력해 주세요';
@@ -62,7 +72,7 @@ StatusTag.propTypes = {
   children: PropTypes.string,
   bgColor: PropTypes.string,
   color: PropTypes.string,
-  as: PropTypes.string,
+  status: PropTypes.string,
   padding: PropTypes.string,
   height: PropTypes.string,
   width: PropTypes.string,

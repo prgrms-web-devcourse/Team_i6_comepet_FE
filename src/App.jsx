@@ -1,5 +1,6 @@
 import React from 'react';
 import { ThemeProvider } from '@emotion/react';
+import { StatusTag } from '@/components/StatusTag';
 
 const theme = {
   colors: {
@@ -23,7 +24,11 @@ const theme = {
 };
 
 const App = function () {
-  return <ThemeProvider theme={theme}></ThemeProvider>;
+  return (
+    <ThemeProvider theme={theme}>
+      <StatusTag status="missing" />
+    </ThemeProvider>
+  );
 };
 
 export default App;
