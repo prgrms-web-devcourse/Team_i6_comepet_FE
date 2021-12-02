@@ -57,8 +57,8 @@ const Selection = styled.select`
   height: 100%;
   padding-right: 2.5rem;
   background: transparent;
-  border: 0 none;
-  outline: 0 none;
+  border: 0;
+  outline: 0;
   font-size: ${({ fontSize }) => fontSize || '1.6rem'};
   color: ${({ color }) => color};
   font-weight: bold;
