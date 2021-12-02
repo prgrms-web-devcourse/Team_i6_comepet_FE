@@ -20,6 +20,10 @@ const theme = createTheme({
     sighting: '#FF8F5E',
     protection: '#1E1AFF'
   },
+  shadows: {
+    light: '0 0.4rem 1.6rem rgba(0, 0, 0, 0.08)',
+    normal: '0 0.8rem 2.4rem rgba(0, 0, 0, 0.16)'
+  },
   sizes: {
     scrapCounter: {
       wrapper: {
