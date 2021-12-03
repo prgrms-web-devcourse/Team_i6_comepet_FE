@@ -25,21 +25,31 @@ const LongHeader = () => {
           </Button>
         </TopContainer>
         <MiddleContainer>
-          <BackgroundBox width="15rem">
-            <Button bgColor="#fff" type="button" color="#2A2E56">
+          <BackgroundBox width="15rem" boxShadow="0px 4px 16px rgba(0, 0, 0, 0.08)">
+            <Button
+              bgColor="#fff"
+              type="button"
+              color="#2A2E56"
+              fontWeight="bold"
+              borderRadius="1.6rem">
               <Image src={getImagePath('/images/finding.png')} width="1.6rem" height="1.6rem" />
               실종 및 보호
             </Button>
           </BackgroundBox>
-          <BackgroundBox width="15rem">
-            <Button bgColor="#fff" type="button" color="#2A2E56">
+          <BackgroundBox width="15rem" boxShadow="0px 4px 16px rgba(0, 0, 0, 0.08)">
+            <Button
+              bgColor="#fff"
+              type="button"
+              color="#2A2E56"
+              fontWeight="bold"
+              borderRadius="1.6rem">
               <Image src={getImagePath('/images/home.png')} width="1.6rem" height="1.6rem" />
               보호소 동물
             </Button>
           </BackgroundBox>
         </MiddleContainer>
         <BottomContainer>
-          <Input placeholder="세부 검색을 위해 클릭해주세요" />
+          <Input placeholder="세부 검색을 위해 클릭해주세요" borderRadius="1.6rem" />
           <StyledSearch />
         </BottomContainer>
       </BackgroundBox>
