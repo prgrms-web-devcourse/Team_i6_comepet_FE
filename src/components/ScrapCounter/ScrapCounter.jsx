@@ -2,10 +2,11 @@ import React from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { isNotValidSize } from '@/utils/helpers';
 import { DEV_ERROR } from '@/utils/constants';
 
-const ScrapCounter = ({ children, size }) => {
+const ScrapCounter = ({ children, size, isBookmark }) => {
   if (isNotValidSize(size, ['small', 'medium'])) {
     console.error(DEV_ERROR.INVALID_PROP);
     return;
@@ -13,13 +14,16 @@ const ScrapCounter = ({ children, size }) => {
 
   return (
     <Wrapper size={size}>
-      <StyledStarIcon size={size} />
+      {isBookmark ? <StyledStarIcon size={size} /> : <StyledStarBorderIcon size={size} />}
       <Counter size={size}>{children}</Counter>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
+  position: absolute;
+  top: 11rem;
+  right: 0;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -37,6 +41,12 @@ const StyledStarIcon = styled(StarIcon)`
   color: #fecc00;
 `;
 
+const StyledStarBorderIcon = styled(StarBorderIcon)`
+  width: ${({ theme, size }) => theme.sizes.scrapCounter.icon[size]};
+  height: ${({ theme, size }) => theme.sizes.scrapCounter.icon[size]};
+  color: #fecc00;
+`;
+
 const Counter = styled.div`
   display: flex;
   justify-content: center;
@@ -49,8 +59,9 @@ const Counter = styled.div`
 `;
 
 ScrapCounter.propTypes = {
-  children: PropTypes.string.isRequired,
-  size: PropTypes.string.isRequired
+  children: PropTypes.number.isRequired,
+  size: PropTypes.string.isRequired,
+  isBookmark: PropTypes.string.bool
 };
 
 export default ScrapCounter;
