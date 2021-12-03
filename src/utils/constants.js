@@ -5,8 +5,13 @@ export const DEV_ERROR = Object.freeze({
 });
 
 export const STATUS = Object.freeze({
-  missing: '실종',
-  completion: '완료',
-  sighting: '목격',
-  protection: '보호'
+  MISSING: '실종',
+  COMPLETION: '완료',
+  DETECTION: '목격',
+  PROTECTION: '보호'
+});
+
+export const GENDER = Object.freeze({
+  MALE: '수컷',
+  FEMALE: '암컷'
 });

@@ -4,47 +4,65 @@ import PropTypes from 'prop-types';
 import { STATUS } from '@/utils/constants';
 import { DEV_ERROR } from '@/utils/constants';
 
-const StatusTag = ({ status, children, padding, color, bgColor, fontSize, borderRadius }) => {
+const StatusTag = ({
+  status,
+  children,
+  padding,
+  color,
+  bgColor,
+  fontSize,
+  borderRadius,
+  width,
+  height
+}) => {
   if (isWronglyUsed(status, bgColor, children)) {
     console.error(DEV_ERROR.INVALID_PROP);
     return;
   }
 
   return (
-    <Wrapper>
-      <StyledSpan
-        padding={padding}
-        status={status}
-        bgColor={bgColor}
-        color={color}
-        fontSize={fontSize}
-        borderRadius={borderRadius}>
-        {STATUS[status] || children}
-      </StyledSpan>
+    <Wrapper
+      padding={padding}
+      status={status}
+      bgColor={bgColor}
+      color={color}
+      fontSize={fontSize}
+      borderRadius={borderRadius}
+      width={width}
+      height={height}>
+      {STATUS[status] || children}
     </Wrapper>
   );
 };
 
-const Wrapper = styled.div``;
-
-const StyledSpan = styled.span`
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: ${({ theme }) => theme.sizes.statusTag.wrapper.small.width};
+  height: ${({ theme }) => theme.sizes.statusTag.wrapper.small.height};
   background-color: ${(props) => decideColor(props)};
-  padding: ${({ padding }) => padding || '0.6rem'};
   border-radius: ${({ borderRadius }) => borderRadius || '0 1.6rem'};
   font-size: ${({ fontSize }) => fontSize || '1.6rem'};
   font-weight: bold;
   text-align: center;
   color: ${({ color, theme }) => color || theme.colors.normalWhite};
+  opacity: 90%;
 `;
 
 StatusTag.propTypes = {
-  children: PropTypes.string,
+  children: PropTypes.number,
   bgColor: PropTypes.string,
   color: PropTypes.string,
   status: PropTypes.string,
   padding: PropTypes.string,
   fontSize: PropTypes.string,
-  borderRadius: PropTypes.string
+  borderRadius: PropTypes.string,
+  width: PropTypes.string,
+  height: PropTypes.string
 };
 
 export default StatusTag;
