@@ -118,11 +118,13 @@ const IconContainer = styled.div`
 
 const StyledNotification = styled(NotificationsActiveIcon)`
   font-size: 2.8rem;
+  color: ${({ theme }) => theme.colors.brand};
 `;
 
 const StyledInformation = styled(ErrorOutlineIcon)`
   font-size: 2.8rem;
   margin-right: 0.8rem;
+  color: ${({ theme }) => theme.colors.brand};
 `;
 
 LongHeader.propTypes = {
