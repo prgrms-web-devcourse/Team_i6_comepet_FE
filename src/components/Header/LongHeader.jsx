@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 import { BackgroundBox } from '@/components/BackgroundBox';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
@@ -8,7 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import PropTypes from 'prop-types';
+import { getImageSrc } from '@/utils/helpers';
 
 const LongHeader = ({ isLoggedIn }) => {
   return (
@@ -43,7 +44,7 @@ const LongHeader = ({ isLoggedIn }) => {
               fontWeight="bold"
               borderRadius="1.6rem">
               <Image
-                src={getImagePath('/images/finding.png')}
+                src={getImageSrc('/images/finding.png')}
                 width="1.6rem"
                 height="1.6rem"
                 margin="0 5rem 0 0"
@@ -58,7 +59,7 @@ const LongHeader = ({ isLoggedIn }) => {
               color="#2A2E56"
               fontWeight="bold"
               borderRadius="1.6rem">
-              <Image src={getImagePath('/images/home.png')} width="1.6rem" height="1.6rem" />
+              <Image src={getImageSrc('/images/home.png')} width="1.6rem" height="1.6rem" />
               보호소 동물
             </Button>
           </BackgroundBox>
@@ -129,8 +130,3 @@ LongHeader.propTypes = {
 };
 
 export default LongHeader;
-
-const getImagePath = (URL) => {
-  const { PUBLIC_URL } = process.env;
-  return `${PUBLIC_URL}${URL}`;
-};
