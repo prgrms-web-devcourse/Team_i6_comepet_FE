@@ -1,28 +1,38 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import MenuIcon from '@mui/icons-material/Menu';
 import { BackgroundBox } from '@/components/BackgroundBox';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Image } from '@/components/Image';
+import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import PropTypes from 'prop-types';
 
-const LongHeader = () => {
+const LongHeader = ({ isLoggedIn }) => {
   return (
     <Wrapper>
       <BackgroundBox borderRadius="0 0 1.6rem 1.6rem" height="17rem">
         <TopContainer>
           <StyledMenu />
           <h1>Comepet</h1>
-          <Button
-            bgColor="#fff"
-            type="button"
-            width="2.8rem"
-            height="2.8rem"
-            borderRadius="50%"
-            margin="0 1rem 0 0">
-            <Image alt="로그인" width="2.8rem" height="2.8rem" type="profile" />
-          </Button>
+          {isLoggedIn ? (
+            <IconContainer>
+              <StyledInformation />
+              <StyledNotification />
+            </IconContainer>
+          ) : (
+            <Button
+              bgColor="#fff"
+              type="button"
+              width="2.8rem"
+              height="2.8rem"
+              borderRadius="50%"
+              margin="0 1rem 0 0">
+              <Image alt="로그인" width="2.8rem" height="2.8rem" type="profile" />
+            </Button>
+          )}
         </TopContainer>
         <MiddleContainer>
           <BackgroundBox width="15rem" boxShadow="0px 4px 16px rgba(0, 0, 0, 0.08)">
@@ -32,7 +42,12 @@ const LongHeader = () => {
               color="#2A2E56"
               fontWeight="bold"
               borderRadius="1.6rem">
-              <Image src={getImagePath('/images/finding.png')} width="1.6rem" height="1.6rem" />
+              <Image
+                src={getImagePath('/images/finding.png')}
+                width="1.6rem"
+                height="1.6rem"
+                margin="0 5rem 0 0"
+              />
               실종 및 보호
             </Button>
           </BackgroundBox>
@@ -95,6 +110,23 @@ const StyledSearch = styled(SearchIcon)`
   font-size: 3rem;
   color: ${({ theme }) => theme.colors.brand};
 `;
+
+const IconContainer = styled.div`
+  margin-right: 1.2rem;
+`;
+
+const StyledNotification = styled(NotificationsActiveIcon)`
+  font-size: 2.8rem;
+`;
+
+const StyledInformation = styled(ErrorOutlineIcon)`
+  font-size: 2.8rem;
+  margin-right: 0.8rem;
+`;
+
+LongHeader.propTypes = {
+  isLoggedIn: PropTypes.bool
+};
 
 export default LongHeader;
 
