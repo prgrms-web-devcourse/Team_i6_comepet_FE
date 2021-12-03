@@ -10,10 +10,10 @@ import SearchIcon from '@mui/icons-material/Search';
 const LongHeader = () => {
   return (
     <Wrapper>
-      <BackgroundBox borderRadius="0 0 1.6rem 1.6rem" height="18rem">
+      <BackgroundBox borderRadius="0 0 1.6rem 1.6rem" height="17rem">
         <TopContainer>
           <StyledMenu />
-          <h1>Compet</h1>
+          <h1>Comepet</h1>
           <Button
             bgColor="#fff"
             type="button"
@@ -27,17 +27,19 @@ const LongHeader = () => {
         <MiddleContainer>
           <BackgroundBox width="15rem">
             <Button bgColor="#fff" type="button" color="#2A2E56">
+              <Image src={getImagePath('/images/finding.png')} width="1.6rem" height="1.6rem" />
               실종 및 보호
             </Button>
           </BackgroundBox>
           <BackgroundBox width="15rem">
             <Button bgColor="#fff" type="button" color="#2A2E56">
+              <Image src={getImagePath('/images/home.png')} width="1.6rem" height="1.6rem" />
               보호소 동물
             </Button>
           </BackgroundBox>
         </MiddleContainer>
         <BottomContainer>
-          <Input placeholder="게시글 찾아보기" />
+          <Input placeholder="세부 검색을 위해 클릭해주세요" />
           <StyledSearch />
         </BottomContainer>
       </BackgroundBox>
@@ -56,12 +58,14 @@ const TopContainer = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
+
 const MiddleContainer = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin-top: 1.2rem;
+  margin-top: 0.8rem;
 `;
+
 const BottomContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -71,6 +75,7 @@ const BottomContainer = styled.div`
 const StyledMenu = styled(MenuIcon)`
   font-size: 3rem;
   margin-left: 1rem;
+  color: ${({ theme }) => theme.colors.brand};
 `;
 
 const StyledSearch = styled(SearchIcon)`
@@ -82,3 +87,8 @@ const StyledSearch = styled(SearchIcon)`
 `;
 
 export default LongHeader;
+
+const getImagePath = (URL) => {
+  const { PUBLIC_URL } = process.env;
+  return `${PUBLIC_URL}${URL}`;
+};
