@@ -25,12 +25,12 @@ const PostCard = ({
 }) => {
   return (
     <Wrapper>
-      <BackgroundBox width={width || '144px'} height={height || '211px'}>
+      <BackgroundBox width={width || '14.4rem'} height={height || '21.1rem'}>
         {shelterPlace && <StatusTag status={status}></StatusTag>}
         <Image
           src={thumbnail}
-          width={width || '144px'}
-          height="126px"
+          width={width || '14.4rem'}
+          height="12.6rem"
           borderRadius="1.6rem 1.6rem 0 0"></Image>
         <ScrapCounter size="small" isBookmark={isBookmark}>
           {bookmarkCount}
