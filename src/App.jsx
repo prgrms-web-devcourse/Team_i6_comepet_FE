@@ -15,10 +15,10 @@ const theme = createTheme({
     errorBg100: '#FEF2F2',
     errorBg300: '#F87171',
     errorBg500: '#B91C1C',
-    missing: '#E05858',
-    completion: '#53CE50',
-    sighting: '#FF8F5E',
-    protection: '#1E1AFF'
+    MISSING: '#E05858',
+    COMPLETION: '#53CE50',
+    DETECTION: '#FF8F5E',
+    PROTECTION: '#1E1AFF'
   },
   shadows: {
     light: '0 0.4rem 1.6rem rgba(0, 0, 0, 0.08)',
@@ -32,6 +32,11 @@ const theme = createTheme({
       },
       icon: { small: '1.2rem', medium: '1.6rem' },
       font: { small: '0.8rem', medium: '1.6rem' }
+    },
+    statusTag: {
+      wrapper: {
+        small: { width: '5.6rem', height: '2.4rem' }
+      }
     }
   }
 });
