@@ -19,13 +19,14 @@ const PostCard = ({
   bookmarkCount,
   postTags,
   thumbnail,
+  shelterPlace,
   width,
   height
 }) => {
   return (
     <Wrapper>
       <BackgroundBox width={width || '144px'} height={height || '211px'}>
-        <StatusTag status={status}></StatusTag>
+        {shelterPlace && <StatusTag status={status}></StatusTag>}
         <Image
           src={thumbnail}
           width={width || '144px'}
@@ -41,11 +42,13 @@ const PostCard = ({
           <Area>
             {city} {town}
           </Area>
-          <PostTags>
-            {postTags.map(({ id, name }) => (
-              <PostTag key={id}>#{name} </PostTag>
-            ))}
-          </PostTags>
+          {shelterPlace && (
+            <PostTags>
+              {postTags.map(({ id, name }) => (
+                <PostTag key={id}>#{name} </PostTag>
+              ))}
+            </PostTags>
+          )}
           <CreatedAt>{formatDate(createdAt)}</CreatedAt>
         </Content>
       </BackgroundBox>
