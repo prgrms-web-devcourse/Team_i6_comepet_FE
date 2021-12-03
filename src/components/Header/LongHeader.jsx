@@ -78,6 +78,7 @@ const StyledSearch = styled(SearchIcon)`
   right: 0;
   margin: 0.4rem 3.6rem 0 0;
   font-size: 3rem;
+  color: ${({ theme }) => theme.colors.brand};
 `;
 
 export default LongHeader;
