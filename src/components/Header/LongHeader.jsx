@@ -17,7 +17,7 @@ const LongHeader = ({ isLoggedIn }) => {
       <BackgroundBox borderRadius="0 0 1.6rem 1.6rem" height="17rem">
         <TopContainer>
           <StyledMenu />
-          <h1>Comepet</h1>
+          <StyledHeader>Comepet</StyledHeader>
           {isLoggedIn ? (
             <IconContainer>
               <StyledInformation />
@@ -88,6 +88,10 @@ const TopContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+const StyledHeader = styled.h1`
+  color: ${({ theme }) => theme.colors.brand};
 `;
 
 const MiddleContainer = styled.div`
