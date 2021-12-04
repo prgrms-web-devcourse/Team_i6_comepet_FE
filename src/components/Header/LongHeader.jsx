@@ -20,8 +20,8 @@ const LongHeader = ({ isLoggedIn }) => {
           <StyledHeader>Comepet</StyledHeader>
           {isLoggedIn ? (
             <IconContainer>
-              <StyledInformation />
-              <StyledNotification />
+              <StyledErrorOutlineIcon />
+              <StyledNotificationsActiveIcon />
             </IconContainer>
           ) : (
             <Button
@@ -71,7 +71,7 @@ const LongHeader = ({ isLoggedIn }) => {
         </MiddleContainer>
         <BottomContainer>
           <Input placeholder="세부 검색을 위해 클릭해주세요" borderRadius="1.6rem" />
-          <StyledSearch />
+          <StyledSearchIcon />
         </BottomContainer>
       </BackgroundBox>
     </Wrapper>
@@ -113,7 +113,7 @@ const StyledMenu = styled(MenuIcon)`
   color: ${({ theme }) => theme.colors.brand};
 `;
 
-const StyledSearch = styled(SearchIcon)`
+const StyledSearchIcon = styled(SearchIcon)`
   position: absolute;
   right: 0;
   margin: 0.4rem 3.6rem 0 0;
@@ -125,12 +125,12 @@ const IconContainer = styled.div`
   margin-right: 1.2rem;
 `;
 
-const StyledNotification = styled(NotificationsActiveIcon)`
+const StyledNotificationsActiveIcon = styled(NotificationsActiveIcon)`
   font-size: 2.8rem;
   color: ${({ theme }) => theme.colors.brand};
 `;
 
-const StyledInformation = styled(ErrorOutlineIcon)`
+const StyledErrorOutlineIcon = styled(ErrorOutlineIcon)`
   font-size: 2.8rem;
   margin-right: 0.8rem;
   color: ${({ theme }) => theme.colors.brand};
