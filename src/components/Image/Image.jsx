@@ -15,6 +15,7 @@ const Image = ({ src, alt, width, height, type, mode, borderRadius, margin }) =>
       type={type}
       mode={mode}
       borderRadius={borderRadius}
+      margin={margin}
     />
   );
 };
