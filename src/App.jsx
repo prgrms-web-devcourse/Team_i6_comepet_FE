@@ -37,6 +37,12 @@ const theme = createTheme({
       wrapper: {
         small: { width: '5.6rem', height: '2.4rem' }
       }
+    },
+    slider: {
+      wrapper: {
+        small: { width: '31.2rem', height: '20.4rem' },
+        large: { width: '31rem', height: '31rem' }
+      }
     }
   }
 });
