@@ -43,7 +43,12 @@ const LongHeader = ({ isLoggedIn }) => {
               color="brand"
               fontWeight="bold"
               borderRadius="1.6rem">
-              <Image src={getImageSrc('/images/finding.png')} width="1.6rem" height="1.6rem" />
+              <Image
+                src={getImageSrc('/images/finding.png')}
+                width="1.6rem"
+                height="1.6rem"
+                margin="0 0.5rem 0 0"
+              />
               실종 및 보호
             </Button>
           </BackgroundBox>
@@ -54,7 +59,12 @@ const LongHeader = ({ isLoggedIn }) => {
               color="brand"
               fontWeight="bold"
               borderRadius="1.6rem">
-              <Image src={getImageSrc('/images/home.png')} width="1.6rem" height="1.6rem" />
+              <Image
+                src={getImageSrc('/images/home.png')}
+                width="1.6rem"
+                height="1.6rem"
+                margin="0 0.5rem 0 0"
+              />
               보호소 동물
             </Button>
           </BackgroundBox>
