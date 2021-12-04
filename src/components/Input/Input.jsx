@@ -50,15 +50,12 @@ const StyledInput = styled.input`
   box-shadow: 0 0.4rem 1.6rem rgba(0, 0, 0, 0.08);
   ::-ms-input-placeholder {
     color: ${({ required, theme }) => (required && theme.colors.normalPink) || 'auto'};
-    font-weight: bold;
   }
   ::-webkit-input-placeholder {
     color: ${({ required, theme }) => (required && theme.colors.normalPink) || 'auto'};
-    font-weight: bold;
   }
   ::-moz-placeholder {
     color: ${({ required, theme }) => (required && theme.colors.normalPink) || 'auto'};
-    font-weight: bold;
   }
 `;
 
