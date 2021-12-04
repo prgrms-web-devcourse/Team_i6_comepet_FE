@@ -102,6 +102,7 @@ const MiddleContainer = styled.div`
 `;
 
 const BottomContainer = styled.div`
+  position: relative;
   display: flex;
   justify-content: center;
   margin: 1.6rem 2.8rem 0 2.8rem;
@@ -116,7 +117,9 @@ const StyledMenu = styled(MenuIcon)`
 const StyledSearchIcon = styled(SearchIcon)`
   position: absolute;
   right: 0;
-  margin: 0.4rem 3.6rem 0 0;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 2%;
   font-size: 3rem;
   color: ${({ theme }) => theme.colors.brand};
 `;
