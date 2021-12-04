@@ -14,7 +14,13 @@ const Button = ({
   border,
   borderRadius,
   fontSize,
-  fontWeight
+  fontWeight,
+  top,
+  right,
+  left,
+  bottom,
+  position,
+  onClick
 }) => {
   return (
     <Wrapper
@@ -28,13 +34,22 @@ const Button = ({
       border={border}
       borderRadius={borderRadius}
       fontSize={fontSize}
-      fontWeight={fontWeight}>
+      fontWeight={fontWeight}
+      top={top}
+      left={left}
+      right={right}
+      bottom={bottom}
+      position={position}
+      onClick={onClick}>
       {children}
     </Wrapper>
   );
 };
 
 const Wrapper = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: ${({ bgColor, theme }) => theme.colors[bgColor]};
   color: ${({ color, theme }) => theme.colors[color] || theme.colors.normalWhite};
   width: ${({ width }) => width || '100%'};
@@ -45,6 +60,11 @@ const Wrapper = styled.button`
   border-radius: ${({ borderRadius }) => borderRadius || '0.4rem'};
   font-size: ${({ fontSize }) => fontSize || '1.6rem'};
   font-weight: ${({ fontWeight }) => fontWeight};
+  top: ${({ top }) => top};
+  left: ${({ left }) => left};
+  right: ${({ right }) => right};
+  bottom: ${({ bottom }) => bottom};
+  position: ${({ position }) => position};
 `;
 
 Button.propTypes = {
@@ -59,7 +79,13 @@ Button.propTypes = {
   border: PropTypes.string,
   borderRadius: PropTypes.string,
   fontSize: PropTypes.string,
-  fontWeight: PropTypes.string
+  fontWeight: PropTypes.string,
+  top: PropTypes.string,
+  left: PropTypes.string,
+  right: PropTypes.string,
+  bottom: PropTypes.string,
+  position: PropTypes.string,
+  onClick: PropTypes.func
 };
 
 export default Button;
