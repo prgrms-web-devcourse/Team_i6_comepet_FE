@@ -25,7 +25,7 @@ const LongHeader = ({ isLoggedIn }) => {
             </IconContainer>
           ) : (
             <Button
-              bgColor="#fff"
+              bgColor="normalWhite"
               type="button"
               width="2.8rem"
               height="2.8rem"
@@ -38,25 +38,20 @@ const LongHeader = ({ isLoggedIn }) => {
         <MiddleContainer>
           <BackgroundBox width="15rem" boxShadow="0px 4px 16px rgba(0, 0, 0, 0.08)">
             <Button
-              bgColor="#fff"
+              bgColor="normalWhite"
               type="button"
-              color="#2A2E56"
+              color="brand"
               fontWeight="bold"
               borderRadius="1.6rem">
-              <Image
-                src={getImageSrc('/images/finding.png')}
-                width="1.6rem"
-                height="1.6rem"
-                margin="0 5rem 0 0"
-              />
+              <Image src={getImageSrc('/images/finding.png')} width="1.6rem" height="1.6rem" />
               실종 및 보호
             </Button>
           </BackgroundBox>
           <BackgroundBox width="15rem" boxShadow="0px 4px 16px rgba(0, 0, 0, 0.08)">
             <Button
-              bgColor="#fff"
+              bgColor="normalWhite"
               type="button"
-              color="#2A2E56"
+              color="brand"
               fontWeight="bold"
               borderRadius="1.6rem">
               <Image src={getImageSrc('/images/home.png')} width="1.6rem" height="1.6rem" />

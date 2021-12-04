@@ -38,8 +38,8 @@ const Wrapper = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${({ bgColor }) => bgColor};
-  color: ${({ color, theme }) => color || theme.colors.normalWhite};
+  background-color: ${({ bgColor, theme }) => theme.colors[bgColor]};
+  color: ${({ color, theme }) => theme.colors[color] || theme.colors.normalWhite};
   width: ${({ width }) => width || '100%'};
   height: ${({ height }) => height || '4rem'};
   margin: ${({ margin }) => margin || '0'};
