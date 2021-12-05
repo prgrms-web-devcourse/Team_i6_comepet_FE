@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -9,15 +9,17 @@ import { Avatar } from '@/components/Avatar';
 import { Seperator } from '@/components/Seperator';
 
 const SidebarButton = ({ src, nickname }) => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [open, setOpen] = React.useState(false);
-  const [placement, setPlacement] = React.useState();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [placement, setPlacement] = useState('');
 
-  const handleClick = (newPlacement) => (event) => {
-    setAnchorEl(event.currentTarget);
-    setOpen((prev) => placement !== newPlacement || !prev);
-    setPlacement(newPlacement);
-  };
+  const handleClick =
+    (newPlacement) =>
+    ({ currentTarget }) => {
+      setAnchorEl(currentTarget);
+      setOpen((prev) => placement !== newPlacement || !prev);
+      setPlacement(newPlacement);
+    };
 
   return (
     <Wrapper>
@@ -119,8 +121,7 @@ const MenuItem = styled.li`
 `;
 const LogoutWrapper = styled.a`
   display: inline-block;
-  margin-top: 0.2rem;
-  margin-left: 1.6rem;
+  margin: 0.2rem 0 0 1.6rem;
   font-size: 1.6rem;
   color: ${({ theme }) => theme.colors.normalBlack};
 `;
