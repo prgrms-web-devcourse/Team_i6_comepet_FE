@@ -37,6 +37,11 @@ const theme = createTheme({
       wrapper: {
         small: { width: '5.6rem', height: '2.4rem' }
       }
+    },
+    label: {
+      sm: '9rem',
+      normal: '11rem',
+      lg: '14rem'
     }
   }
 });
