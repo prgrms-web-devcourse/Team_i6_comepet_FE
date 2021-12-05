@@ -25,6 +25,7 @@ const ShapeToCssValue = {
 
 const Wrapper = styled.div`
   display: inline-block;
+  margin: 0 auto;
   width: ${({ size }) => size || '4.5rem'};
   height: ${({ size }) => size || '4.5rem'};
   border: 0.1rem solid ${({ theme }) => theme.colors.lighterGray};
