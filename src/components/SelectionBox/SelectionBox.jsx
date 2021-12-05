@@ -11,7 +11,7 @@ const COLOR_SET = Object.freeze({
   brand: '#2A2E56'
 });
 
-const SelectionBox = ({ options, defaultOption, required, disabled, fontSize, height }) => {
+const SelectionBox = ({ options, defaultOption, required, disabled, fontSize, height, id }) => {
   const [color, setColor] = useState(decideColor({ required, disabled }));
 
   const changeHandler = (e) => {
@@ -27,10 +27,11 @@ const SelectionBox = ({ options, defaultOption, required, disabled, fontSize, he
         disabled={disabled}
         color={color}
         fontSize={fontSize}
-        height={height}>
+        height={height}
+        id={id}>
         <Option>{defaultOption}</Option>
-        {options.map((option) => (
-          <Option key={option.id}>{option.text}</Option>
+        {options?.map((option, index) => (
+          <Option key={index}>{option}</Option>
         ))}
       </Selection>
       <Arrow color={color} />
@@ -83,7 +84,8 @@ SelectionBox.propTypes = {
   fontSize: PropTypes.string,
   height: PropTypes.string,
   disabled: PropTypes.bool,
-  required: PropTypes.bool
+  required: PropTypes.bool,
+  id: PropTypes.string
 };
 
 export default SelectionBox;
