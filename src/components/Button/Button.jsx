@@ -35,11 +35,16 @@ const Button = ({
 };
 
 const Wrapper = styled.button`
+<<<<<<< HEAD
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: ${({ bgColor }) => bgColor};
   color: ${({ color, theme }) => color || theme.colors.normalWhite};
+=======
+  background-color: ${({ bgColor, theme }) => theme.colors[bgColor]};
+  color: ${({ color, theme }) => theme.colors[color] || theme.colors.normalWhite};
+>>>>>>> 4f56f55308d57b1f22e218a4968f93343274dad6
   width: ${({ width }) => width || '100%'};
   height: ${({ height }) => height || '4rem'};
   margin: ${({ margin }) => margin || '0'};
