@@ -45,6 +45,7 @@ const Input = ({
 const StyledInput = styled.input`
   width: ${({ width }) => width || '100%'};
   height: ${({ height }) => height || '3rem'};
+  margin: ${({ margin }) => margin};
   padding: ${({ padding }) => padding || '2rem'};
   border: ${({ border }) => border || '0'};
   border-radius: ${({ borderRadius }) => borderRadius || '1rem'};
