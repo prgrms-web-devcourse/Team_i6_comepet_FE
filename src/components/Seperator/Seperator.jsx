@@ -13,10 +13,6 @@ const Wrapper = styled.hr`
   border-bottom: 0;
 `;
 
-Seperator.defaultProps = {
-  children: <></>
-};
-
 Seperator.propTypes = {
   type: PropTypes.node.isRequired,
   width: PropTypes.string,
