@@ -11,7 +11,16 @@ const COLOR_SET = Object.freeze({
   brand: '#2A2E56'
 });
 
-const SelectionBox = ({ options, defaultOption, required, disabled, fontSize, height, id }) => {
+const SelectionBox = ({
+  options,
+  defaultOption,
+  required,
+  disabled,
+  fontSize,
+  height,
+  id,
+  margin
+}) => {
   const [color, setColor] = useState(decideColor({ required, disabled }));
 
   const changeHandler = (e) => {
@@ -21,7 +30,7 @@ const SelectionBox = ({ options, defaultOption, required, disabled, fontSize, he
   };
 
   return (
-    <Wrapper color={color}>
+    <Wrapper color={color} margin={margin}>
       <Selection
         onChange={changeHandler}
         disabled={disabled}
@@ -49,6 +58,7 @@ const decideColor = ({ chosen, disabled, required }) => {
 const Wrapper = styled.div`
   display: inline-block;
   position: relative;
+  margin: ${({ margin }) => margin};
   height: ${({ height }) => height || '2.4rem'};
   border-bottom: ${({ color }) => `0.15rem solid ${color}`};
 `;
@@ -85,7 +95,8 @@ SelectionBox.propTypes = {
   height: PropTypes.string,
   disabled: PropTypes.bool,
   required: PropTypes.bool,
-  id: PropTypes.string
+  id: PropTypes.string,
+  margin: PropTypes.string
 };
 
 export default SelectionBox;
