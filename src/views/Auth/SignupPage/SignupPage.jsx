@@ -21,7 +21,7 @@ const SignupPage = () => (
             value={values.nickname}
             placeholder="닉네임"
           />
-          <FormError displayed={errors.nickname && touched.nickname}>{errors.nickname}</FormError>
+          <FormError isVisible={errors.nickname && touched.nickname}>{errors.nickname}</FormError>
           <Input
             type="email"
             name="email"
@@ -30,7 +30,7 @@ const SignupPage = () => (
             value={values.email}
             placeholder="이메일"
           />
-          <FormError displayed={errors.email && touched.email}>{errors.email}</FormError>
+          <FormError isVisible={errors.email && touched.email}>{errors.email}</FormError>
           <Input
             type="password"
             name="password"
@@ -39,7 +39,7 @@ const SignupPage = () => (
             value={values.password}
             placeholder="비밀번호"
           />
-          <FormError displayed={errors.password && touched.password}>{errors.password}</FormError>
+          <FormError isVisible={errors.password && touched.password}>{errors.password}</FormError>
           <Input
             type="password"
             name="password2"
@@ -48,7 +48,7 @@ const SignupPage = () => (
             value={values.password2}
             placeholder="비밀번호 확인"
           />
-          <FormError displayed={errors.password2 && touched.password2}>
+          <FormError isVisible={errors.password2 && touched.password2}>
             {errors.password2}
           </FormError>
           <Button type="submit" bgColor="brand" width="60%" disabled={isSubmitting}>

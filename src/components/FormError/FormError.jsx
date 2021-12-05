@@ -3,9 +3,9 @@ import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-const FormError = ({ children, displayed }) => {
+const FormError = ({ children, isVisible }) => {
   return (
-    <Wrapper displayed={displayed}>
+    <Wrapper isVisible={isVisible}>
       <StyledAddCircleIcon />
       <ErrorMessage>{children}</ErrorMessage>
     </Wrapper>
@@ -13,8 +13,8 @@ const FormError = ({ children, displayed }) => {
 };
 
 const Wrapper = styled.div`
-  display: ${({ displayed }) => displayed && 'flex'};
-  visibility: ${({ displayed }) => !displayed && 'hidden'};
+  display: ${({ isVisible }) => isVisible && 'flex'};
+  visibility: ${({ isVisible }) => !isVisible && 'hidden'};
   align-items: center;
   height: 2.8rem;
   margin: 0.4rem 0 0.8rem 0;
@@ -35,7 +35,7 @@ const ErrorMessage = styled.span`
 
 FormError.propTypes = {
   children: PropTypes.node.isRequired,
-  displayed: PropTypes.bool.isRequired
+  isVisible: PropTypes.bool.isRequired
 };
 
 export default FormError;
