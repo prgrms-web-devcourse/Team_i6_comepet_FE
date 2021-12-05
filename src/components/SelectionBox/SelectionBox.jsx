@@ -29,8 +29,8 @@ const SelectionBox = ({ options, defaultOption, required, disabled, fontSize, he
         fontSize={fontSize}
         height={height}>
         <Option>{defaultOption}</Option>
-        {options.map((option) => (
-          <Option key={option.id}>{option.text}</Option>
+        {options?.map((option, index) => (
+          <Option key={index}>{option}</Option>
         ))}
       </Selection>
       <Arrow color={color} />
