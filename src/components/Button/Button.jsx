@@ -13,7 +13,8 @@ const Button = ({
   padding,
   border,
   borderRadius,
-  fontSize
+  fontSize,
+  fontWeight
 }) => {
   return (
     <Wrapper
@@ -26,15 +27,16 @@ const Button = ({
       padding={padding}
       border={border}
       borderRadius={borderRadius}
-      fontSize={fontSize}>
+      fontSize={fontSize}
+      fontWeight={fontWeight}>
       {children}
     </Wrapper>
   );
 };
 
 const Wrapper = styled.button`
-  background-color: ${({ bgColor }) => bgColor};
-  color: ${({ color, theme }) => color || theme.colors.normalWhite};
+  background-color: ${({ bgColor, theme }) => theme.colors[bgColor]};
+  color: ${({ color, theme }) => theme.colors[color] || theme.colors.normalWhite};
   width: ${({ width }) => width || '100%'};
   height: ${({ height }) => height || '4rem'};
   margin: ${({ margin }) => margin || '0'};
@@ -42,6 +44,7 @@ const Wrapper = styled.button`
   border: ${({ border }) => border || '0'};
   border-radius: ${({ borderRadius }) => borderRadius || '0.4rem'};
   font-size: ${({ fontSize }) => fontSize || '1.6rem'};
+  font-weight: ${({ fontWeight }) => fontWeight};
 `;
 
 Button.propTypes = {
@@ -55,7 +58,8 @@ Button.propTypes = {
   padding: PropTypes.string,
   border: PropTypes.string,
   borderRadius: PropTypes.string,
-  fontSize: PropTypes.string
+  fontSize: PropTypes.string,
+  fontWeight: PropTypes.string
 };
 
 export default Button;

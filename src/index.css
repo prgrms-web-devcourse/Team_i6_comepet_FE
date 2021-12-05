@@ -57,3 +57,10 @@ select {
 select::-ms-expand {
   display: none;
 }
+
+ol,
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
