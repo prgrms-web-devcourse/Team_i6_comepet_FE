@@ -36,8 +36,8 @@ const Wrapper = styled.label`
   margin: ${({ margin }) => margin};
   padding: ${({ padding }) => padding || '0.6rem 1rem 0.6rem 1rem'};
   border-radius: ${({ borderRadius }) => borderRadius || '1.6rem'};
-  background-color: ${({ bgColor, theme }) => bgColor || theme.colors.lighterGray};
-  color: ${({ color, theme }) => color || theme.colors.normalWhite};
+  background-color: ${({ bgColor, theme }) => theme.colors[bgColor] || theme.colors.lighterGray};
+  color: ${({ color, theme }) => theme.colors[color] || theme.colors.normalWhite};
   font-weight: bold;
 `;
 
