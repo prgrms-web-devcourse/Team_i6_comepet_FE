@@ -11,6 +11,7 @@ const BackgroundBox = ({ children, width, height, boxShadow, borderRadius }) => 
 };
 
 const Wrapper = styled.div`
+  overflow: hidden;
   width: ${({ width }) => width || '100%'};
   height: ${({ height }) => height};
   box-shadow: ${({ boxShadow, theme }) => boxShadow || theme.shadows.normal};
