@@ -9,9 +9,9 @@ const Seperator = ({ width, height, type, margin }) => {
 const Wrapper = styled.hr`
   width: ${({ type }) => type === 'vertical' && '0.1rem'};
   height: ${({ type, height }) => (type === 'horizon' && '0.1rem') || height};
-  color: ${({ theme }) => theme.colors.lighterGray};
+  background-color: ${({ theme }) => theme.colors.lighterGray};
   margin: ${({ margin }) => margin || '0'};
-  border-bottom: 0;
+  border: none;
 `;
 
 Seperator.propTypes = {
