@@ -34,8 +34,8 @@ const ErrorMessage = styled.span`
 `;
 
 FormError.propTypes = {
-  children: PropTypes.node.isRequired,
-  isVisible: PropTypes.bool.isRequired
+  children: PropTypes.node,
+  isVisible: PropTypes.bool
 };
 
 export default FormError;
