@@ -4,6 +4,16 @@ export const DEV_ERROR = Object.freeze({
   INVALID_PROP: '잘못된 Prop이 입력되었습니다.'
 });
 
+export const USER_ERROR = Object.freeze({
+  NO_NICKNAME: '닉네임을 입력해 주세요.',
+  NO_EMAIL: '이메일을 입력해 주세요.',
+  NO_PASSWORD: '비밀번호를 입력해 주세요',
+  INVALID_NICKNAME: '2~10자 영문, 한글을 사용해 주세요.',
+  INVALID_EMAIL: '잘못된 이메일 형식입니다.',
+  INVALID_PASSWORD: '8~20자 영문, 숫자, 특수문자를 사용해 주세요.',
+  INVALID_PASSWORD2: '비밀번호가 일치하지 않습니다.'
+});
+
 export const STATUS = Object.freeze({
   MISSING: '실종',
   COMPLETION: '완료',
