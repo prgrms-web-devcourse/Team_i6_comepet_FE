@@ -35,6 +35,9 @@ const Button = ({
 };
 
 const Wrapper = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: ${({ bgColor, theme }) => theme.colors[bgColor]};
   color: ${({ color, theme }) => theme.colors[color] || theme.colors.normalWhite};
   width: ${({ width }) => width || '100%'};
