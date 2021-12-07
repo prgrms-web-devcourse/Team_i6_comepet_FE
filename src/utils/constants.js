@@ -15,3 +15,9 @@ export const GENDER = Object.freeze({
   MALE: '수컷',
   FEMALE: '암컷'
 });
+
+export const REGEX = Object.freeze({
+  NICKNAME: /^[가-힣a-zA-Z]{2,10}$/i,
+  EMAIL: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+  PASSWORD: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\d~!@#$%^&*()+|=]{8,20}$/
+});
