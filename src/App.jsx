@@ -1,6 +1,6 @@
 import React from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { SignupPage } from '@/views';
+import { ShortHeader } from '@/components/Header';
 
 const theme = createTheme({
   colors: {
@@ -46,7 +46,7 @@ const theme = createTheme({
 const App = function () {
   return (
     <ThemeProvider theme={theme}>
-      <SignupPage></SignupPage>
+      <ShortHeader />
     </ThemeProvider>
   );
 };
