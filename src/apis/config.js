@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
-const CONTENT_TYPE = process.env.REACT_APP_CONTENT_TYPE;
+const CONTENT_TYPE = 'application/json';
 const AUTH_TOKEN = ''; // TODO
 
 axios.defaults.baseURL = BASE_URL;
