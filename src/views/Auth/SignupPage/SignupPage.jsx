@@ -4,9 +4,12 @@ import { Formik } from 'formik';
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
 import { FormError } from '@/components/FormError';
+import { ShortHeader } from '@/components/ShortHeader';
+import { REGEX } from '@/utils/constants';
 
 const SignupPage = () => (
   <Wrapper>
+    <ShortHeader location="회원가입" />
     <Formik
       initialValues={{ nickname: '', email: '', password: '', password2: '' }}
       validate={validate}
@@ -51,7 +54,12 @@ const SignupPage = () => (
           <FormError isVisible={errors.password2 && touched.password2}>
             {errors.password2}
           </FormError>
-          <Button type="submit" bgColor="brand" width="60%" disabled={isSubmitting}>
+          <Button
+            type="submit"
+            bgColor="brand"
+            width="60%"
+            margin="10% auto 0 auto"
+            disabled={isSubmitting}>
             회원가입
           </Button>
         </Form>
@@ -61,37 +69,33 @@ const SignupPage = () => (
 );
 
 const Wrapper = styled.div`
-  padding: 4.8rem 2.4rem;
+  padding: 0 2.4rem;
 `;
 
 const Form = styled.form`
-  text-align: center;
+  padding: 20% 0;
 `;
 
 export default SignupPage;
 
 const validate = ({ nickname, email, password, password2 }) => {
   const errors = {};
-  const regexForNickname = /^[가-힣a-zA-Z]{2,10}$/i;
-  const regexForEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-  const regexForPassword =
-    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\d~!@#$%^&*()+|=]{8,20}$/;
 
   if (!nickname) {
     errors.nickname = '닉네임을 입력해 주세요.';
-  } else if (!isValidInput(regexForNickname, nickname)) {
+  } else if (!isValidInput(REGEX.NICKNAME, nickname)) {
     errors.nickname = '2~10자 영문, 한글을 사용해 주세요';
   }
 
   if (!email) {
     errors.email = '이메일을 입력해 주세요.';
-  } else if (!isValidInput(regexForEmail, email)) {
+  } else if (!isValidInput(REGEX.EMAIL, email)) {
     errors.email = '잘못된 이메일 형식입니다.';
   }
 
   if (!password) {
     errors.password = '비밀번호를 입력해 주세요.';
-  } else if (!isValidInput(regexForPassword, password)) {
+  } else if (!isValidInput(REGEX.PASSWORD, password)) {
     errors.password = '8~20자 영문, 숫자, 특수문자를 사용해 주세요.';
   } else if (password !== password2) {
     errors.password2 = '비밀번호가 일치하지 않습니다.';
