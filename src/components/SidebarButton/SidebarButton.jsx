@@ -7,11 +7,13 @@ import Popper from '@mui/material/Popper';
 import Fade from '@mui/material/Fade';
 import { Avatar } from '@/components/Avatar';
 import { Seperator } from '@/components/Seperator';
+import { BackgroundBox } from '@/components/BackgroundBox';
+import Paper from '@mui/material/Paper';
 
 const SidebarButton = ({ src, nickname }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
-  const [placement, setPlacement] = useState('');
+  const [placement, setPlacement] = useState();
 
   const handleClick =
     (newPlacement) =>
@@ -30,36 +32,38 @@ const SidebarButton = ({ src, nickname }) => {
         {({ TransitionProps }) => (
           <Fade {...TransitionProps} timeout={350}>
             <Paper>
-              <UserAccount>
-                <Avatar src={src} />
-                <Nickname>{nickname} 님</Nickname>
-              </UserAccount>
-              <Seperator type="horizon" />
-              <MenuList aria-labelledby="sidebarButton">
-                <MenuItem>
-                  <a>메인으로 가기</a>
-                </MenuItem>
-                <MenuItem>
-                  <a>개인 정보 수정</a>
-                </MenuItem>
-                <MenuItem>
-                  <a>관심 지역 설정</a>
-                </MenuItem>
-                <MenuItem>
-                  <a>내가 쓴 글</a>
-                </MenuItem>
-                <MenuItem>
-                  <a>내가 저장한 글</a>
-                </MenuItem>
-                <MenuItem>
-                  <a>글 작성</a>
-                </MenuItem>
-              </MenuList>
-              <Seperator type="horizon" />
-              <LogoutWrapper>
-                <LogoutIconCostomized />
-                로그아웃
-              </LogoutWrapper>
+              <BackgroundBox width="30rem">
+                <UserAccount>
+                  <Avatar src={src} />
+                  <Nickname>{nickname} 님</Nickname>
+                </UserAccount>
+                <Seperator type="horizon" />
+                <MenuList aria-labelledby="sidebarButton">
+                  <MenuItem>
+                    <a>메인으로 가기</a>
+                  </MenuItem>
+                  <MenuItem>
+                    <a>개인 정보 수정</a>
+                  </MenuItem>
+                  <MenuItem>
+                    <a>관심 지역 설정</a>
+                  </MenuItem>
+                  <MenuItem>
+                    <a>내가 쓴 글</a>
+                  </MenuItem>
+                  <MenuItem>
+                    <a>내가 저장한 글</a>
+                  </MenuItem>
+                  <MenuItem>
+                    <a>글 작성</a>
+                  </MenuItem>
+                </MenuList>
+                <Seperator type="horizon" />
+                <LogoutWrapper>
+                  <LogoutIconCostomized />
+                  로그아웃
+                </LogoutWrapper>
+              </BackgroundBox>
             </Paper>
           </Fade>
         )}
@@ -79,12 +83,6 @@ const Wrapper = styled.span`
 const MenuButton = styled.button`
   width: 100%;
   font-size: 1.5rem;
-`;
-const Paper = styled.div`
-  width: 30rem;
-  height: 40rem;
-  background-color: ${({ theme }) => theme.colors.normalWhite};
-  border-radius: 1rem;
 `;
 const UserAccount = styled.div`
   display: flex;
