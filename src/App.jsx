@@ -1,7 +1,5 @@
 import React from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { SignupPage } from '@/views';
-import useSWR from 'swr';
 
 const theme = createTheme({
   colors: {
@@ -43,22 +41,8 @@ const theme = createTheme({
   }
 });
 
-import { GET } from '@/apis/axios';
-
 const App = function () {
-  const { data: animalListData, error: animalListError } = useSWR('/json', GET);
-
-  animalListData && console.log(animalListData);
-  // 응답 데이터 {data: {…}, serverDateTime: '2021-12-06T09:42:56.256433197'}
-  animalListError && console.log(animalListError);
-
-  // POST('/sign-up', signUpData);
-
-  return (
-    <ThemeProvider theme={theme}>
-      <SignupPage></SignupPage>
-    </ThemeProvider>
-  );
+  return <ThemeProvider theme={theme}></ThemeProvider>;
 };
 
 export default App;
