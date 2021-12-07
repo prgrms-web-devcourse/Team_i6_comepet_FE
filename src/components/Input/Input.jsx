@@ -17,7 +17,9 @@ const Input = ({
   minlength,
   maxlength,
   accept,
-  required
+  required,
+  onChange,
+  onBlur
 }) => {
   return (
     <StyledInput
@@ -36,6 +38,8 @@ const Input = ({
       maxlength={maxlength}
       minlength={minlength}
       accept={accept}
+      onChange={onChange}
+      onBlur={onBlur}
     />
   );
 };
@@ -50,15 +54,12 @@ const StyledInput = styled.input`
   box-shadow: 0 0.4rem 1.6rem rgba(0, 0, 0, 0.08);
   ::-ms-input-placeholder {
     color: ${({ required, theme }) => (required && theme.colors.normalPink) || 'auto'};
-    font-weight: bold;
   }
   ::-webkit-input-placeholder {
     color: ${({ required, theme }) => (required && theme.colors.normalPink) || 'auto'};
-    font-weight: bold;
   }
   ::-moz-placeholder {
     color: ${({ required, theme }) => (required && theme.colors.normalPink) || 'auto'};
-    font-weight: bold;
   }
 `;
 
@@ -77,7 +78,9 @@ Input.propTypes = {
   minlength: PropTypes.string,
   maxlength: PropTypes.string,
   accept: PropTypes.string,
-  required: PropTypes.bool
+  required: PropTypes.bool,
+  onChange: PropTypes.func,
+  onBlur: PropTypes.func
 };
 
 export default Input;

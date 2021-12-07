@@ -1,5 +1,6 @@
 import React from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { SignupPage } from '@/views';
 
 const theme = createTheme({
   colors: {
@@ -43,12 +44,21 @@ const theme = createTheme({
         small: { width: '31.2rem', height: '20.4rem' },
         large: { width: '31rem', height: '31rem' }
       }
+    },
+    label: {
+      small: '9rem',
+      normal: '11rem',
+      large: '14rem'
     }
   }
 });
 
 const App = function () {
-  return <ThemeProvider theme={theme}></ThemeProvider>;
+  return (
+    <ThemeProvider theme={theme}>
+      <SignupPage></SignupPage>
+    </ThemeProvider>
+  );
 };
 
 export default App;

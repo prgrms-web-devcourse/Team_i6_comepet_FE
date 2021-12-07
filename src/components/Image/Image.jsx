@@ -1,7 +1,7 @@
 import { PropTypes } from 'prop-types';
 import styled from '@emotion/styled';
 
-const Image = ({ src, alt, width, height, type, mode, borderRadius }) => {
+const Image = ({ src, alt, width, height, type, mode, borderRadius, margin }) => {
   const { PUBLIC_URL } = process.env;
   const ProfileDefaultImage = `${PUBLIC_URL}/images/profile-image-default.png`;
   const PostDefaultImage = `${PUBLIC_URL}/images/post-image-default.jpg`;
@@ -15,6 +15,7 @@ const Image = ({ src, alt, width, height, type, mode, borderRadius }) => {
       type={type}
       mode={mode}
       borderRadius={borderRadius}
+      margin={margin}
     />
   );
 };
@@ -24,6 +25,7 @@ const StyledImage = styled.img`
   height: ${({ height, type }) => height || (type === 'profile' && '4.5rem') || '20rem'};
   border-radius: ${({ borderRadius }) => borderRadius};
   object-fit: ${({ mode }) => mode || 'cover'};
+  margin: ${({ margin }) => margin};
 `;
 
 Image.propTypes = {
@@ -33,7 +35,8 @@ Image.propTypes = {
   height: PropTypes.string,
   mode: PropTypes.string,
   type: PropTypes.string,
-  borderRadius: PropTypes.string
+  borderRadius: PropTypes.string,
+  margin: PropTypes.string
 };
 
 export default Image;
