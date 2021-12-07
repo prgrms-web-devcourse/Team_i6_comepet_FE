@@ -5,8 +5,8 @@ import { BackgroundBox } from '@/components/BackgroundBox';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Image } from '@/components/Image';
-import SidebarButton from './SidebarButton';
 import { getImageSrc } from '@/utils/helpers';
+import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
@@ -16,7 +16,9 @@ const LongHeader = ({ isLoggedIn }) => {
     <Wrapper>
       <BackgroundBox borderRadius="0 0 1.6rem 1.6rem" height="17rem">
         <TopContainer>
-          <SidebarButton />
+          <StyledMenuIconButton>
+            <StyledMenuIcon />
+          </StyledMenuIconButton>
           <StyledHeader>Comepet</StyledHeader>
           {isLoggedIn ? (
             <IconContainer>
@@ -90,8 +92,24 @@ const TopContainer = styled.div`
   align-items: center;
 `;
 
+const StyledMenuIconButton = styled.button`
+  padding: 0;
+  font-size: 1.5rem;
+  cursor: pointer;
+`;
+
+const StyledMenuIcon = styled(MenuIcon)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.8rem;
+  margin-left: 1rem;
+  color: ${({ theme }) => theme.colors.brand};
+`;
+
 const StyledHeader = styled.h1`
   color: ${({ theme }) => theme.colors.brand};
+  cursor: pointer;
 `;
 
 const IconContainer = styled.div`

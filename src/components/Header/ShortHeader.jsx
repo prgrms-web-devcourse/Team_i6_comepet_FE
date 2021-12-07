@@ -1,14 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import { BackgroundBox } from '@/components/BackgroundBox';
 import { Button } from '@/components/Button';
 import { Image } from '@/components/Image';
-import SidebarButton from './SidebarButton';
-import NotificationButton from './NotificationButton';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import MenuIcon from '@mui/icons-material/Menu';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import Modal from './Modal/';
 
-const MShortHeader = ({ isLoggedIn = true }) => {
+const ShortHeader = ({ isLoggedIn = true }) => {
+  const [isNotificationModalVisible, setIsNotificationModalVisible] = useState(false);
+  const [isSidebarModalVisible, setIsSidebarModalVisible] = useState(false);
+
+  const handleNotificationModalClick = () => {
+    isSidebarModalVisible && setIsSidebarModalVisible(!isSidebarModalVisible);
+    setIsNotificationModalVisible(!isNotificationModalVisible);
+  };
+
+  const handleSidebarModalClick = () => {
+    isNotificationModalVisible && setIsNotificationModalVisible(!isNotificationModalVisible);
+    setIsSidebarModalVisible(!isSidebarModalVisible);
+  };
+
   return (
     <Wrapper>
       <BackgroundBox borderRadius="0 0 1.6rem 1.6rem" height="5rem">
@@ -17,8 +31,13 @@ const MShortHeader = ({ isLoggedIn = true }) => {
           <StyledHeader>Comepet</StyledHeader>
           {isLoggedIn ? (
             <IconContainer>
-              <NotificationButton />
-              <SidebarButton />
+              <StyledNotificationsIconButton onClick={handleNotificationModalClick}>
+                <StyledNotificationsIcon />
+                <StyledBadge />
+              </StyledNotificationsIconButton>
+              <StyledMenuIconButton onClick={handleSidebarModalClick}>
+                <StyledMenuIcon />
+              </StyledMenuIconButton>
             </IconContainer>
           ) : (
             <Button
@@ -33,6 +52,10 @@ const MShortHeader = ({ isLoggedIn = true }) => {
           )}
         </TopContainer>
       </BackgroundBox>
+      <Modal
+        isNotificationModalVisible={isNotificationModalVisible}
+        isSidebarModalVisible={isSidebarModalVisible}
+      />
     </Wrapper>
   );
 };
@@ -62,6 +85,27 @@ const IconContainer = styled.div`
   margin-right: 1.2rem;
 `;
 
+const StyledNotificationsIconButton = styled.button`
+  position: relative;
+`;
+
+const StyledNotificationsIcon = styled(NotificationsIcon)`
+  font-size: 2.5rem;
+  flex: 1 1 auto;
+  color: ${({ theme }) => theme.colors.brand};
+`;
+
+const StyledBadge = styled.sup`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background-color: red;
+  transform: translate(-110%, 20%);
+`;
+
 const StyledArrowBackIosNewIcon = styled(ArrowBackIosNewIcon)`
   font-size: 2rem;
   margin-left: 1rem;
@@ -69,8 +113,23 @@ const StyledArrowBackIosNewIcon = styled(ArrowBackIosNewIcon)`
   cursor: pointer;
 `;
 
-MShortHeader.propTypes = {
+const StyledMenuIconButton = styled.button`
+  width: 100%;
+  padding: 0;
+  font-size: 1.5rem;
+`;
+
+const StyledMenuIcon = styled(MenuIcon)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.8rem;
+  margin-left: 1rem;
+  color: ${({ theme }) => theme.colors.brand};
+`;
+
+ShortHeader.propTypes = {
   isLoggedIn: PropTypes.bool
 };
 
-export default MShortHeader;
+export default ShortHeader;
