@@ -38,6 +38,11 @@ const theme = createTheme({
       wrapper: {
         small: { width: '5.6rem', height: '2.4rem' }
       }
+    },
+    label: {
+      small: '9rem',
+      normal: '11rem',
+      large: '14rem'
     }
   }
 });
