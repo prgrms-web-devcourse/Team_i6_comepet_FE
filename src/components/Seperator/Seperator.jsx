@@ -7,8 +7,8 @@ const Seperator = ({ width, height, type, margin }) => {
 };
 
 const Wrapper = styled.hr`
-  width: ${({ type }) => type === 'vertical' && '0.1rem'};
-  height: ${({ type, height }) => (type === 'horizon' && '0.1rem') || height};
+  width: ${({ type }) => type === 'vertical' && '0.05rem'};
+  height: ${({ type, height }) => (type === 'horizon' && '0.05rem') || height};
   background-color: ${({ theme }) => theme.colors.lighterGray};
   margin: ${({ margin }) => margin || '0'};
   border: none;
