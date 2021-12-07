@@ -17,7 +17,9 @@ const Input = ({
   minlength,
   maxlength,
   accept,
-  required
+  required,
+  onChange,
+  onBlur
 }) => {
   return (
     <StyledInput
@@ -36,6 +38,8 @@ const Input = ({
       maxlength={maxlength}
       minlength={minlength}
       accept={accept}
+      onChange={onChange}
+      onBlur={onBlur}
     />
   );
 };
@@ -74,7 +78,9 @@ Input.propTypes = {
   minlength: PropTypes.string,
   maxlength: PropTypes.string,
   accept: PropTypes.string,
-  required: PropTypes.bool
+  required: PropTypes.bool,
+  onChange: PropTypes.func,
+  onBlur: PropTypes.func
 };
 
 export default Input;
