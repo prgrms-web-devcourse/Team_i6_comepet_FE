@@ -6,11 +6,21 @@ import { Button } from '@/components/Button';
 import { FormError } from '@/components/FormError';
 import { ShortHeader } from '@/components/ShortHeader';
 import { USER_ERROR, REGEX } from '@/utils/constants';
+import { Image } from '@/components/Image';
+import { getImageSrc } from '@/utils/helpers';
 
 const SignupPage = () => {
   return (
     <Wrapper>
       <ShortHeader location="회원가입" />
+      <Image
+        src={getImageSrc('/images/logo.png')}
+        width="12rem"
+        height="12rem"
+        margin="15% auto"
+        borderRadius="50%"
+        boxShadow="normal"
+      />
       <Formik
         initialValues={{ nickname: '', email: '', password: '', password2: '' }}
         validate={validate}
@@ -26,14 +36,19 @@ const SignupPage = () => {
               placeholder="닉네임"
             />
             <FormError isVisible={errors.nickname && touched.nickname}>{errors.nickname}</FormError>
-            <Input
-              type="email"
-              name="email"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.email}
-              placeholder="이메일"
-            />
+            <EmailInputWrapper>
+              <Input
+                type="email"
+                name="email"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.email}
+                placeholder="이메일"
+              />
+              <Button type="button" bgColor="brand" width="30%" margin="0 0 0 1rem">
+                인증
+              </Button>
+            </EmailInputWrapper>
             <FormError isVisible={errors.email && touched.email}>{errors.email}</FormError>
             <Input
               type="password"
@@ -71,11 +86,15 @@ const SignupPage = () => {
 };
 
 const Wrapper = styled.div`
-  padding: 0 2.4rem;
+  padding: 0 2.4rem 2.4rem 2.4rem;
+  text-align: center;
 `;
 
-const Form = styled.form`
-  padding: 20% 0;
+const Form = styled.form``;
+
+const EmailInputWrapper = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 export default SignupPage;
