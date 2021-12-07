@@ -40,7 +40,7 @@ const Slider = ({ imageList, size }) => {
         </ImageWrapper>
       ))}
       <DotContainer>
-        <Dots length="4" targetIndex={slideIndex} handleClick={handleClick} />
+        <Dots length={imageList.length} targetIndex={slideIndex} handleClick={handleClick} />
       </DotContainer>
       <SliderButton direction="left" handleSlide={prevSlide} />
       <SliderButton direction="right" handleSlide={nextSlide} />
