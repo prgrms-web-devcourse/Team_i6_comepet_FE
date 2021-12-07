@@ -8,6 +8,7 @@ const theme = createTheme({
     normalBlack: '#2F3438',
     normalRed: '#E05858',
     normalPink: '#FF8585',
+    normalOrange: '#FF9900',
     normalGreen: '#3BAB29',
     normalGray: '#757575',
     lightGray: '#ADADAD',
