@@ -9,7 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Modal from './Modal/';
 
-const ShortHeader = ({ isLoggedIn = true }) => {
+const ShortHeader = ({ isLoggedIn = true, location = 'Comepet' }) => {
   const [isNotificationModalVisible, setIsNotificationModalVisible] = useState(false);
   const [isSidebarModalVisible, setIsSidebarModalVisible] = useState(false);
 
@@ -28,7 +28,7 @@ const ShortHeader = ({ isLoggedIn = true }) => {
       <BackgroundBox borderRadius="0 0 1.6rem 1.6rem" height="5rem">
         <TopContainer>
           <StyledArrowBackIosNewIcon />
-          <StyledHeader>Comepet</StyledHeader>
+          <StyledHeader>{location}</StyledHeader>
           {isLoggedIn ? (
             <IconContainer>
               <StyledNotificationsIconButton onClick={handleNotificationModalClick}>
@@ -129,7 +129,8 @@ const StyledMenuIcon = styled(MenuIcon)`
 `;
 
 ShortHeader.propTypes = {
-  isLoggedIn: PropTypes.bool
+  isLoggedIn: PropTypes.bool,
+  location: PropTypes.string
 };
 
 export default ShortHeader;

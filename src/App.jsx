@@ -1,6 +1,5 @@
 import React from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { ShortHeader } from '@/components/Header';
 
 const theme = createTheme({
   colors: {
@@ -44,11 +43,7 @@ const theme = createTheme({
 });
 
 const App = function () {
-  return (
-    <ThemeProvider theme={theme}>
-      <ShortHeader />
-    </ThemeProvider>
-  );
+  return <ThemeProvider theme={theme}></ThemeProvider>;
 };
 
 export default App;
