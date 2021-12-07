@@ -73,7 +73,7 @@ const Wrapper = styled.button`
 Button.propTypes = {
   children: PropTypes.node.isRequired,
   type: PropTypes.string.isRequired,
-  bgColor: PropTypes.string.isRequired,
+  bgColor: PropTypes.string,
   color: PropTypes.string,
   width: PropTypes.string,
   height: PropTypes.string,
