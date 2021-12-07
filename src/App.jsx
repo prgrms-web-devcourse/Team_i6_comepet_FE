@@ -39,9 +39,9 @@ const theme = createTheme({
       }
     },
     label: {
-      sm: '9rem',
+      small: '9rem',
       normal: '11rem',
-      lg: '14rem'
+      large: '14rem'
     }
   }
 });
