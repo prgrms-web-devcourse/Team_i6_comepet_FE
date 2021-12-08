@@ -15,3 +15,7 @@ export const formatDate = (date) => {
 
   return `${year}년 ${month}월 ${day}일`;
 };
+
+export const isValidInput = (regex, target) => {
+  return regex.test(target);
+};
