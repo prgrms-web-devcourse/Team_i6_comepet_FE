@@ -54,7 +54,7 @@ const LongHeader = ({ isLoggedIn = true }) => {
   return (
     <Wrapper>
       <BackgroundBox borderRadius="0 0 1.6rem 1.6rem" height="17rem">
-        <TopContainer>
+        <TopWrapper>
           <StyledMenuIconButton onClick={handleSidebarModalClick}>
             <StyledMenuIcon />
           </StyledMenuIconButton>
@@ -75,8 +75,8 @@ const LongHeader = ({ isLoggedIn = true }) => {
               <Image alt="로그인" width="2.8rem" height="2.8rem" type="profile" />
             </Button>
           )}
-        </TopContainer>
-        <MiddleContainer>
+        </TopWrapper>
+        <MiddleWrapper>
           <BackgroundBox width="15rem" boxShadow="0px 4px 16px rgba(0, 0, 0, 0.08)">
             <Button
               bgColor="normalWhite"
@@ -109,11 +109,11 @@ const LongHeader = ({ isLoggedIn = true }) => {
               보호소 동물
             </Button>
           </BackgroundBox>
-        </MiddleContainer>
-        <BottomContainer>
+        </MiddleWrapper>
+        <BottomWrapper>
           <Input placeholder="세부 검색을 위해 클릭해주세요" borderRadius="1.6rem" />
           <StyledSearchIcon />
-        </BottomContainer>
+        </BottomWrapper>
       </BackgroundBox>
       <InformationModal isVisible={isInformationModalVisible} place="right" />
       <NotificationModal isVisible={isNotificationModalVisible} place="right" />
@@ -128,7 +128,7 @@ const Wrapper = styled.div`
   top: 0;
 `;
 
-const TopContainer = styled.div`
+const TopWrapper = styled.div`
   position: relative;
   display: flex;
   justify-content: space-between;
@@ -171,14 +171,14 @@ const StyledErrorOutlineIcon = styled(ErrorOutlineIcon)`
   color: ${({ theme }) => theme.colors.brand};
 `;
 
-const MiddleContainer = styled.div`
+const MiddleWrapper = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
   margin-top: 0.8rem;
 `;
 
-const BottomContainer = styled.div`
+const BottomWrapper = styled.div`
   position: relative;
   display: flex;
   justify-content: center;

@@ -40,7 +40,7 @@ const ShortHeader = ({ isLoggedIn = true, location = 'Comepet' }) => {
   return (
     <Wrapper>
       <BackgroundBox borderRadius="0 0 1.6rem 1.6rem" height="4.4rem">
-        <TopContainer>
+        <TopWrapper>
           <StyledArrowBackIosNewIcon />
           <StyledHeader>{location}</StyledHeader>
           {isLoggedIn ? (
@@ -70,7 +70,7 @@ const ShortHeader = ({ isLoggedIn = true, location = 'Comepet' }) => {
               />
             </Button>
           )}
-        </TopContainer>
+        </TopWrapper>
       </BackgroundBox>
       <NotificationModal isVisible={isNotificationModalVisible} place="right" />
       <SidebarModal isVisible={isSidebarModalVisible} place="right" />
@@ -84,7 +84,7 @@ const Wrapper = styled.div`
   top: 0;
 `;
 
-const TopContainer = styled.div`
+const TopWrapper = styled.div`
   position: relative;
   display: flex;
   justify-content: space-between;
