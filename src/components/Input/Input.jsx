@@ -19,7 +19,8 @@ const Input = ({
   accept,
   required,
   onChange,
-  onBlur
+  onBlur,
+  margin
 }) => {
   return (
     <StyledInput
@@ -40,6 +41,7 @@ const Input = ({
       accept={accept}
       onChange={onChange}
       onBlur={onBlur}
+      margin={margin}
     />
   );
 };
@@ -47,6 +49,7 @@ const Input = ({
 const StyledInput = styled.input`
   width: ${({ width }) => width || '100%'};
   height: ${({ height }) => height || '3rem'};
+  margin: ${({ margin }) => margin};
   padding: ${({ padding }) => padding || '2rem'};
   border: ${({ border }) => border || '0'};
   border-radius: ${({ borderRadius }) => borderRadius || '1rem'};
@@ -80,7 +83,8 @@ Input.propTypes = {
   accept: PropTypes.string,
   required: PropTypes.bool,
   onChange: PropTypes.func,
-  onBlur: PropTypes.func
+  onBlur: PropTypes.func,
+  margin: PropTypes.string
 };
 
 export default Input;

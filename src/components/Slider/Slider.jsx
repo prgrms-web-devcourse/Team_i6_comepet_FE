@@ -34,22 +34,27 @@ const Slider = ({ imageList, size }) => {
 
   return (
     <Wrapper size={size}>
-      {imageList.map(({ image }, index) => (
+      {imageList?.map(({ image }, index) => (
         <ImageWrapper key={index} opacity={(index === slideIndex && 1) || 0}>
           <Image src={image} width="100%" height="100%" />
         </ImageWrapper>
-      ))}
+      )) || <Image src="" width="100%" height="100%" />}
       <DotContainer>
-        <Dots length={imageList.length} targetIndex={slideIndex} handleClick={handleClick} />
+        <Dots length={imageList?.length} targetIndex={slideIndex} handleClick={handleClick} />
       </DotContainer>
-      <SliderButton direction="left" handleSlide={prevSlide} />
-      <SliderButton direction="right" handleSlide={nextSlide} />
+
+      {imageList?.length > 1 && (
+        <>
+          <SliderButton direction="left" handleSlide={prevSlide} />
+          <SliderButton direction="right" handleSlide={nextSlide} />
+        </>
+      )}
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  width: ${({ theme, size }) => theme.sizes.slider.wrapper[size].width};
+  width: 100%;
   height: ${({ theme, size }) => theme.sizes.slider.wrapper[size].height};
   position: relative;
 `;
