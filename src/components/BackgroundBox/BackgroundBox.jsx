@@ -14,6 +14,7 @@ const Wrapper = styled.div`
   overflow: hidden;
   width: ${({ width }) => width || '100%'};
   height: ${({ height }) => height};
+  background-color: ${({ theme }) => theme.colors.normalWhite};
   box-shadow: ${({ boxShadow, theme }) => boxShadow || theme.shadows.normal};
   border-radius: ${({ borderRadius }) => borderRadius || '1.6rem'};
 `;
