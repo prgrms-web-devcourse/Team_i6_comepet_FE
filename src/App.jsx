@@ -13,6 +13,7 @@ const theme = createTheme({
     normalGray: '#757575',
     lightGray: '#ADADAD',
     lighterGray: '#E5E5E5',
+    lighterBlue: '#F6F8FA',
     errorBg100: '#FEF2F2',
     errorBg300: '#F87171',
     errorBg500: '#B91C1C',
