@@ -20,7 +20,8 @@ const Button = ({
   left,
   bottom,
   position,
-  onClick
+  onClick,
+  disabled
 }) => {
   return (
     <Wrapper
@@ -40,7 +41,8 @@ const Button = ({
       right={right}
       bottom={bottom}
       position={position}
-      onClick={onClick}>
+      onClick={onClick}
+      disabled={disabled}>
       {children}
     </Wrapper>
   );
@@ -50,7 +52,8 @@ const Wrapper = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${({ bgColor, theme }) => theme.colors[bgColor]};
+  background-color: ${({ bgColor, disabled, theme }) =>
+    disabled ? theme.colors.normalGray : theme.colors[bgColor]};
   color: ${({ color, theme }) => theme.colors[color] || theme.colors.normalWhite};
   width: ${({ width }) => width || '100%'};
   height: ${({ height }) => height || '4rem'};
@@ -70,7 +73,7 @@ const Wrapper = styled.button`
 Button.propTypes = {
   children: PropTypes.node.isRequired,
   type: PropTypes.string.isRequired,
-  bgColor: PropTypes.string.isRequired,
+  bgColor: PropTypes.string,
   color: PropTypes.string,
   width: PropTypes.string,
   height: PropTypes.string,
@@ -85,7 +88,8 @@ Button.propTypes = {
   right: PropTypes.string,
   bottom: PropTypes.string,
   position: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  disabled: PropTypes.bool
 };
 
 export default Button;
