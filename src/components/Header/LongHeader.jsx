@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import { BackgroundBox } from '@/components/BackgroundBox';
@@ -6,24 +6,63 @@ import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Image } from '@/components/Image';
 import { getImageSrc } from '@/utils/helpers';
+import InformationModal from './Modal/InformationModal/InformationModal';
+import NotificationModal from './Modal/NotificationModal/NotificationModal';
+import SidebarModal from './Modal/SidebarModal/SidebarModal';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
-const LongHeader = ({ isLoggedIn }) => {
+const LongHeader = ({ isLoggedIn = true }) => {
+  const [isSidebarModalVisible, setIsSidebarModalVisible] = useState(false);
+  const [isInformationModalVisible, setIsInformationModalVisible] = useState(false);
+  const [isNotificationModalVisible, setIsNotificationModalVisible] = useState(false);
+
+  const closeAllModalsExceptFor = (targetModal) => {
+    if (isSidebarModalVisible && !targetModal) {
+      setIsSidebarModalVisible(!isSidebarModalVisible);
+      return;
+    }
+
+    if (isInformationModalVisible && !targetModal) {
+      setIsInformationModalVisible(!isInformationModalVisible);
+      return;
+    }
+
+    if (isNotificationModalVisible && !targetModal) {
+      setIsNotificationModalVisible(!isNotificationModalVisible);
+      return;
+    }
+  };
+
+  const handleSidebarModalClick = () => {
+    closeAllModalsExceptFor(isSidebarModalVisible);
+    setIsSidebarModalVisible(!isSidebarModalVisible);
+  };
+
+  const handleInformationModalClick = () => {
+    closeAllModalsExceptFor(isInformationModalVisible);
+    setIsInformationModalVisible(!isInformationModalVisible);
+  };
+
+  const handleNotificationModalClick = () => {
+    closeAllModalsExceptFor(isNotificationModalVisible);
+    setIsNotificationModalVisible(!isNotificationModalVisible);
+  };
+
   return (
     <Wrapper>
       <BackgroundBox borderRadius="0 0 1.6rem 1.6rem" height="17rem">
         <TopContainer>
-          <StyledMenuIconButton>
+          <StyledMenuIconButton onClick={handleSidebarModalClick}>
             <StyledMenuIcon />
           </StyledMenuIconButton>
           <StyledHeader>Comepet</StyledHeader>
           {isLoggedIn ? (
             <IconContainer>
-              <StyledErrorOutlineIcon />
-              <StyledNotificationsActiveIcon />
+              <StyledErrorOutlineIcon onClick={handleInformationModalClick} />
+              <StyledNotificationsActiveIcon onClick={handleNotificationModalClick} />
             </IconContainer>
           ) : (
             <Button
@@ -76,6 +115,9 @@ const LongHeader = ({ isLoggedIn }) => {
           <StyledSearchIcon />
         </BottomContainer>
       </BackgroundBox>
+      <InformationModal isVisible={isInformationModalVisible} place="right" />
+      <NotificationModal isVisible={isNotificationModalVisible} place="right" />
+      <SidebarModal isVisible={isSidebarModalVisible} place="left" />
     </Wrapper>
   );
 };
@@ -87,9 +129,11 @@ const Wrapper = styled.div`
 `;
 
 const TopContainer = styled.div`
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0.5rem 1rem;
 `;
 
 const StyledMenuIconButton = styled.button`
@@ -103,18 +147,18 @@ const StyledMenuIcon = styled(MenuIcon)`
   justify-content: center;
   align-items: center;
   font-size: 2.8rem;
-  margin-left: 1rem;
   color: ${({ theme }) => theme.colors.brand};
 `;
 
 const StyledHeader = styled.h1`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   color: ${({ theme }) => theme.colors.brand};
   cursor: pointer;
 `;
 
-const IconContainer = styled.div`
-  margin-right: 1.2rem;
-`;
+const IconContainer = styled.div``;
 
 const StyledNotificationsActiveIcon = styled(NotificationsActiveIcon)`
   font-size: 2.8rem;

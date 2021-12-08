@@ -7,9 +7,9 @@ import { Seperator } from '@/components/Seperator';
 import { BackgroundBox } from '@/components/BackgroundBox';
 import { Text } from '@/components/Text';
 
-const SidebarModal = ({ src, nickname = '둘리가 귀여워', visible }) => {
+const SidebarModal = ({ src, nickname = '둘리가 귀여워', isVisible, place }) => {
   return (
-    <Wrapper visible={visible}>
+    <Wrapper isVisible={isVisible} place={place}>
       <BackgroundBox width="30rem">
         <TopContainer>
           <Avatar src={src} />
@@ -39,9 +39,10 @@ const SidebarModal = ({ src, nickname = '둘리가 귀여워', visible }) => {
 };
 
 const Wrapper = styled.div`
-  display: ${({ visible }) => (visible ? 'block' : 'none')};
+  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
   position: absolute;
-  right: 2rem;
+  left: ${({ place }) => place === 'left' && '2rem'};
+  right: ${({ place }) => place === 'right' && '2rem'};
   top: 6rem;
   z-index: 1000;
 `;
@@ -110,7 +111,8 @@ const StyledLogoutIcon = styled(LogoutIcon)`
 SidebarModal.propTypes = {
   src: PropTypes.string,
   nickname: PropTypes.string,
-  visible: PropTypes.bool
+  isVisible: PropTypes.bool,
+  place: PropTypes.string
 };
 
 export default SidebarModal;

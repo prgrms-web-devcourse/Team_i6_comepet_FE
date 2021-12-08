@@ -40,18 +40,20 @@ const dummyData = [
   }
 ];
 
-const NotificationModal = ({ visible }) => {
+const NotificationModal = ({ isVisible, place }) => {
   return (
-    <Wrapper visible={visible}>
+    <Wrapper isVisible={isVisible} place={place}>
       <BackgroundBox width="34rem">
         <TopContainer>
-          <TextWrapper>전체삭제</TextWrapper>
+          <StyledButton>
+            <TextWrapper>전체삭제</TextWrapper>
+          </StyledButton>
         </TopContainer>
         <MiddleContainer>
           <NotificationList aria-labelledby="notificationButton">
             {dummyData.map(({ nickname, image, postId, status, checked }, index) => {
               return (
-                <>
+                <div key={index}>
                   <Seperator type="horizon" key={index} />
                   <NotificationItem key={postId} checked={checked}>
                     <Avatar src={image} margin="0 0 0 2rem"></Avatar>
@@ -68,7 +70,7 @@ const NotificationModal = ({ visible }) => {
                     </TextContainer>
                     <StyledCloseRoundedIcon />
                   </NotificationItem>
-                </>
+                </div>
               );
             })}
           </NotificationList>
@@ -88,9 +90,10 @@ const NotificationModal = ({ visible }) => {
 };
 
 const Wrapper = styled.div`
-  display: ${({ visible }) => (visible ? 'block' : 'none')};
+  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
   position: absolute;
-  right: 1rem;
+  left: ${({ place }) => place === 'left' && '2rem'};
+  right: ${({ place }) => place === 'right' && '1rem'};
   top: 6rem;
   z-index: 1000;
 `;
@@ -99,8 +102,10 @@ const TopContainer = styled.div`
   display: flex;
   justify-content: start;
   align-items: center;
-  height: 1.8rem;
+  height: 2.8rem;
 `;
+
+const StyledButton = styled.button``;
 
 const TextWrapper = styled.span`
   display: inline-block;
@@ -108,6 +113,7 @@ const TextWrapper = styled.span`
   font-size: 1.2rem;
   font-weight: bold;
   cursor: pointer;
+  font-size: 1.6rem;
 
   &:hover {
     color: ${({ theme }) => theme.colors.normalRed};
@@ -163,7 +169,8 @@ const ArrowDropDownIconCostomized = styled(ArrowDropDownIcon)`
 `;
 
 NotificationModal.propTypes = {
-  visible: PropTypes.bool
+  isVisible: PropTypes.bool,
+  place: PropTypes.string
 };
 
 export default NotificationModal;
