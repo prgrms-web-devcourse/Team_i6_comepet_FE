@@ -14,7 +14,7 @@ const CheckBox = ({ id, text, marginBetween, fontSize, margin }) => {
 };
 
 const Wrapper = styled.div`
-  display: flex;
+  display: inline-flex;
   align-items: center;
   margin: ${({ margin }) => margin || '0'};
 `;
@@ -25,7 +25,7 @@ const StyledInput = styled.input`
 `;
 
 const StyledLabel = styled.label`
-  font-size: ${({ fontSize }) => fontSize || '1rem'};
+  font-size: ${({ fontSize }) => fontSize || '1.6rem'};
 `;
 
 CheckBox.propTypes = {
