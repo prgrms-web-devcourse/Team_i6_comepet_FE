@@ -46,6 +46,7 @@ const theme = createTheme({
       }
     },
     label: {
+      xsmall: '7rem',
       small: '9rem',
       normal: '11rem',
       large: '14rem'
