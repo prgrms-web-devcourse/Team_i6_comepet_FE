@@ -21,6 +21,7 @@ const Wrapper = styled.div`
   left: ${({ left }) => left};
   bottom: ${({ bottom }) => bottom};
   right: ${({ right }) => right};
+  z-index: 1000;
 `;
 
 Modal.propTypes = {

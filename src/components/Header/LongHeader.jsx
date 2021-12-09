@@ -15,7 +15,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-const LongHeader = ({ isLoggedIn = false }) => {
+const LongHeader = ({ isLoggedIn = true }) => {
   const [isSidebarModalVisible, setIsSidebarModalVisible] = useState(false);
   const [isInformationModalVisible, setIsInformationModalVisible] = useState(false);
   const [isNotificationModalVisible, setIsNotificationModalVisible] = useState(false);
@@ -117,9 +117,9 @@ const LongHeader = ({ isLoggedIn = false }) => {
           </StyledSearchIconButton>
         </BottomWrapper>
       </BackgroundBox>
-      <InformationModal isVisible={isInformationModalVisible} place="right" />
-      <NotificationModal isVisible={isNotificationModalVisible} place="right" />
-      <SidebarModal isVisible={isSidebarModalVisible} place="left" />
+      <InformationModal isVisible={isInformationModalVisible} top="5rem" right="3rem" />
+      <NotificationModal isVisible={isNotificationModalVisible} top="5rem" right="3rem" />
+      <SidebarModal isVisible={isSidebarModalVisible} top="5rem" left="2rem" />
     </Wrapper>
   );
 };

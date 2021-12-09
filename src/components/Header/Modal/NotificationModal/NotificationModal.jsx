@@ -8,6 +8,7 @@ import { Avatar } from '@/components/Avatar';
 import { BackgroundBox } from '@/components/BackgroundBox';
 import { Text } from '@/components/Text';
 import { Seperator } from '@/components/Seperator';
+import { Modal } from '@/components/Modal';
 
 const dummyData = [
   {
@@ -40,9 +41,9 @@ const dummyData = [
   }
 ];
 
-const NotificationModal = ({ isVisible, place }) => {
+const NotificationModal = ({ isVisible, left, right, bottom, top }) => {
   return (
-    <Wrapper isVisible={isVisible} place={place}>
+    <Modal isVisible={isVisible} top={top} left={left} right={right} bottom={bottom}>
       <BackgroundBox width="34rem">
         <TopContainer>
           <StyledButton>
@@ -85,18 +86,9 @@ const NotificationModal = ({ isVisible, place }) => {
           </Button>
         </BottomContainer>
       </BackgroundBox>
-    </Wrapper>
+    </Modal>
   );
 };
-
-const Wrapper = styled.div`
-  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
-  position: absolute;
-  left: ${({ place }) => place === 'left' && '2rem'};
-  right: ${({ place }) => place === 'right' && '1rem'};
-  top: 6rem;
-  z-index: 1000;
-`;
 
 const TopContainer = styled.div`
   display: flex;
@@ -170,7 +162,10 @@ const ArrowDropDownIconCostomized = styled(ArrowDropDownIcon)`
 
 NotificationModal.propTypes = {
   isVisible: PropTypes.bool,
-  place: PropTypes.string
+  top: PropTypes.string,
+  left: PropTypes.string,
+  right: PropTypes.string,
+  bottom: PropTypes.string
 };
 
 export default NotificationModal;

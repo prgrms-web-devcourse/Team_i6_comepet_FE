@@ -6,10 +6,11 @@ import { Avatar } from '@/components/Avatar';
 import { Seperator } from '@/components/Seperator';
 import { BackgroundBox } from '@/components/BackgroundBox';
 import { Text } from '@/components/Text';
+import { Modal } from '@/components/Modal';
 
-const SidebarModal = ({ src, nickname = '둘리가 귀여워', isVisible, place }) => {
+const SidebarModal = ({ src, nickname = '둘리가 귀여워', isVisible, left, top, right, bottom }) => {
   return (
-    <Wrapper isVisible={isVisible} place={place}>
+    <Modal isVisible={isVisible} top={top} left={left} right={right} bottom={bottom}>
       <BackgroundBox width="30rem">
         <TopContainer>
           <Avatar src={src} />
@@ -34,18 +35,9 @@ const SidebarModal = ({ src, nickname = '둘리가 귀여워', isVisible, place 
           </LogoutWrapper>
         </BottomContainer>
       </BackgroundBox>
-    </Wrapper>
+    </Modal>
   );
 };
-
-const Wrapper = styled.div`
-  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
-  position: absolute;
-  left: ${({ place }) => place === 'left' && '2rem'};
-  right: ${({ place }) => place === 'right' && '2rem'};
-  top: 6rem;
-  z-index: 1000;
-`;
 
 const TopContainer = styled.div`
   display: flex;
@@ -112,7 +104,11 @@ SidebarModal.propTypes = {
   src: PropTypes.string,
   nickname: PropTypes.string,
   isVisible: PropTypes.bool,
-  place: PropTypes.string
+  place: PropTypes.string,
+  top: PropTypes.string,
+  left: PropTypes.string,
+  right: PropTypes.string,
+  bottom: PropTypes.string
 };
 
 export default SidebarModal;

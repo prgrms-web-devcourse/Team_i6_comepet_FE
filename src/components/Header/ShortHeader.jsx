@@ -72,8 +72,8 @@ const ShortHeader = ({ isLoggedIn = true, location = 'Comepet' }) => {
           )}
         </TopWrapper>
       </BackgroundBox>
-      <NotificationModal isVisible={isNotificationModalVisible} place="right" />
-      <SidebarModal isVisible={isSidebarModalVisible} place="right" />
+      <NotificationModal isVisible={isNotificationModalVisible} top="5rem" right="3rem" />
+      <SidebarModal isVisible={isSidebarModalVisible} top="5rem" right="2rem" />
     </Wrapper>
   );
 };
