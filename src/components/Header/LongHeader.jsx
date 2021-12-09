@@ -1,42 +1,83 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import { BackgroundBox } from '@/components/BackgroundBox';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Image } from '@/components/Image';
+import { getImageSrc } from '@/utils/helpers';
+import InformationModal from './Modal/InformationModal/InformationModal';
+import NotificationModal from './Modal/NotificationModal/NotificationModal';
+import SidebarModal from './Modal/SidebarModal/SidebarModal';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import { getImageSrc } from '@/utils/helpers';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-const LongHeader = ({ isLoggedIn }) => {
+const LongHeader = ({ isLoggedIn = false }) => {
+  const [isSidebarModalVisible, setIsSidebarModalVisible] = useState(false);
+  const [isInformationModalVisible, setIsInformationModalVisible] = useState(false);
+  const [isNotificationModalVisible, setIsNotificationModalVisible] = useState(false);
+
+  const closeAllModalsExceptFor = (targetModal) => {
+    if (isSidebarModalVisible && !targetModal) {
+      setIsSidebarModalVisible(!isSidebarModalVisible);
+      return;
+    }
+
+    if (isInformationModalVisible && !targetModal) {
+      setIsInformationModalVisible(!isInformationModalVisible);
+      return;
+    }
+
+    if (isNotificationModalVisible && !targetModal) {
+      setIsNotificationModalVisible(!isNotificationModalVisible);
+      return;
+    }
+  };
+
+  const handleSidebarModalClick = () => {
+    closeAllModalsExceptFor(isSidebarModalVisible);
+    setIsSidebarModalVisible(!isSidebarModalVisible);
+  };
+
+  const handleInformationModalClick = () => {
+    closeAllModalsExceptFor(isInformationModalVisible);
+    setIsInformationModalVisible(!isInformationModalVisible);
+  };
+
+  const handleNotificationModalClick = () => {
+    closeAllModalsExceptFor(isNotificationModalVisible);
+    setIsNotificationModalVisible(!isNotificationModalVisible);
+  };
+
   return (
     <Wrapper>
       <BackgroundBox borderRadius="0 0 1.6rem 1.6rem" height="17rem">
-        <TopContainer>
-          <StyledMenu />
+        <TopWrapper>
+          <StyledMenuIconButton onClick={handleSidebarModalClick}>
+            <StyledMenuIcon />
+          </StyledMenuIconButton>
           <StyledHeader>Comepet</StyledHeader>
           {isLoggedIn ? (
-            <IconContainer>
-              <StyledErrorOutlineIcon />
-              <StyledNotificationsActiveIcon />
-            </IconContainer>
+            <IconWrapper>
+              <StyledErrorOutlineIconButton onClick={handleInformationModalClick}>
+                <StyledErrorOutlineIcon />
+              </StyledErrorOutlineIconButton>
+              <StyledNotificationIconButton onClick={handleNotificationModalClick}>
+                <StyledNotificationsIcon />
+                <StyledBadge />
+              </StyledNotificationIconButton>
+            </IconWrapper>
           ) : (
-            <Button
-              bgColor="normalWhite"
-              type="button"
-              width="2.8rem"
-              height="2.8rem"
-              borderRadius="50%"
-              margin="0 1rem 0 0">
-              <Image alt="로그인" width="2.8rem" height="2.8rem" type="profile" />
+            <Button type="button" width="2.6rem" height="2.6rem">
+              <StyledAccountCircleIcon />
             </Button>
           )}
-        </TopContainer>
-        <MiddleContainer>
-          <BackgroundBox width="15rem" boxShadow="0px 4px 16px rgba(0, 0, 0, 0.08)">
+        </TopWrapper>
+        <MiddleWrapper>
+          <BackgroundBox width="45%" boxShadow="0px 4px 16px rgba(0, 0, 0, 0.08)">
             <Button
               bgColor="normalWhite"
               type="button"
@@ -52,7 +93,7 @@ const LongHeader = ({ isLoggedIn }) => {
               실종 및 보호
             </Button>
           </BackgroundBox>
-          <BackgroundBox width="15rem" boxShadow="0px 4px 16px rgba(0, 0, 0, 0.08)">
+          <BackgroundBox width="45%" boxShadow="0px 4px 16px rgba(0, 0, 0, 0.08)">
             <Button
               bgColor="normalWhite"
               type="button"
@@ -68,12 +109,17 @@ const LongHeader = ({ isLoggedIn }) => {
               보호소 동물
             </Button>
           </BackgroundBox>
-        </MiddleContainer>
-        <BottomContainer>
+        </MiddleWrapper>
+        <BottomWrapper>
           <Input placeholder="세부 검색을 위해 클릭해주세요" borderRadius="1.6rem" />
-          <StyledSearchIcon />
-        </BottomContainer>
+          <StyledSearchIconButton>
+            <StyledSearchIcon />
+          </StyledSearchIconButton>
+        </BottomWrapper>
       </BackgroundBox>
+      <InformationModal isVisible={isInformationModalVisible} place="right" />
+      <NotificationModal isVisible={isNotificationModalVisible} place="right" />
+      <SidebarModal isVisible={isSidebarModalVisible} place="left" />
     </Wrapper>
   );
 };
@@ -84,59 +130,110 @@ const Wrapper = styled.div`
   top: 0;
 `;
 
-const TopContainer = styled.div`
+const TopWrapper = styled.div`
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 1rem 2.4rem;
+`;
+
+const StyledMenuIconButton = styled.button`
+  padding: 0;
+  font-size: 1.5rem;
+  cursor: pointer;
+`;
+
+const StyledMenuIcon = styled(MenuIcon)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.8rem;
+  color: ${({ theme }) => theme.colors.brand};
 `;
 
 const StyledHeader = styled.h1`
-  color: ${({ theme }) => theme.colors.brand};
-`;
-
-const MiddleContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin-top: 0.8rem;
-`;
-
-const BottomContainer = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: center;
-  margin: 1.6rem 2.8rem 0 2.8rem;
-`;
-
-const StyledMenu = styled(MenuIcon)`
-  font-size: 3rem;
-  margin-left: 1rem;
-  color: ${({ theme }) => theme.colors.brand};
-`;
-
-const StyledSearchIcon = styled(SearchIcon)`
   position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 2%;
-  font-size: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2.5rem;
   color: ${({ theme }) => theme.colors.brand};
+  cursor: pointer;
 `;
 
-const IconContainer = styled.div`
-  margin-right: 1.2rem;
+const IconWrapper = styled.div`
+  display: flex;
 `;
 
-const StyledNotificationsActiveIcon = styled(NotificationsActiveIcon)`
+const StyledErrorOutlineIconButton = styled.button`
+  padding: 0;
+`;
+
+const StyledNotificationIconButton = styled.button`
+  padding: 0;
+  position: relative;
+`;
+
+const StyledNotificationsIcon = styled(NotificationsIcon)`
   font-size: 2.8rem;
   color: ${({ theme }) => theme.colors.brand};
+`;
+
+const StyledBadge = styled.div`
+  position: absolute;
+  right: 0.3rem;
+  top: 0.3rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: red;
+  border-radius: 50%;
 `;
 
 const StyledErrorOutlineIcon = styled(ErrorOutlineIcon)`
   font-size: 2.8rem;
   margin-right: 0.8rem;
   color: ${({ theme }) => theme.colors.brand};
+`;
+
+const StyledAccountCircleIcon = styled(AccountCircleIcon)`
+  font-size: 2.6rem;
+  color: ${({ theme }) => theme.colors.normalGray};
+`;
+
+const MiddleWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.8rem;
+  padding: 0 2.4rem;
+`;
+
+const BottomWrapper = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin: 1.6rem 2.4rem 0 2.4rem;
+`;
+
+const StyledSearchIconButton = styled.button`
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 2%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 50%;
+  width: 3.2rem;
+  height: 3.2rem;
+  background-color: ${({ theme }) => theme.colors.brand};
+`;
+
+const StyledSearchIcon = styled(SearchIcon)`
+  font-size: 2.4rem;
+  color: ${({ theme }) => theme.colors.normalWhite};
 `;
 
 LongHeader.propTypes = {
