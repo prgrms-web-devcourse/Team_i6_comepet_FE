@@ -2,9 +2,9 @@ import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import { Image as ImageComponent } from '@/components/Image';
 
-const Avatar = ({ src, size, shape, mode }) => {
+const Avatar = ({ src, size, shape, mode, margin }) => {
   return (
-    <Wrapper size={size} shape={shape}>
+    <Wrapper size={size} shape={shape} margin={margin}>
       <ImageComponent
         src={src}
         alt="프로필 이미지"
@@ -25,7 +25,7 @@ const ShapeToCssValue = {
 
 const Wrapper = styled.div`
   display: inline-block;
-  margin: 0 auto;
+  margin: ${({ margin }) => margin || '0 auto'};
   width: ${({ size }) => size || '4.5rem'};
   height: ${({ size }) => size || '4.5rem'};
   border: 0.1rem solid ${({ theme }) => theme.colors.lighterGray};
@@ -38,7 +38,8 @@ Avatar.propTypes = {
   src: PropTypes.string,
   size: PropTypes.string,
   shape: PropTypes.string,
-  mode: PropTypes.string
+  mode: PropTypes.string,
+  margin: PropTypes.string
 };
 
 export default Avatar;
