@@ -39,20 +39,20 @@ const ShortHeader = ({ isLoggedIn = true, location = 'Comepet' }) => {
 
   return (
     <Wrapper>
-      <BackgroundBox borderRadius="0 0 1.6rem 1.6rem" height="4.4rem">
+      <BackgroundBox borderRadius="0 0 1.6rem 1.6rem" height="5.2rem">
         <TopWrapper>
           <StyledArrowBackIosNewIcon />
           <StyledHeader>{location}</StyledHeader>
           {isLoggedIn ? (
-            <IconContainer>
-              <StyledNotificationsIconButton onClick={handleNotificationModalClick}>
+            <IconWrapper>
+              <StyledNotificationIconButton onClick={handleNotificationModalClick}>
                 <StyledNotificationsIcon />
                 <StyledBadge />
-              </StyledNotificationsIconButton>
+              </StyledNotificationIconButton>
               <StyledMenuIconButton onClick={handleSidebarModalClick}>
                 <StyledMenuIcon />
               </StyledMenuIconButton>
-            </IconContainer>
+            </IconWrapper>
           ) : (
             <Button
               bgColor="normalWhite"
@@ -89,13 +89,14 @@ const TopWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.7rem 1rem 0 1rem;
+  padding: 1rem 2.4rem;
 `;
 
 const StyledHeader = styled.h1`
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  font-size: 2.5rem;
   color: ${({ theme }) => theme.colors.brand};
   cursor: pointer;
 `;
@@ -112,37 +113,34 @@ const StyledMenuIcon = styled(MenuIcon)`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2.8rem;
+  font-size: 2.5rem;
   color: ${({ theme }) => theme.colors.brand};
 `;
 
-const IconContainer = styled.div`
-  display: inline-flex;
+const IconWrapper = styled.div`
+  display: flex;
   justify-content: center;
   align-items: center;
 `;
 
-const StyledNotificationsIconButton = styled.button`
-  position: relative;
+const StyledNotificationIconButton = styled.button`
   padding: 0;
-  height: 2.5rem;
+  position: relative;
 `;
 
 const StyledNotificationsIcon = styled(NotificationsIcon)`
-  font-size: 2.5rem;
-  flex: 1 1 auto;
+  font-size: 2.8rem;
   color: ${({ theme }) => theme.colors.brand};
 `;
 
-const StyledBadge = styled.sup`
+const StyledBadge = styled.div`
   position: absolute;
-  top: 0;
-  right: 1rem;
-  width: 0.6rem;
-  height: 0.6rem;
-  border-radius: 50%;
+  right: 0.3rem;
+  top: 0.3rem;
+  width: 0.5rem;
+  height: 0.5rem;
   background-color: red;
-  transform: translate(-110%, 20%);
+  border-radius: 50%;
 `;
 
 const StyledArrowBackIosNewIcon = styled(ArrowBackIosNewIcon)`
