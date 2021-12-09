@@ -13,8 +13,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-const LongHeader = ({ isLoggedIn = true }) => {
+const LongHeader = ({ isLoggedIn = false }) => {
   const [isSidebarModalVisible, setIsSidebarModalVisible] = useState(false);
   const [isInformationModalVisible, setIsInformationModalVisible] = useState(false);
   const [isNotificationModalVisible, setIsNotificationModalVisible] = useState(false);
@@ -70,20 +71,8 @@ const LongHeader = ({ isLoggedIn = true }) => {
               </StyledNotificationIconButton>
             </IconWrapper>
           ) : (
-            <Button
-              bgColor="normalWhite"
-              type="button"
-              width="2.8rem"
-              height="2.8rem"
-              borderRadius="50%"
-              margin="0 1rem 0 0">
-              <Image
-                src={getImageSrc('/images/profile-image-loggedout.svg')}
-                alt="로그인"
-                width="2.8rem"
-                height="2.8rem"
-                type="profile"
-              />
+            <Button type="button" width="2.6rem" height="2.6rem">
+              <StyledAccountCircleIcon />
             </Button>
           )}
         </TopWrapper>
@@ -204,6 +193,11 @@ const StyledErrorOutlineIcon = styled(ErrorOutlineIcon)`
   font-size: 2.8rem;
   margin-right: 0.8rem;
   color: ${({ theme }) => theme.colors.brand};
+`;
+
+const StyledAccountCircleIcon = styled(AccountCircleIcon)`
+  font-size: 2.6rem;
+  color: ${({ theme }) => theme.colors.normalGray};
 `;
 
 const MiddleWrapper = styled.div`
