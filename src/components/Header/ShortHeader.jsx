@@ -82,6 +82,7 @@ const Wrapper = styled.div`
   position: fixed;
   width: 100%;
   top: 0;
+  z-index: 1000;
 `;
 
 const TopWrapper = styled.div`
