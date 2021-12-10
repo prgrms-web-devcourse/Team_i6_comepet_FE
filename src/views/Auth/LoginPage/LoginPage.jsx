@@ -4,7 +4,7 @@ import { Formik } from 'formik';
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
 import { FormError } from '@/components/FormError';
-import { ShortHeader } from '@/components/ShortHeader';
+import { ShortHeader } from '@/components/Header';
 import { CheckBox } from '@/components/CheckBox';
 import { Seperator } from '@/components/Seperator';
 import { Image } from '@/components/Image';
