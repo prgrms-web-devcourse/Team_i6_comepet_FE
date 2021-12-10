@@ -61,7 +61,7 @@ const Counter = styled.div`
 ScrapCounter.propTypes = {
   children: PropTypes.number.isRequired,
   size: PropTypes.string.isRequired,
-  isBookmark: PropTypes.string.bool
+  isBookmark: PropTypes.bool
 };
 
 export default ScrapCounter;
