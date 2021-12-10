@@ -30,7 +30,7 @@ const Dot = styled.button`
 `;
 
 Dots.propTypes = {
-  length: PropTypes.string.isRequired,
+  length: PropTypes.number.isRequired,
   handleClick: PropTypes.func.isRequired,
   targetIndex: PropTypes.number
 };
