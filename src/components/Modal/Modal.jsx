@@ -1,21 +1,35 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
+import useClickAway from '@/hooks/useClickAway';
 import ReactDOM from 'react-dom';
 
-const Modal = ({ isVisible, top, left, right, bottom, children }) => {
-  const el = document.getElementById('root');
+const Modal = ({ isVisible, onClose, top, left, right, bottom, children }) => {
+  const [ref, refForModalBackground] = useClickAway(() => onClose && onClose());
+
+  const el = useMemo(() => document.getElementById('root'), []);
 
   return ReactDOM.createPortal(
-    <Wrapper isVisible={isVisible} top={top} left={left} right={right} bottom={bottom}>
-      {children}
-    </Wrapper>,
+    <Background isVisible={isVisible} ref={refForModalBackground}>
+      <ContentWrapper ref={ref} top={top} left={left} right={right} bottom={bottom}>
+        {children}
+      </ContentWrapper>
+    </Background>,
     el
   );
 };
 
-const Wrapper = styled.div`
+const Background = styled.div`
   display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+`;
+
+const ContentWrapper = styled.div`
   position: absolute;
   top: ${({ top }) => top};
   left: ${({ left }) => left};
