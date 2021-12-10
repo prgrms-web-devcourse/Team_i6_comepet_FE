@@ -71,11 +71,11 @@ const LoginPage = () => {
             <LoginOptionWrapper>
               <NormalText>소셜 로그인하기</NormalText>
             </LoginOptionWrapper>
-            <SocialLinkContainer>
+            <SocialLinkWrapper>
               <SocialLink type="google" />
               <SocialLink type="kakao" />
               <SocialLink type="naver" />
-            </SocialLinkContainer>
+            </SocialLinkWrapper>
           </Form>
         )}
       </Formik>
@@ -113,7 +113,7 @@ const UnderlineText = styled.span`
   text-decoration: underline;
 `;
 
-const SocialLinkContainer = styled.div`
+const SocialLinkWrapper = styled.div`
   display: flex;
   justify-content: center;
 `;
