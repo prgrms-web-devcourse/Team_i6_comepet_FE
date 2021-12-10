@@ -8,14 +8,17 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const MainPage = () => {
   const { posts } = postsData; // useSwr
-  const { city, town } = posts[0];
+  const postLength = posts.length;
+  // temp
+  const city = '서울특별시';
+  const town = '도봉구';
 
   return (
     <Wrapper>
       <LongHeader />
       <ContentWrapper>
         <SortHeader>
-          {`${city} ${town} 검색 결과 ${posts.length}건`}
+          {`${city} ${town} 검색 결과 ${postLength}건`}
           <SelectionBox
             options={['오래된순 정렬']}
             defaultOption="최신순 정렬"
@@ -23,13 +26,17 @@ const MainPage = () => {
             fontColor="normalGray"
           />
         </SortHeader>
-        <PostCardList>
-          {posts.map(({ id, ...props }) => (
-            <PostCardItem key={id}>
-              <PostCard {...props} />
-            </PostCardItem>
-          ))}
-        </PostCardList>
+        {postLength ? (
+          <PostCardList>
+            {posts.map(({ id, ...props }) => (
+              <PostCardItem key={id}>
+                <PostCard {...props} />
+              </PostCardItem>
+            ))}
+          </PostCardList>
+        ) : (
+          <NoResultText>검색 결과가 없습니다.</NoResultText>
+        )}
       </ContentWrapper>
       <Link>
         <StyledAddCircleIcon />
@@ -65,6 +72,14 @@ const PostCardList = styled.ul`
 
 const PostCardItem = styled.li`
   justify-self: center;
+`;
+
+const NoResultText = styled.div`
+  padding: 12rem 4rem;
+  font-size: 1.6rem;
+  font-weight: bold;
+  text-align: center;
+  color: ${({ theme }) => theme.colors.normalGray};
 `;
 
 // react-router Link로 교체 필요
