@@ -80,8 +80,10 @@ const ShortHeader = ({ isLoggedIn = true, location = 'Comepet' }) => {
 
 const Wrapper = styled.div`
   position: fixed;
+  z-index: 1000;
   width: 100%;
   top: 0;
+  left: 0;
 `;
 
 const TopWrapper = styled.div`
