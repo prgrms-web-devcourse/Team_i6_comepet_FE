@@ -8,7 +8,6 @@ import { Avatar } from '@/components/Avatar';
 import { BackgroundBox } from '@/components/BackgroundBox';
 import { Text } from '@/components/Text';
 import { Seperator } from '@/components/Seperator';
-import { Modal } from '@/components/Modal';
 
 const dummyData = [
   {
@@ -43,7 +42,7 @@ const dummyData = [
 
 const NotificationModal = ({ isVisible, left, right, bottom, top }) => {
   return (
-    <Modal isVisible={isVisible} top={top} left={left} right={right} bottom={bottom}>
+    <Wrapper isVisible={isVisible} top={top} left={left} right={right} bottom={bottom}>
       <BackgroundBox width="34rem">
         <TopContainer>
           <StyledButton>
@@ -86,9 +85,19 @@ const NotificationModal = ({ isVisible, left, right, bottom, top }) => {
           </Button>
         </BottomContainer>
       </BackgroundBox>
-    </Modal>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
+  position: absolute;
+  top: ${({ top }) => top};
+  left: ${({ left }) => left};
+  bottom: ${({ bottom }) => bottom};
+  right: ${({ right }) => right};
+  z-index: 1001;
+`;
 
 const TopContainer = styled.div`
   display: flex;

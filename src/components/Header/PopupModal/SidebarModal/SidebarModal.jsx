@@ -6,11 +6,10 @@ import { Avatar } from '@/components/Avatar';
 import { Seperator } from '@/components/Seperator';
 import { BackgroundBox } from '@/components/BackgroundBox';
 import { Text } from '@/components/Text';
-import { Modal } from '@/components/Modal';
 
 const SidebarModal = ({ src, nickname = '둘리가 귀여워', isVisible, left, top, right, bottom }) => {
   return (
-    <Modal isVisible={isVisible} top={top} left={left} right={right} bottom={bottom}>
+    <Wrapper isVisible={isVisible} top={top} left={left} right={right} bottom={bottom}>
       <BackgroundBox width="30rem">
         <TopContainer>
           <Avatar src={src} />
@@ -35,9 +34,19 @@ const SidebarModal = ({ src, nickname = '둘리가 귀여워', isVisible, left, 
           </LogoutWrapper>
         </BottomContainer>
       </BackgroundBox>
-    </Modal>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
+  position: absolute;
+  top: ${({ top }) => top};
+  left: ${({ left }) => left};
+  bottom: ${({ bottom }) => bottom};
+  right: ${({ right }) => right};
+  z-index: 1001;
+`;
 
 const TopContainer = styled.div`
   display: flex;

@@ -2,7 +2,6 @@ import React from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import { BackgroundBox } from '@/components/BackgroundBox';
-import { Modal } from '@/components/Modal';
 import { STATUS } from '@/utils/constants';
 
 const responseData = {
@@ -15,7 +14,7 @@ const responseData = {
 
 const InformationModal = ({ isVisible, top, left, right, bottom }) => {
   return (
-    <Modal isVisible={isVisible} top={top} left={left} right={right} bottom={bottom}>
+    <Wrapper isVisible={isVisible} top={top} left={left} right={right} bottom={bottom}>
       <BackgroundBox width="33rem" height="3rem">
         <TextWrapper>
           {STATUS['missing']} {responseData.missing} 건 중, {responseData.detection} 건{' '}
@@ -23,9 +22,19 @@ const InformationModal = ({ isVisible, top, left, right, bottom }) => {
           {responseData.completion} 건 {STATUS['completion']} 되었습니다
         </TextWrapper>
       </BackgroundBox>
-    </Modal>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
+  position: absolute;
+  top: ${({ top }) => top};
+  left: ${({ left }) => left};
+  bottom: ${({ bottom }) => bottom};
+  right: ${({ right }) => right};
+  z-index: 1001;
+`;
 
 const TextWrapper = styled.div`
   display: flex;
