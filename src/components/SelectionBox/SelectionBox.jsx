@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -19,40 +19,51 @@ const SelectionBox = ({
   fontSize,
   height,
   id,
-  margin
+  name,
+  margin,
+  onSelectChange
 }) => {
   const [color, setColor] = useState(decideColor({ required, disabled }));
+  const selectRef = useRef(null);
 
-  const changeHandler = (e) => {
-    const chosen = e.target.selectedIndex !== 0;
+  const handleColorChange = ({ target }) => {
+    const chosen =
+      target?.selectedIndex !== 0 &&
+      target?.selectedIndex !== null &&
+      target?.selectedIndex !== undefined;
     const nextColor = decideColor({ required, chosen, disabled });
     setColor(nextColor);
   };
 
+  useEffect(() => {
+    if (Number.isNaN(Number(selectRef.current.value))) {
+      const nextColor = decideColor({ required, chosen: false, disabled });
+      setColor(nextColor);
+    }
+  }, [options]);
+
   return (
     <Wrapper color={color} margin={margin}>
-      <Selection
-        onChange={changeHandler}
+      <Select
+        onChange={(event) => {
+          handleColorChange(event);
+          onSelectChange(event);
+        }}
+        ref={selectRef}
         disabled={disabled}
         color={color}
         fontSize={fontSize}
         height={height}
-        id={id}>
+        id={id}
+        name={name}>
         <Option>{defaultOption}</Option>
         {options?.map((option, index) => (
           <Option key={index}>{option}</Option>
         ))}
-      </Selection>
+      </Select>
       <Arrow color={color} />
     </Wrapper>
   );
-};
-
-const decideColor = ({ chosen, disabled, required }) => {
-  if (disabled) return COLOR_SET.disabled;
-  if (chosen) return COLOR_SET.normalGreen;
-  if (required) return COLOR_SET.normalPink;
-  return COLOR_SET.brand;
 };
 
 const Wrapper = styled.div`
@@ -63,7 +74,7 @@ const Wrapper = styled.div`
   border-bottom: ${({ color }) => `0.15rem solid ${color}`};
 `;
 
-const Selection = styled.select`
+const Select = styled.select`
   width: 100%;
   height: 100%;
   padding-right: 2.5rem;
@@ -96,7 +107,16 @@ SelectionBox.propTypes = {
   disabled: PropTypes.bool,
   required: PropTypes.bool,
   id: PropTypes.string,
-  margin: PropTypes.string
+  margin: PropTypes.string,
+  onSelectChange: PropTypes.func,
+  name: PropTypes.string
 };
 
 export default SelectionBox;
+
+const decideColor = ({ required, chosen, disabled }) => {
+  if (disabled) return COLOR_SET.disabled;
+  if (chosen) return COLOR_SET.normalGreen;
+  if (required) return COLOR_SET.normalPink;
+  return COLOR_SET.brand;
+};
