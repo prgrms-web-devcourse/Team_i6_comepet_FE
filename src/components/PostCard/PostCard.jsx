@@ -19,39 +19,40 @@ const PostCard = ({
   isBookmark,
   bookmarkCount,
   tags,
-  thumbnail,
-  shelterPlace,
+  thumnail,
+  foundDate,
   width,
   height
 }) => {
   return (
     <Wrapper>
       <BackgroundBox width={width || '14.4rem'} height={height || '21.1rem'}>
-        {!shelterPlace && <StatusTag status={status} />}
+        {status && <StatusTag status={status} />}
         <Image
-          src={thumbnail}
+          src={thumnail}
           width={width || '14.4rem'}
           height="12.6rem"
-          borderRadius="1.6rem 1.6rem 0 0"></Image>
+          borderRadius="1.6rem 1.6rem 0 0"
+        />
         <ScrapCounter size="small" isBookmark={isBookmark}>
           {bookmarkCount}
         </ScrapCounter>
         <Content>
           <Title>
             {animalKind === 'UNKNOWN' ? '종류 모름' : animalKind}
-            {(sex === 'MALE' && <StyledMaleIcon />) || (sex === 'FEMALE' && <StyledFemaleIcon />)}
+            {sex === 'MALE' ? <StyledMaleIcon /> : <StyledFemaleIcon />}
           </Title>
           <Area>
             {city} {town}
           </Area>
-          {!shelterPlace && (
+          {tags && (
             <TagList>
               {tags.map(({ id, name }) => (
                 <TagItem key={id}>#{name} </TagItem>
               ))}
             </TagList>
           )}
-          <CreatedAt>{formatDate(createdAt)}</CreatedAt>
+          <Date>{formatDate(createdAt || foundDate)}</Date>
         </Content>
       </BackgroundBox>
     </Wrapper>
@@ -98,7 +99,7 @@ const TagItem = styled.li`
   display: inline;
 `;
 
-const CreatedAt = styled.div`
+const Date = styled.div`
   margin-bottom: 0.4rem;
 `;
 
@@ -108,11 +109,12 @@ PostCard.propTypes = {
   animalKind: PropTypes.string,
   status: PropTypes.string,
   createdAt: PropTypes.string,
+  foundDate: PropTypes.string,
   sex: PropTypes.string,
   isBookmark: PropTypes.bool,
   bookmarkCount: PropTypes.number,
   tags: PropTypes.array,
-  thumbnail: PropTypes.string,
+  thumnail: PropTypes.string,
   shelterPlace: PropTypes.string,
   width: PropTypes.string,
   height: PropTypes.string
