@@ -17,6 +17,7 @@ const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.normalWhite};
   box-shadow: ${({ boxShadow, theme }) => theme.shadows[boxShadow] || theme.shadows.normal};
   border-radius: ${({ borderRadius }) => borderRadius || '1.6rem'};
+  position: relative;
 `;
 
 BackgroundBox.defaultProps = {

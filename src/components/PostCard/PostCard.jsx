@@ -5,8 +5,9 @@ import { BackgroundBox } from '@/components/BackgroundBox';
 import { Image } from '@/components/Image';
 import { ScrapCounter } from '@/components/ScrapCounter';
 import { StatusTag } from '@/components/StatusTag';
-import { GENDER } from '@/utils/constants';
 import { formatDate } from '@/utils/helpers';
+import MaleIcon from '@mui/icons-material/Male';
+import FemaleIcon from '@mui/icons-material/Female';
 
 const PostCard = ({
   city,
@@ -17,7 +18,7 @@ const PostCard = ({
   sex,
   isBookmark,
   bookmarkCount,
-  postTags,
+  tags,
   thumbnail,
   shelterPlace,
   width,
@@ -26,7 +27,7 @@ const PostCard = ({
   return (
     <Wrapper>
       <BackgroundBox width={width || '14.4rem'} height={height || '21.1rem'}>
-        {shelterPlace && <StatusTag status={status}></StatusTag>}
+        {!shelterPlace && <StatusTag status={status} />}
         <Image
           src={thumbnail}
           width={width || '14.4rem'}
@@ -37,17 +38,18 @@ const PostCard = ({
         </ScrapCounter>
         <Content>
           <Title>
-            {animalKind} {GENDER[sex]}
+            {animalKind === 'UNKNOWN' ? '종류 모름' : animalKind}
+            {(sex === 'MALE' && <StyledMaleIcon />) || (sex === 'FEMALE' && <StyledFemaleIcon />)}
           </Title>
           <Area>
             {city} {town}
           </Area>
-          {shelterPlace && (
-            <PostTags>
-              {postTags.map(({ id, name }) => (
-                <PostTag key={id}>#{name} </PostTag>
+          {!shelterPlace && (
+            <TagList>
+              {tags.map(({ id, name }) => (
+                <TagItem key={id}>#{name} </TagItem>
               ))}
-            </PostTags>
+            </TagList>
           )}
           <CreatedAt>{formatDate(createdAt)}</CreatedAt>
         </Content>
@@ -67,18 +69,32 @@ const Content = styled.div`
 const Title = styled.div`
   margin-bottom: 0.4rem;
   font-weight: bold;
+  display: flex;
+  align-items: center;
+`;
+
+const StyledMaleIcon = styled(MaleIcon)`
+  font-size: 1.4rem;
+  color: ${({ theme }) => theme.colors.normalGreen};
+  margin: 0 0 0.1rem 0.1rem;
+`;
+
+const StyledFemaleIcon = styled(FemaleIcon)`
+  font-size: 1.4rem;
+  color: ${({ theme }) => theme.colors.normalGreen};
+  margin: 0 0 0.1rem 0.1rem;
 `;
 
 const Area = styled.div`
   margin-bottom: 0.4rem;
 `;
 
-const PostTags = styled.ul`
+const TagList = styled.ul`
   margin-bottom: 0.4rem;
   color: ${({ theme }) => theme.colors.normalGray};
 `;
 
-const PostTag = styled.li`
+const TagItem = styled.li`
   display: inline;
 `;
 
@@ -95,8 +111,9 @@ PostCard.propTypes = {
   sex: PropTypes.string,
   isBookmark: PropTypes.bool,
   bookmarkCount: PropTypes.number,
-  postTags: PropTypes.array,
+  tags: PropTypes.array,
   thumbnail: PropTypes.string,
+  shelterPlace: PropTypes.string,
   width: PropTypes.string,
   height: PropTypes.string
 };
