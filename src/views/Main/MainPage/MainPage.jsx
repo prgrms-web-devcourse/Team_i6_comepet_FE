@@ -3,8 +3,8 @@ import styled from '@emotion/styled';
 import { LongHeader } from '@/components/Header';
 import { PostCard } from '@/components/PostCard';
 import { postsData } from '@/assets/data.js';
-import { SelectionBox } from '@/components/SelectionBox';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { SortHeader } from '@/views/Main/SortHeader';
 
 const MainPage = () => {
   const { posts } = postsData; // useSwr
@@ -17,15 +17,7 @@ const MainPage = () => {
     <Wrapper>
       <LongHeader />
       <ContentWrapper>
-        <SortHeader>
-          {`${city} ${town} 검색 결과 ${postLength}건`}
-          <SelectionBox
-            options={['오래된순 정렬']}
-            defaultOption="최신순 정렬"
-            fontSize="1.2rem"
-            fontColor="normalGray"
-          />
-        </SortHeader>
+        <SortHeader city={city} town={town} postLength={postLength} />
         {postLength ? (
           <PostCardList>
             {posts.map(({ id, ...props }) => (
@@ -51,16 +43,6 @@ const Wrapper = styled.div`
 
 const ContentWrapper = styled.div`
   padding: 17rem 2.4rem 2.4rem 2.4rem;
-`;
-
-const SortHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 1.4rem 0;
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: ${({ theme }) => theme.colors.brand};
 `;
 
 const PostCardList = styled.ul`
