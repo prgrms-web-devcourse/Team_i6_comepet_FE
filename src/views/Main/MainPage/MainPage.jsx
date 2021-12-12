@@ -29,9 +29,9 @@ const MainPage = () => {
         {postLength ? (
           <PostCardList>
             {posts.map(({ id, ...props }) => (
-              <PostCardItem key={id}>
+              <PostCardWrapper key={id}>
                 <PostCard {...props} />
-              </PostCardItem>
+              </PostCardWrapper>
             ))}
           </PostCardList>
         ) : (
@@ -70,7 +70,7 @@ const PostCardList = styled.ul`
   justify-content: center;
 `;
 
-const PostCardItem = styled.li`
+const PostCardWrapper = styled.li`
   justify-self: center;
 `;
 

@@ -45,11 +45,11 @@ const PostCard = ({
             {city} {town}
           </Area>
           {!shelterPlace && (
-            <PostTags>
+            <TagList>
               {tags.map(({ id, name }) => (
-                <PostTag key={id}>#{name} </PostTag>
+                <TagItem key={id}>#{name} </TagItem>
               ))}
-            </PostTags>
+            </TagList>
           )}
           <CreatedAt>{formatDate(createdAt)}</CreatedAt>
         </Content>
@@ -89,12 +89,12 @@ const Area = styled.div`
   margin-bottom: 0.4rem;
 `;
 
-const PostTags = styled.ul`
+const TagList = styled.ul`
   margin-bottom: 0.4rem;
   color: ${({ theme }) => theme.colors.normalGray};
 `;
 
-const PostTag = styled.li`
+const TagItem = styled.li`
   display: inline;
 `;
 
