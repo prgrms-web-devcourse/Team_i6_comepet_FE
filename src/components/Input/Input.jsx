@@ -18,6 +18,7 @@ const Input = ({
   maxlength,
   accept,
   required,
+  margin,
   onChange,
   onBlur,
   margin
@@ -39,6 +40,7 @@ const Input = ({
       maxlength={maxlength}
       minlength={minlength}
       accept={accept}
+      margin={margin}
       onChange={onChange}
       onBlur={onBlur}
       margin={margin}
@@ -82,6 +84,7 @@ Input.propTypes = {
   maxlength: PropTypes.string,
   accept: PropTypes.string,
   required: PropTypes.bool,
+  margin: PropTypes.string,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   margin: PropTypes.string

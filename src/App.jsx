@@ -1,5 +1,6 @@
 import React from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { PostCreatePage } from '@/views';
 
 const theme = createTheme({
   colors: {
@@ -55,7 +56,11 @@ const theme = createTheme({
 });
 
 const App = function () {
-  return <ThemeProvider theme={theme}></ThemeProvider>;
+  return (
+    <ThemeProvider theme={theme}>
+      <PostCreatePage />
+    </ThemeProvider>
+  );
 };
 
 export default App;

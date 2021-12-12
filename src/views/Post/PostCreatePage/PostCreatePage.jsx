@@ -13,8 +13,9 @@ import {
   ContentCategory
 } from './Category';
 import { Slider } from '@/components/Slider';
+import useForm from '@/hooks/useForm';
 
-// 추후 삭제 예정
+// TODO: 삭제 예정
 // const MARGIN_BETTWEN = Object.freeze({
 //   SelectionBox_AND_Label: '1.8rem 0 0 0',
 //   Input_AND_Label: '1.8rem 0 0 0',
@@ -39,15 +40,40 @@ const imageList = [
 ];
 
 const PostCreatePage = () => {
+  const { values, errors, isLoading, handleChange, handleSubmit } = useForm({
+    initialValues: {
+      status: '',
+      date: '',
+      cityId: '',
+      townId: '',
+      detailAddress: '',
+      telNumber: '',
+      animalId: '',
+      animalKind: '',
+      age: '',
+      sex: '',
+      chipNumber: '',
+      tags: [],
+      files: '',
+      content: ''
+    },
+    onSubmit: () => {},
+    validate: () => {}
+  });
+
+  console.log(values, errors, isLoading, handleSubmit);
+
   return (
-    <Wrapper>
+    <Form>
       <StatusCategory />
-      <DateCategory margin="2.4rem 0 0 0" />
+      <DateCategory margin="2.4rem 0 0 0" onChange={handleChange} />
       <PlaceCategory margin="2.4rem 0 0 0" />
       <ContactCategory margin="2.4rem 0 0 0" />
       <PetInformationCategory margin="2.4rem 0 0 0" />
       <ChipInformationCategory margin="2.4rem 0 0 0" />
       <HashTagCategory margin="2.4rem 0 0 0" />
+      {/* TODO: Container 명칭 Wrapper로 변경하기 */}
+      {/* 공통된 margin 값 분리하기 */}
       <PetPhotoContainer margin="2.4rem 0 0 0">
         <Slider imageList={imageList} size="large" />
         <Button width="60%" margin="5% auto 0 auto" bgColor="normalOrange" type="button">
@@ -63,11 +89,11 @@ const PostCreatePage = () => {
           취소하기
         </Button>
       </ButtonContainer>
-    </Wrapper>
+    </Form>
   );
 };
 
-const Wrapper = styled.form`
+const Form = styled.form`
   padding: 1.7rem;
 `;
 const PetPhotoContainer = styled.div`
