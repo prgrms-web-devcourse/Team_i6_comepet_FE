@@ -12,7 +12,7 @@ export const USER_ERROR = Object.freeze({
   INVALID_NICKNAME: '2~10자 영문, 한글을 사용해 주세요.',
   INVALID_EMAIL: '잘못된 이메일 형식입니다.',
   INVALID_PASSWORD: '8~20자 영문, 숫자, 특수문자를 사용해 주세요.',
-  INVALID_PASSWORD2: '비밀번호가 일치하지 않습니다.',
+  INVALID_PASSWORD_CHECK: '비밀번호가 일치하지 않습니다.',
   NOT_MATCHED: '이메일 또는 비밀번호를 확인해 주세요.'
 });
 

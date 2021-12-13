@@ -22,7 +22,7 @@ const SignupPage = () => {
         boxShadow="normal"
       />
       <Formik
-        initialValues={{ nickname: '', email: '', password: '', password2: '' }}
+        initialValues={{ nickname: '', email: '', password: '', passwordCheck: '' }}
         validate={validate}
         onSubmit={handleSubmit}>
         {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
@@ -61,14 +61,14 @@ const SignupPage = () => {
             <FormError isVisible={errors.password && touched.password}>{errors.password}</FormError>
             <Input
               type="password"
-              name="password2"
+              name="passwordCheck"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.password2}
+              value={values.passwordCheck}
               placeholder="비밀번호 확인"
             />
-            <FormError isVisible={errors.password2 && touched.password2}>
-              {errors.password2}
+            <FormError isVisible={errors.passwordCheck && touched.passwordCheck}>
+              {errors.passwordCheck}
             </FormError>
             <Button
               type="submit"
@@ -99,7 +99,7 @@ const EmailInputWrapper = styled.div`
 
 export default SignupPage;
 
-const validate = ({ nickname, email, password, password2 }) => {
+const validate = ({ nickname, email, password, passwordCheck }) => {
   const errors = {};
   const {
     NO_NICKNAME,
@@ -108,7 +108,7 @@ const validate = ({ nickname, email, password, password2 }) => {
     INVALID_NICKNAME,
     INVALID_EMAIL,
     INVALID_PASSWORD,
-    INVALID_PASSWORD2
+    INVALID_PASSWORD_CHECK
   } = USER_ERROR;
 
   if (!nickname) {
@@ -127,8 +127,8 @@ const validate = ({ nickname, email, password, password2 }) => {
     errors.password = NO_PASSWORD;
   } else if (!isValidInput(REGEX.PASSWORD, password)) {
     errors.password = INVALID_PASSWORD;
-  } else if (password !== password2) {
-    errors.password2 = INVALID_PASSWORD2;
+  } else if (password !== passwordCheck) {
+    errors.passwordCheck = INVALID_PASSWORD_CHECK;
   }
 
   return errors;
