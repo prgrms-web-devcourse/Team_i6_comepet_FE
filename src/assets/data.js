@@ -198,7 +198,7 @@ export const shelterData = {
     },
     {
       id: 2,
-      sex: 'FEMALE',
+      sex: 'UNKNOWN',
       thumbnail: 'http://www.animal.go.kr/files/shelter/2021/11/202111251111689_s.jpg',
       animalKind: '리트리버',
       foundDate: '2021-12-24',
