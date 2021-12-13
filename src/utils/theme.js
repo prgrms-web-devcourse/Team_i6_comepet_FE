@@ -1,6 +1,6 @@
 import { createTheme } from '@mui/material/styles';
 
-const theme = createTheme({
+export const theme = createTheme({
   colors: {
     brand: '#2A2E56',
     normalWhite: '#ffffff',
@@ -52,5 +52,3 @@ const theme = createTheme({
     }
   }
 });
-
-export default theme;
