@@ -1,6 +1,5 @@
 import React from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { ShelterPostPage } from '@/views';
 
 const theme = createTheme({
   colors: {
@@ -56,11 +55,7 @@ const theme = createTheme({
 });
 
 const App = function () {
-  return (
-    <ThemeProvider theme={theme}>
-      <ShelterPostPage></ShelterPostPage>
-    </ThemeProvider>
-  );
+  return <ThemeProvider theme={theme}></ThemeProvider>;
 };
 
 export default App;
