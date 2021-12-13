@@ -60,7 +60,7 @@ const ContentWrapper = styled.div`
   padding: ${({ padding }) => padding};
   border-radius: 1.6rem;
   background-color: ${({ theme }) => theme.colors.normalWhite};
-  box-shadow: ${({ boxShadow, theme }) => boxShadow || theme.shadows.normal};
+  box-shadow: ${({ boxShadow, theme }) => theme.shadows[boxShadow] || theme.shadows.normal};
 `;
 
 Modal.propTypes = {
