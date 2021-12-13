@@ -85,7 +85,7 @@ const LoginPage = () => {
 };
 
 const Wrapper = styled.div`
-  padding: 0 2.4rem 2.4rem 2.4rem;
+  padding: 20% 2.4rem 2.4rem 2.4rem;
   text-align: center;
 `;
 
