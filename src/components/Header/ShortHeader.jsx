@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 import { BackgroundBox } from '@/components/BackgroundBox';
 import { Button } from '@/components/Button';
 import { Image } from '@/components/Image';
-import NotificationModal from './Modal/NotificationModal/NotificationModal';
-import SidebarModal from './Modal/SidebarModal/SidebarModal';
+import { NotificationModal, SidebarModal } from './PopupModal';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -72,8 +71,8 @@ const ShortHeader = ({ isLoggedIn = true, location = 'Comepet' }) => {
           )}
         </TopWrapper>
       </BackgroundBox>
-      <NotificationModal isVisible={isNotificationModalVisible} place="right" />
-      <SidebarModal isVisible={isSidebarModalVisible} place="right" />
+      <NotificationModal isVisible={isNotificationModalVisible} top="5rem" right="3rem" />
+      <SidebarModal isVisible={isSidebarModalVisible} top="5rem" right="2rem" />
     </Wrapper>
   );
 };
