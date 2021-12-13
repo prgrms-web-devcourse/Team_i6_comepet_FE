@@ -19,7 +19,7 @@ const PostCard = ({
   isBookmark,
   bookmarkCount,
   tags,
-  thumnail,
+  thumbnail,
   foundDate,
   width,
   height
@@ -29,7 +29,7 @@ const PostCard = ({
       <BackgroundBox width={width || '14.4rem'} height={height || '21.1rem'}>
         {status && <StatusTag status={status} />}
         <Image
-          src={thumnail}
+          src={thumbnail}
           width={width || '14.4rem'}
           height="12.6rem"
           borderRadius="1.6rem 1.6rem 0 0"
@@ -114,7 +114,7 @@ PostCard.propTypes = {
   isBookmark: PropTypes.bool,
   bookmarkCount: PropTypes.number,
   tags: PropTypes.array,
-  thumnail: PropTypes.string,
+  thumbnail: PropTypes.string,
   shelterPlace: PropTypes.string,
   width: PropTypes.string,
   height: PropTypes.string

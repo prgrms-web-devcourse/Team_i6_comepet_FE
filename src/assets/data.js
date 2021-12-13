@@ -188,7 +188,7 @@ export const shelterData = {
     {
       id: 1,
       sex: 'MALE',
-      thumnail: 'http://www.animal.go.kr/files/shelter/2021/11/202111251111689_s.jpg',
+      thumbnail: 'http://www.animal.go.kr/files/shelter/2021/11/202111251111689_s.jpg',
       animalKind: '리트리버',
       foundDate: '2021-11-25',
       city: '경상남도',
@@ -199,7 +199,7 @@ export const shelterData = {
     {
       id: 2,
       sex: 'FEMALE',
-      thumnail: 'http://www.animal.go.kr/files/shelter/2021/11/202111251111689_s.jpg',
+      thumbnail: 'http://www.animal.go.kr/files/shelter/2021/11/202111251111689_s.jpg',
       animalKind: '리트리버',
       foundDate: '2021-12-24',
       city: '경상남도',
@@ -210,7 +210,7 @@ export const shelterData = {
     {
       id: 3,
       sex: 'MALE',
-      thumnail: 'http://www.animal.go.kr/files/shelter/2021/11/202111251111689_s.jpg',
+      thumbnail: 'http://www.animal.go.kr/files/shelter/2021/11/202111251111689_s.jpg',
       animalKind: '리트리버',
       foundDate: '2021-12-24',
       city: '경상남도',
@@ -221,7 +221,7 @@ export const shelterData = {
     {
       id: 4,
       sex: 'FEMALE',
-      thumnail: 'http://www.animal.go.kr/files/shelter/2021/11/202111251111689_s.jpg',
+      thumbnail: 'http://www.animal.go.kr/files/shelter/2021/11/202111251111689_s.jpg',
       animalKind: '포메라니안',
       foundDate: '2021-11-23',
       city: '경상남도',
@@ -232,7 +232,7 @@ export const shelterData = {
     {
       id: 5,
       sex: 'MALE',
-      thumnail: 'http://www.animal.go.kr/files/shelter/2021/11/202111251111689_s.jpg',
+      thumbnail: 'http://www.animal.go.kr/files/shelter/2021/11/202111251111689_s.jpg',
       animalKind: '푸들',
       foundDate: '2021-12-24',
       city: '경기도',
@@ -243,7 +243,7 @@ export const shelterData = {
     {
       id: 6,
       sex: 'FEMALE',
-      thumnail: 'http://www.animal.go.kr/files/shelter/2021/11/202111251111689_s.jpg',
+      thumbnail: 'http://www.animal.go.kr/files/shelter/2021/11/202111251111689_s.jpg',
       animalKind: '푸들',
       foundDate: '2021-11-27',
       city: '경기도',
