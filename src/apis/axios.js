@@ -82,12 +82,10 @@ export const DELETE = async (url, data) => {
 
 const handleConsoleError = (error) => {
   const { request, response, message } = error;
-  const { data, status, headers } = response;
+  const { status } = response;
 
   if (response) {
-    console.log(`data : ${data}`);
     console.log(`status : ${status}`);
-    console.log(`headers : ${headers}`);
     console.error('요청이 이루어졌으며 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다.');
   } else if (request) {
     console.log(`request : ${request}`);
