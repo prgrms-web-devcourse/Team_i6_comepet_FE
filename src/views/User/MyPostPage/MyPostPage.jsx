@@ -13,14 +13,11 @@ const MyPostPage = () => {
       <ContentWrapper>
         {postLength ? (
           <PostCardList>
-            {posts.map(
-              ({ id, isBookmark, ...props }) =>
-                !isBookmark && (
-                  <PostCardWrapper key={id}>
-                    <PostCard isBookmark {...props} />
-                  </PostCardWrapper>
-                )
-            )}
+            {posts.map(({ id, ...props }) => (
+              <PostCardWrapper key={id}>
+                <PostCard {...props} />
+              </PostCardWrapper>
+            ))}
           </PostCardList>
         ) : (
           <NoResultText>내가 쓴 글이 없습니다.</NoResultText>
