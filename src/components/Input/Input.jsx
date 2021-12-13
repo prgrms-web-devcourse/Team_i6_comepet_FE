@@ -19,7 +19,6 @@ const Input = ({
   maxlength,
   accept,
   required,
-  readOnly,
   disabled,
   onChange,
   onBlur,
@@ -36,7 +35,6 @@ const Input = ({
       fontSize={fontSize}
       bgColor={bgColor}
       required={required}
-      readOnly={readOnly}
       disabled={disabled}
       placeholder={placeholder}
       type={type}
@@ -90,7 +88,6 @@ Input.propTypes = {
   maxlength: PropTypes.string,
   accept: PropTypes.string,
   required: PropTypes.bool,
-  readOnly: PropTypes.bool,
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
