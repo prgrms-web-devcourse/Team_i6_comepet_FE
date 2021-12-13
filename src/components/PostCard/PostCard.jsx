@@ -6,8 +6,9 @@ import { Image } from '@/components/Image';
 import { ScrapCounter } from '@/components/ScrapCounter';
 import { StatusTag } from '@/components/StatusTag';
 import { formatDate } from '@/utils/helpers';
-import MaleIcon from '@mui/icons-material/Male';
-import FemaleIcon from '@mui/icons-material/Female';
+import MaleRoundedIcon from '@mui/icons-material/MaleRounded';
+import FemaleRoundedIcon from '@mui/icons-material/FemaleRounded';
+import QuestionMarkRoundedIcon from '@mui/icons-material/QuestionMarkRounded';
 
 const PostCard = ({
   city,
@@ -20,38 +21,59 @@ const PostCard = ({
   bookmarkCount,
   tags,
   thumbnail,
-  shelterPlace,
+  foundDate,
   width,
   height
 }) => {
+  const switchTextBy = (animalKind) => {
+    switch (animalKind) {
+      case 'UNKNOWN':
+        return '종류 모름';
+      default:
+        return animalKind;
+    }
+  };
+
+  const switchIconBy = (sex) => {
+    switch (sex) {
+      case 'MALE':
+        return <MaleRoundedIcon />;
+      case 'FEMALE':
+        return <FemaleRoundedIcon />;
+      case 'UNKNOWN':
+        return <QuestionMarkRoundedIcon />;
+    }
+  };
+
   return (
     <Wrapper>
       <BackgroundBox width={width || '14.4rem'} height={height || '21.1rem'}>
-        {!shelterPlace && <StatusTag status={status} />}
+        {status && <StatusTag status={status} />}
         <Image
           src={thumbnail}
           width={width || '14.4rem'}
           height="12.6rem"
-          borderRadius="1.6rem 1.6rem 0 0"></Image>
+          borderRadius="1.6rem 1.6rem 0 0"
+        />
         <ScrapCounter size="small" isBookmark={isBookmark}>
           {bookmarkCount}
         </ScrapCounter>
         <Content>
           <Title>
-            {animalKind === 'UNKNOWN' ? '종류 모름' : animalKind}
-            {(sex === 'MALE' && <StyledMaleIcon />) || (sex === 'FEMALE' && <StyledFemaleIcon />)}
+            {switchTextBy(animalKind)}
+            <SexIconWrapper>{switchIconBy(sex)}</SexIconWrapper>
           </Title>
           <Area>
             {city} {town}
           </Area>
-          {!shelterPlace && (
+          {tags && (
             <TagList>
               {tags.map(({ id, name }) => (
                 <TagItem key={id}>#{name} </TagItem>
               ))}
             </TagList>
           )}
-          <CreatedAt>{formatDate(createdAt)}</CreatedAt>
+          <Date>{formatDate(createdAt || foundDate)}</Date>
         </Content>
       </BackgroundBox>
     </Wrapper>
@@ -73,16 +95,9 @@ const Title = styled.div`
   align-items: center;
 `;
 
-const StyledMaleIcon = styled(MaleIcon)`
+const SexIconWrapper = styled.div`
   font-size: 1.4rem;
   color: ${({ theme }) => theme.colors.normalGreen};
-  margin: 0 0 0.1rem 0.1rem;
-`;
-
-const StyledFemaleIcon = styled(FemaleIcon)`
-  font-size: 1.4rem;
-  color: ${({ theme }) => theme.colors.normalGreen};
-  margin: 0 0 0.1rem 0.1rem;
 `;
 
 const Area = styled.div`
@@ -98,7 +113,7 @@ const TagItem = styled.li`
   display: inline;
 `;
 
-const CreatedAt = styled.div`
+const Date = styled.div`
   margin-bottom: 0.4rem;
 `;
 
@@ -108,6 +123,7 @@ PostCard.propTypes = {
   animalKind: PropTypes.string,
   status: PropTypes.string,
   createdAt: PropTypes.string,
+  foundDate: PropTypes.string,
   sex: PropTypes.string,
   isBookmark: PropTypes.bool,
   bookmarkCount: PropTypes.number,

@@ -4,14 +4,34 @@ import PropTypes from 'prop-types';
 import useClickAway from '@/hooks/useClickAway';
 import ReactDOM from 'react-dom';
 
-const Modal = ({ onClose, top, left, right, bottom, children }) => {
+const Modal = ({
+  children,
+  onClose,
+  top,
+  left,
+  right,
+  bottom,
+  transform,
+  width,
+  padding,
+  boxShadow
+}) => {
   const [ref] = useClickAway(() => onClose && onClose());
 
   const el = useMemo(() => document.getElementById('root'), []);
 
   return ReactDOM.createPortal(
     <Background>
-      <ContentWrapper ref={ref} top={top} left={left} right={right} bottom={bottom}>
+      <ContentWrapper
+        ref={ref}
+        top={top}
+        left={left}
+        right={right}
+        bottom={bottom}
+        transform={transform}
+        width={width}
+        padding={padding}
+        boxShadow={boxShadow}>
         {children}
       </ContentWrapper>
     </Background>,
@@ -20,7 +40,6 @@ const Modal = ({ onClose, top, left, right, bottom, children }) => {
 };
 
 const Background = styled.div`
-  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
   position: fixed;
   top: 0;
   left: 0;
@@ -31,11 +50,17 @@ const Background = styled.div`
 
 const ContentWrapper = styled.div`
   position: absolute;
-  top: ${({ top }) => top};
-  left: ${({ left }) => left};
+  top: ${({ top }) => top || '50%'};
+  left: ${({ left }) => left || '50%'};
   bottom: ${({ bottom }) => bottom};
   right: ${({ right }) => right};
+  transform: ${({ transform }) => transform || 'translate(-50%, -50%)'};
   z-index: 1000;
+  width: ${({ width }) => width};
+  padding: ${({ padding }) => padding};
+  border-radius: 1.6rem;
+  background-color: ${({ theme }) => theme.colors.normalWhite};
+  box-shadow: ${({ boxShadow, theme }) => theme.shadows[boxShadow] || theme.shadows.normal};
 `;
 
 Modal.propTypes = {
