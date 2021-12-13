@@ -8,7 +8,7 @@ import { ShortHeader } from '@/components/Header';
 import { CheckBox } from '@/components/CheckBox';
 import { Seperator } from '@/components/Seperator';
 import { Image } from '@/components/Image';
-import { FoldingForm } from '@/components/FoldingForm';
+import { EmailAuthForm } from '@/components/EmailAuthForm';
 import { USER_ERROR, REGEX } from '@/utils/constants';
 import { getImageSrc, isValidInput } from '@/utils/helpers';
 import { SocialLink } from './SocialLink';
@@ -79,7 +79,7 @@ const LoginPage = () => {
           </Form>
         )}
       </Formik>
-      <FoldingForm />
+      <EmailAuthForm />
     </Wrapper>
   );
 };
