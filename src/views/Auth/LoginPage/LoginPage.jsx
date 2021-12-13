@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { Formik } from 'formik';
 import { Input } from '@/components/Input';
@@ -9,12 +9,15 @@ import { CheckBox } from '@/components/CheckBox';
 import { Seperator } from '@/components/Seperator';
 import { Image } from '@/components/Image';
 import { EmailAuthForm } from '@/components/EmailAuthForm';
+import { Modal } from '@/components/Modal';
 import { USER_ERROR, REGEX } from '@/utils/constants';
 import { getImageSrc, isValidInput } from '@/utils/helpers';
 import { SocialLink } from './SocialLink';
 import { Link } from 'react-router-dom';
 
 const LoginPage = () => {
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <Wrapper>
       <ShortHeader location="로그인" />
@@ -52,7 +55,9 @@ const LoginPage = () => {
             <FormError isVisible={errors.password && touched.password}>{errors.password}</FormError>
             <PasswordOptionWrapper>
               <CheckBox id="save-password" text="비밀번호 기억하기" fontColor="normalGray" />
-              <UnderlineTextButton>비밀번호를 잊어버리셨나요?</UnderlineTextButton>
+              <UnderlineTextButton type="button" onClick={() => setModalVisible(true)}>
+                비밀번호를 잊어버리셨나요?
+              </UnderlineTextButton>
             </PasswordOptionWrapper>
             <Button
               type="submit"
@@ -80,7 +85,11 @@ const LoginPage = () => {
           </Form>
         )}
       </Formik>
-      <EmailAuthForm />
+      {modalVisible && (
+        <Modal width="90%" onClose={() => setModalVisible(false)}>
+          <EmailAuthForm />
+        </Modal>
+      )}
     </Wrapper>
   );
 };
