@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { LongHeader } from '@/components/Header';
 import { SortHeader } from '@/views/Main/SortHeader';
 import { PostCard } from '@/components/PostCard';
 import { shelterData } from '@/assets/data.js';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import { Modal } from '@/components/Modal';
 
 const ShelterPostPage = () => {
+  const [modalVisible, setModalVisible] = useState(false);
   const { shelters: posts } = shelterData; // useSwr
   const postLength = posts.length;
   // temp
@@ -19,16 +21,38 @@ const ShelterPostPage = () => {
       <ContentWrapper>
         <Notice>
           <NoticeDetails>
-            <StyledErrorOutlineIconButton>
+            <StyledErrorOutlineIconButton onClick={() => setModalVisible(true)}>
               <StyledErrorOutlineIcon />
             </StyledErrorOutlineIconButton>
             <NoticeBoldText>
-              <NoticeButton>여기</NoticeButton>를 클릭해 관련 동물 보호법을 숙지해 주세요
+              <NoticeButton onClick={() => setModalVisible(true)}>여기</NoticeButton>를 클릭해 관련
+              동물 보호법을 숙지해 주세요
             </NoticeBoldText>
           </NoticeDetails>
           <NoticeText>
             공고 중인 동물의 주인께서는 해당 시군구나 보호센터에 문의해 주세요
           </NoticeText>
+          {modalVisible && (
+            <Modal width="80%" padding="5%" onClose={() => setModalVisible(false)}>
+              <ModalContent>
+                <b>「동물보호법」 제17조, 시행령7조 및 동법 시행규칙 제20조</b>
+                <br />
+                <br />
+                유기, 유실 동물을 보호하고 있는 경우에는, 소유자 등이 보호조치 사실을 알 수 있도록
+                7일 동안 공고하여야 합니다. <br />
+                <br />
+                공고가 있는 날부터 10일이 경과하여도 소유자 등을 알 수 없는 경우에는 해당 시·도지사
+                또는 시장·군수·구청장이 그 동물의 소유권을 취득하게 됩니다.
+                <br />
+                <br />
+                <b>「동물보호법」 제19조 및 동법 시행규칙 제21조</b>
+                <br />
+                <br />
+                시ㆍ도지사와 시장ㆍ군수ㆍ구청장은 동물의 보호비용을 소유자 또는 분양을 받는 자에게
+                청구할 수 있습니다.
+              </ModalContent>
+            </Modal>
+          )}
         </Notice>
         <SortHeader city={city} town={town} postLength={postLength} />
         {postLength ? (
@@ -93,6 +117,12 @@ const NoticeButton = styled.button`
 const NoticeText = styled.div`
   font-size: 1.2rem;
   color: ${({ theme }) => theme.colors.brand};
+`;
+
+const ModalContent = styled.p`
+  font-size: 1.6rem;
+  margin: 0;
+  word-break: keep-all;
 `;
 
 const ContentWrapper = styled.div`
