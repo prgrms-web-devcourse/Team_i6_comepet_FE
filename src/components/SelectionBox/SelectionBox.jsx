@@ -21,33 +21,35 @@ const SelectionBox = ({
   id,
   name,
   margin,
-  onSelectChange
+  onChange,
+  propRef
 }) => {
   const [color, setColor] = useState(decideColor({ required, disabled }));
   const selectRef = useRef(null);
 
-  const handleColorChange = ({ target }) => {
-    const chosen =
-      target?.selectedIndex !== 0 &&
-      target?.selectedIndex !== null &&
-      target?.selectedIndex !== undefined;
+  const handleColorChange = (e) => {
+    const chosen = !isDefaultOptionSelectedInEvent(e);
     const nextColor = decideColor({ required, chosen, disabled });
     setColor(nextColor);
   };
 
   useEffect(() => {
-    if (Number.isNaN(Number(selectRef.current.value))) {
+    if (isDefaultOptionSelectedInRef(selectRef)) {
       const nextColor = decideColor({ required, chosen: false, disabled });
       setColor(nextColor);
     }
   }, [options]);
+
+  useEffect(() => {
+    propRef && (propRef.current = selectRef.current);
+  }, [propRef, selectRef]);
 
   return (
     <Wrapper color={color} margin={margin}>
       <Select
         onChange={(event) => {
           handleColorChange(event);
-          onSelectChange(event);
+          onChange(event);
         }}
         ref={selectRef}
         disabled={disabled}
@@ -108,8 +110,11 @@ SelectionBox.propTypes = {
   required: PropTypes.bool,
   id: PropTypes.string,
   margin: PropTypes.string,
-  onSelectChange: PropTypes.func,
-  name: PropTypes.string
+  onChange: PropTypes.func,
+  name: PropTypes.string,
+  propRef: PropTypes.shape({
+    current: PropTypes.instanceOf(Element)
+  })
 };
 
 export default SelectionBox;
@@ -120,3 +125,6 @@ const decideColor = ({ required, chosen, disabled }) => {
   if (required) return COLOR_SET.normalPink;
   return COLOR_SET.brand;
 };
+
+const isDefaultOptionSelectedInRef = (ref) => ref.current.value === ref.current[0].textContent;
+const isDefaultOptionSelectedInEvent = (e) => e.target[0].textContent === e.target.value;
