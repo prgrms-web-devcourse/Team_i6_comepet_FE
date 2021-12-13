@@ -2,11 +2,11 @@ import React from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 
-const CheckBox = ({ id, text, marginBetween, fontSize, margin }) => {
+const CheckBox = ({ id, text, marginBetween, fontSize, margin, fontColor }) => {
   return (
     <Wrapper margin={margin}>
       <StyledInput type="checkbox" id={id} marginBetween={marginBetween} />
-      <StyledLabel htmlFor={id} fontSize={fontSize}>
+      <StyledLabel htmlFor={id} fontSize={fontSize} fontColor={fontColor}>
         {text || '모름'}
       </StyledLabel>
     </Wrapper>
@@ -25,7 +25,8 @@ const StyledInput = styled.input`
 `;
 
 const StyledLabel = styled.label`
-  font-size: ${({ fontSize }) => fontSize || '1.6rem'};
+  font-size: ${({ fontSize }) => fontSize || '1rem'};
+  color: ${({ fontColor, theme }) => theme.colors[fontColor]};
 `;
 
 CheckBox.propTypes = {
@@ -33,6 +34,7 @@ CheckBox.propTypes = {
   text: PropTypes.string,
   marginBetween: PropTypes.string,
   fontSize: PropTypes.string,
+  fontColor: PropTypes.string,
   margin: PropTypes.string
 };
 

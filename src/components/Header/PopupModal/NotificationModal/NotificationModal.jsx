@@ -40,9 +40,9 @@ const dummyData = [
   }
 ];
 
-const NotificationModal = ({ isVisible, place }) => {
+const NotificationModal = ({ isVisible, left, right, bottom, top }) => {
   return (
-    <Wrapper isVisible={isVisible} place={place}>
+    <Wrapper isVisible={isVisible} top={top} left={left} right={right} bottom={bottom}>
       <BackgroundBox width="34rem">
         <TopContainer>
           <StyledButton>
@@ -92,10 +92,11 @@ const NotificationModal = ({ isVisible, place }) => {
 const Wrapper = styled.div`
   display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
   position: absolute;
-  left: ${({ place }) => place === 'left' && '2rem'};
-  right: ${({ place }) => place === 'right' && '1rem'};
-  top: 6rem;
-  z-index: 1000;
+  top: ${({ top }) => top};
+  left: ${({ left }) => left};
+  bottom: ${({ bottom }) => bottom};
+  right: ${({ right }) => right};
+  z-index: 1001;
 `;
 
 const TopContainer = styled.div`
@@ -170,7 +171,10 @@ const ArrowDropDownIconCostomized = styled(ArrowDropDownIcon)`
 
 NotificationModal.propTypes = {
   isVisible: PropTypes.bool,
-  place: PropTypes.string
+  top: PropTypes.string,
+  left: PropTypes.string,
+  right: PropTypes.string,
+  bottom: PropTypes.string
 };
 
 export default NotificationModal;

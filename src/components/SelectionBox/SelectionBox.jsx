@@ -17,16 +17,18 @@ const SelectionBox = ({
   required,
   disabled,
   fontSize,
+  fontColor,
   height,
   id,
-  margin
+  margin,
+  isColored
 }) => {
-  const [color, setColor] = useState(decideColor({ required, disabled }));
+  const [color, setColor] = useState(isColored && decideColor({ required, disabled }));
 
   const changeHandler = (e) => {
     const chosen = e.target.selectedIndex !== 0;
     const nextColor = decideColor({ required, chosen, disabled });
-    setColor(nextColor);
+    isColored && setColor(nextColor);
   };
 
   return (
@@ -37,8 +39,9 @@ const SelectionBox = ({
         color={color}
         fontSize={fontSize}
         height={height}
-        id={id}>
-        <Option>{defaultOption}</Option>
+        id={id}
+        fontColor={fontColor}>
+        <Option isColored={isColored}>{defaultOption}</Option>
         {options?.map((option, index) => (
           <Option key={index}>{option}</Option>
         ))}
@@ -73,14 +76,16 @@ const Selection = styled.select`
   font-size: ${({ fontSize }) => fontSize || '1.6rem'};
   color: ${({ color }) => color};
   font-weight: bold;
+  color: ${({ fontColor, theme }) => theme.colors[fontColor] || theme.colors.normalBlack};
 `;
 
 const Option = styled.option`
   color: ${COLOR_SET.normalBlack};
+  text-align: ${({ isColored }) => isColored || 'end'};
 `;
 
 const Arrow = styled(KeyboardArrowDownIcon)`
-  color: ${({ color }) => color};
+  color: ${({ fontColor, theme }) => theme.colors[fontColor] || theme.colors.normalBlack};
   position: absolute;
   top: -0.1rem;
   right: 0;
@@ -92,11 +97,13 @@ SelectionBox.propTypes = {
   options: PropTypes.array.isRequired,
   defaultOption: PropTypes.string.isRequired,
   fontSize: PropTypes.string,
+  fontColor: PropTypes.string,
   height: PropTypes.string,
   disabled: PropTypes.bool,
   required: PropTypes.bool,
   id: PropTypes.string,
-  margin: PropTypes.string
+  margin: PropTypes.string,
+  isColored: PropTypes.bool
 };
 
 export default SelectionBox;

@@ -4,7 +4,7 @@ export { default as SignupPage } from './Auth/SignupPage/SignupPage';
 
 /* Main */
 export { default as MainPage } from './Main/MainPage/MainPage';
-export { default as SearchModal } from './Main/SearchModal/SearchModal';
+export { default as ShelterPostPage } from './Main/ShelterPostPage/ShelterPostPage';
 
 /* NotFound */
 export { default as NotFoundPage } from './NotFound/NotFoundPage';

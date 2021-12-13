@@ -4,7 +4,7 @@ import { Formik } from 'formik';
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
 import { FormError } from '@/components/FormError';
-import { ShortHeader } from '@/components/ShortHeader';
+import { ShortHeader } from '@/components/Header';
 import { USER_ERROR, REGEX } from '@/utils/constants';
 import { Image } from '@/components/Image';
 import { getImageSrc } from '@/utils/helpers';
