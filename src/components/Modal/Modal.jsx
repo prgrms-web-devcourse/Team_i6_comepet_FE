@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import useClickAway from '@/hooks/useClickAway';
 import ReactDOM from 'react-dom';
+import { preventModalOverlayScroll } from '@/utils/helpers';
 
 const Modal = ({
   children,
@@ -16,8 +17,8 @@ const Modal = ({
   padding,
   boxShadow
 }) => {
+  preventModalOverlayScroll();
   const [ref] = useClickAway(() => onClose && onClose());
-
   const el = useMemo(() => document.getElementById('root'), []);
 
   return ReactDOM.createPortal(
