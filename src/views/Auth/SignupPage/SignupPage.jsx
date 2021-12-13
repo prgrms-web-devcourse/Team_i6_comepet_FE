@@ -1,15 +1,66 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { Formik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
 import { FormError } from '@/components/FormError';
 import { ShortHeader } from '@/components/Header';
-import { USER_ERROR, REGEX } from '@/utils/constants';
 import { Image } from '@/components/Image';
+import { Modal } from '@/components/Modal';
+import { EmailAuthForm } from '@/components/EmailAuthForm';
+import { POST } from '@/apis/axios';
+import { setCookie } from '@/utils/cookie';
+import { USER_ERROR, REGEX } from '@/utils/constants';
 import { getImageSrc } from '@/utils/helpers';
+import { isValidInput } from '@/utils/helpers';
 
 const SignupPage = () => {
+  const [email, setEmail] = useState('');
+  const [verifiedId, setVerifiedId] = useState(0);
+  const [modalVisible, setModalVisible] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSubmit = async ({ nickname, email, password, passwordCheck }, { setSubmitting }) => {
+    try {
+      const response = await POST('sign-up', {
+        nickname,
+        email,
+        password,
+        passwordCheck,
+        verifiedId
+      });
+
+      const token = response.data.token;
+      setCookie('token', token);
+      navigate('/', { replace: true });
+    } catch (error) {
+      const statusCode = error.response.status;
+      console.log(statusCode);
+      // 유저를 위한 에러 처리
+    }
+    setSubmitting(false);
+  };
+
+  const handleAuthButtonClick = async ({ target }) => {
+    setModalVisible(true);
+    const inputEmailValue = target.previousSibling.value;
+    setEmail(inputEmailValue);
+
+    try {
+      await POST('send-email', { email: inputEmailValue });
+    } catch (error) {
+      const statusCode = error.response.status;
+      console.log(statusCode);
+      // 유저를 위한 에러 처리
+    }
+  };
+
+  const setStateAfterEmailAuth = (id) => {
+    setVerifiedId(id);
+    setModalVisible(false);
+  };
+
   return (
     <Wrapper>
       <ShortHeader location="회원가입" />
@@ -45,7 +96,11 @@ const SignupPage = () => {
                 value={values.email}
                 placeholder="이메일"
               />
-              <Button bgColor="brand" width="30%" margin="0 0 0 1rem">
+              <Button
+                bgColor="brand"
+                width="30%"
+                margin="0 0 0 1rem"
+                onClick={handleAuthButtonClick}>
                 인증
               </Button>
             </EmailInputWrapper>
@@ -81,6 +136,15 @@ const SignupPage = () => {
           </Form>
         )}
       </Formik>
+      {modalVisible && (
+        <Modal width="90%" onClose={() => setModalVisible(false)}>
+          <EmailAuthForm
+            usedAt="sign-up"
+            emailForSignUp={email}
+            setStateAfterEmailAuth={setStateAfterEmailAuth}
+          />
+        </Modal>
+      )}
     </Wrapper>
   );
 };
@@ -132,15 +196,4 @@ const validate = ({ nickname, email, password, passwordCheck }) => {
   }
 
   return errors;
-};
-
-const isValidInput = (regex, target) => {
-  return regex.test(target);
-};
-
-const handleSubmit = (values, { setSubmitting }) => {
-  setTimeout(() => {
-    alert(JSON.stringify(values, null, 2));
-    setSubmitting(false);
-  }, 400);
 };
