@@ -4,11 +4,10 @@ const events = ['mousedown', 'touchstart'];
 
 const useClickAway = (handler) => {
   const ref = useRef(null);
-  const refForModalBackground = useRef(null);
 
   useEffect(() => {
     const element = ref.current;
-    const modalBackgroundElement = refForModalBackground.current;
+
     if (!element) return;
 
     const handleEvent = (e) => {
@@ -16,15 +15,17 @@ const useClickAway = (handler) => {
     };
 
     for (const eventName of events) {
-      if (modalBackgroundElement) {
-        modalBackgroundElement.addEventListener(eventName, handleEvent);
-      } else {
-        document.addEventListener(eventName, handleEvent);
-      }
+      document.addEventListener(eventName, handleEvent);
     }
-  }, [ref, refForModalBackground]);
 
-  return [ref, refForModalBackground];
+    return () => {
+      for (const eventName of events) {
+        document.removeEventListener(eventName, handleEvent);
+      }
+    };
+  }, [ref]);
+
+  return [ref];
 };
 
 export default useClickAway;

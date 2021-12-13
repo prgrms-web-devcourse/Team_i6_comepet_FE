@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import useClickAway from '@/hooks/useClickAway';
 import ReactDOM from 'react-dom';
 
-const Modal = ({ isVisible, onClose, top, left, right, bottom, children }) => {
-  const [ref, refForModalBackground] = useClickAway(() => onClose && onClose());
+const Modal = ({ onClose, top, left, right, bottom, children }) => {
+  const [ref] = useClickAway(() => onClose && onClose());
 
   const el = useMemo(() => document.getElementById('root'), []);
 
   return ReactDOM.createPortal(
-    <Background isVisible={isVisible} ref={refForModalBackground}>
+    <Background>
       <ContentWrapper ref={ref} top={top} left={left} right={right} bottom={bottom}>
         {children}
       </ContentWrapper>
@@ -40,7 +40,6 @@ const ContentWrapper = styled.div`
 
 Modal.propTypes = {
   children: PropTypes.node.isRequired,
-  isVisible: PropTypes.bool,
   top: PropTypes.string,
   left: PropTypes.string,
   bottom: PropTypes.string,
