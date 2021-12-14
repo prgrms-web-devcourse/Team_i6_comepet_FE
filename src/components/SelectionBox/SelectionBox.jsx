@@ -50,7 +50,7 @@ const SelectionBox = ({
       <Select
         onChange={(event) => {
           handleColorChange(event);
-          onChange(event);
+          onChange && onChange(event);
         }}
         ref={selectRef}
         disabled={disabled}
