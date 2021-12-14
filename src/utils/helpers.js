@@ -19,7 +19,3 @@ export const formatDate = (date) => {
 export const isValidInput = (regex, target) => {
   return regex.test(target);
 };
-
-export const preventModalOverlayScroll = () => {
-  document.body.style.overflow = 'hidden';
-};
