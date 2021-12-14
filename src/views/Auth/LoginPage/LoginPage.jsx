@@ -16,7 +16,7 @@ import { SocialLink } from './SocialLink';
 import { Link } from 'react-router-dom';
 
 const LoginPage = () => {
-  const [modalVisible, setModalVisible] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   return (
     <Wrapper>
@@ -55,7 +55,7 @@ const LoginPage = () => {
             <FormError isVisible={errors.password && touched.password}>{errors.password}</FormError>
             <PasswordOptionWrapper>
               <CheckBox id="save-password" text="비밀번호 기억하기" fontColor="normalGray" />
-              <UnderlineTextButton type="button" onClick={() => setModalVisible(true)}>
+              <UnderlineTextButton type="button" onClick={() => setIsModalVisible(true)}>
                 비밀번호를 잊어버리셨나요?
               </UnderlineTextButton>
             </PasswordOptionWrapper>
@@ -85,8 +85,8 @@ const LoginPage = () => {
           </Form>
         )}
       </Formik>
-      {modalVisible && (
-        <Modal width="90%" onClose={() => setModalVisible(false)}>
+      {isModalVisible && (
+        <Modal width="90%" onClose={() => setIsModalVisible(false)}>
           <EmailAuthForm />
         </Modal>
       )}
