@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import useClickAway from '@/hooks/useClickAway';
@@ -17,8 +17,23 @@ const Modal = ({
   boxShadow
 }) => {
   const [ref] = useClickAway(() => onClose && onClose());
-
   const el = useMemo(() => document.getElementById('root'), []);
+
+  useEffect(() => {
+    const preventModalOverlayScroll = () => {
+      document.body.style.overflow = 'hidden';
+    };
+
+    preventModalOverlayScroll();
+
+    return () => {
+      const allowModalOverlayScroll = () => {
+        document.body.style.overflow = 'visible';
+      };
+
+      allowModalOverlayScroll();
+    };
+  });
 
   return ReactDOM.createPortal(
     <Background>

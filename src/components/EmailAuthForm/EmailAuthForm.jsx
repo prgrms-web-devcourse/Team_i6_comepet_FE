@@ -7,7 +7,7 @@ import { FormError } from '@/components/FormError';
 import { USER_ERROR, REGEX } from '@/utils/constants';
 import { isValidInput } from '@/utils/helpers';
 
-const FoldingForm = () => {
+const EmailAuthForm = () => {
   return (
     <Wrapper>
       <Text>임시 비밀번호 발급을 위해 이메일을 입력해 주세요</Text>
@@ -46,7 +46,8 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 8% 0 0 0;
+  width: 100%;
+  height: 100%;
   padding: 1rem 1rem 0 1rem;
   border-radius: 1rem;
   background-color: ${({ theme }) => theme.colors.lighterBlue};
@@ -68,7 +69,7 @@ const InputWrapper = styled.div`
   margin: 1rem 0 0 0;
 `;
 
-export default FoldingForm;
+export default EmailAuthForm;
 
 // TODO: helpers에 인자 여부에 따른 리팩토링 필요
 const validate = ({ email }) => {
