@@ -34,33 +34,6 @@ const App = function () {
       <Route exact path="*" element={<NotFoundPage />} />
     </Routes>
   );
-  // const [files, setFiles] = useState([]);
-
-  // const imgRef = useRef(null);
-
-  // const handleClick = () => {
-  //   imgRef.current.click();
-  // };
-
-  // const handleFileChange = (e) => {
-  //   const uploadedFiles = [...e.target.files];
-  //   // uploadedFiles.map((file) => URL.createObjectURL(file));
-  //   const nextFiles = [...files];
-  //   nextFiles.push(...uploadedFiles);
-  //   setFiles(nextFiles);
-  // };
-  // console.log(files);
-
-  // return (
-  //   <ThemeProvider theme={theme}>
-  //     <input onChange={handleFileChange} ref={imgRef} type="file" accept="image/*" multiple />
-  //     {files.map((file, index) => (
-  //       <img src={URL.createObjectURL(file)} width="30rem" height="30rem" key={index} />
-  //     ))}
-  //     <button onClick={handleClick}>이미지 등록</button>
-  //     {/* <PostCreatePage /> */}
-  //   </ThemeProvider>
-  // );
 };
 
 export default App;

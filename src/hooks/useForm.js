@@ -8,7 +8,6 @@ const useForm = ({ initialValues, onSubmit, validate }) => {
   const handleChange = ({ target }) => {
     const { name, value } = target;
     setValues({ ...values, [name]: value });
-    console.log('form에 잘 쓰여지는지 확인', values);
   };
 
   const handleSubmit = async (e) => {

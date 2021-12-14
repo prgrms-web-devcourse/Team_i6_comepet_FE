@@ -8,7 +8,6 @@ const Content = ({ margin, onChange }) => {
     const onlyText = e.target.textContent;
     const textWithTags = e.target.innerHTML;
 
-    console.log(onlyText);
     onChange({ target: { name: 'content', value: textWithTags } });
   };
 
