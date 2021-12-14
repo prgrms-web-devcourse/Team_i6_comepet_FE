@@ -12,7 +12,7 @@ import { USER_ERROR, REGEX } from '@/utils/constants';
 import { isValidInput } from '@/utils/helpers';
 
 const ProfileUpdatePage = () => {
-  const [previewURL, setPreviewURL] = useState(``);
+  const [previewURL, setPreviewURL] = useState('');
 
   const handleSubmit = async (values) => {
     const data = new FormData();
