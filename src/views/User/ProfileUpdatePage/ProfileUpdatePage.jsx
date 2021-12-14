@@ -163,7 +163,6 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   margin: 5.2rem 0 0 0;
 `;
 
