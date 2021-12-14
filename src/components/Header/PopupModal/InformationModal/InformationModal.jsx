@@ -12,9 +12,9 @@ const responseData = {
   date: '2021-11-05T16:55:37.436056'
 };
 
-const InformationModal = ({ isVisible, place }) => {
+const InformationModal = ({ isVisible, top, left, right, bottom }) => {
   return (
-    <Wrapper isVisible={isVisible} place={place}>
+    <Wrapper isVisible={isVisible} top={top} left={left} right={right} bottom={bottom}>
       <BackgroundBox width="33rem" height="3rem">
         <TextWrapper>
           {STATUS['missing']} {responseData.missing} 건 중, {responseData.detection} 건{' '}
@@ -29,10 +29,11 @@ const InformationModal = ({ isVisible, place }) => {
 const Wrapper = styled.div`
   display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
   position: absolute;
-  left: ${({ place }) => place === 'left' && '2rem'};
-  right: ${({ place }) => place === 'right' && '2rem'};
-  top: 6rem;
-  z-index: 1000;
+  top: ${({ top }) => top};
+  left: ${({ left }) => left};
+  bottom: ${({ bottom }) => bottom};
+  right: ${({ right }) => right};
+  z-index: 1001;
 `;
 
 const TextWrapper = styled.div`
@@ -48,7 +49,11 @@ InformationModal.propTypes = {
   src: PropTypes.string,
   nickname: PropTypes.string,
   isVisible: PropTypes.bool,
-  place: PropTypes.string
+  place: PropTypes.string,
+  top: PropTypes.string,
+  left: PropTypes.string,
+  right: PropTypes.string,
+  bottom: PropTypes.string
 };
 
 export default InformationModal;

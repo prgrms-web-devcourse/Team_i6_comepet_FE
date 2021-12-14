@@ -163,6 +163,7 @@ const PetInformation = ({ margin, onChange }) => {
                 placeholder="동물명 혹은 품종"
                 width="50%"
                 margin="0 0 0 1.8rem"
+                maxLength="50"
                 required
                 disabled={isAnimalUnknown}
               />

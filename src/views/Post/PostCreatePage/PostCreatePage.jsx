@@ -1,20 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
-// import PropTypes from 'prop-types';
 import { Button } from '@/components/Button';
 import {
-  StatusCategory,
-  DateCategory,
-  PlaceCategory,
-  ContactCategory,
-  PetInformationCategory,
-  ChipInformationCategory,
-  HashTagCategory,
-  ContentCategory
+  Status,
+  Date,
+  Place,
+  Contact,
+  PetInformation,
+  ChipInformation,
+  HashTag,
+  Content,
+  PetPhoto
 } from './Category';
-import { Slider } from '@/components/Slider';
+import ErrorModal from './ErrorModal/ErrorModal';
 import useForm from '@/hooks/useForm';
-
 // TODO: 삭제 예정
 // const MARGIN_BETTWEN = Object.freeze({
 //   SelectionBox_AND_Label: '1.8rem 0 0 0',
@@ -24,71 +23,65 @@ import useForm from '@/hooks/useForm';
 //   CATEGORY: '2.4rem 0 0 0'
 // });
 
-const imageList = [
-  {
-    image: 'https://images.unsplash.com/photo-1546190255-451a91afc548?ixlib=rb-1.2.1'
-  },
-  {
-    image: 'https://images.unsplash.com/photo-1591348122449-02525d70379b?ixlib=rb-1.2.1'
-  },
-  {
-    image: 'https://images.unsplash.com/photo-1548802673-380ab8ebc7b7?ixlib=rb-1.2.1'
-  },
-  {
-    image: 'https://images.unsplash.com/photo-1577023311546-cdc07a8454d9?ixlib=rb-1.2.1'
-  }
-];
-
 const PostCreatePage = () => {
+  const [isErrorExist, setIsErrorExist] = useState(false);
   const { values, errors, isLoading, handleChange, handleSubmit } = useForm({
     initialValues: {
-      status: '',
-      date: '',
-      cityId: '',
-      townId: '',
-      detailAddress: '',
-      telNumber: '',
-      animalId: '',
-      animalKind: '',
-      age: '',
-      sex: '',
-      chipNumber: '',
+      status: null,
+      date: null,
+      cityId: null,
+      townId: null,
+      detailAddress: null,
+      telNumber: null,
+      animalId: null,
+      animalKindName: null,
+      age: null,
+      sex: null,
+      chipNumber: null,
       tags: [],
-      files: '',
-      content: ''
+      files: null,
+      content: null
     },
     onSubmit: () => {},
-    validate: () => {}
+    validate: ({ status, date, cityId, townId, animalId, animalKindName, sex, content }) => {
+      const errors = {};
+
+      if (!status) errors.status = '제목을 입력해주세요';
+      if (!date) errors.date = '날짜를 입력해주세요';
+      if (!cityId) errors.cityId = '시/도를 선택해주세요';
+      if (!townId) errors.townId = '시/군/구를 선택해주세요';
+      if (!animalId) errors.animalId = '동물 종류를 선택해주세요';
+      if (!animalKindName) errors.animalKindName = '품종을 선택해주세요';
+      if (!sex) errors.sex = '성별을 선택해주세요';
+      if (!content) errors.content = '내용을 작성해주세요';
+      Object.keys(errors).length !== 0 && setIsErrorExist(isErrorExist);
+      return errors;
+    }
   });
 
-  console.log(values, errors, isLoading, handleSubmit);
+  // Eslint Error 방지용 로그
+  console.log('Eslint Error 방지용 로그', values, errors, isLoading, handleSubmit);
 
   return (
-    <Form>
-      <StatusCategory />
-      <DateCategory margin="2.4rem 0 0 0" onChange={handleChange} />
-      <PlaceCategory margin="2.4rem 0 0 0" />
-      <ContactCategory margin="2.4rem 0 0 0" />
-      <PetInformationCategory margin="2.4rem 0 0 0" />
-      <ChipInformationCategory margin="2.4rem 0 0 0" />
-      <HashTagCategory margin="2.4rem 0 0 0" />
-      {/* TODO: Container 명칭 Wrapper로 변경하기 */}
-      {/* 공통된 margin 값 분리하기 */}
-      <PetPhotoContainer margin="2.4rem 0 0 0">
-        <Slider imageList={imageList} size="large" />
-        <Button width="60%" margin="5% auto 0 auto" bgColor="normalOrange" type="button">
-          반려동물 사진 등록
-        </Button>
-      </PetPhotoContainer>
-      <ContentCategory margin="2.4rem 0 0 0" />
-      <ButtonContainer margin="3.6rem 0 0 0">
+    <Form onsumbit={handleSubmit}>
+      <Status onChange={handleChange} />
+      <Date margin="5rem 0 0 0" onChange={handleChange} />
+      <Place margin="5rem 0 0 0" />
+      <Contact margin="5rem 0 0 0" onChange={handleChange} />
+      <PetInformation margin="5rem 0 0 0" onChange={handleChange} />
+      <ChipInformation margin="5rem 0 0 0" onChange={handleChange} />
+      <HashTag margin="5rem 0 0 0" onChange={handleChange} />
+      <PetPhoto margin="5rem 0 0 0" />
+      <Content margin="5rem 0 0 0" onChange={handleChange} />
+      <ButtonWrapper margin="5rem 0 0 0">
         <Button width="60%" margin="5% auto 0 auto" bgColor="normalOrange" type="button">
           작성하기
         </Button>
         <Button width="60%" margin="5% auto 0 auto" bgColor="brand" type="button">
           취소하기
         </Button>
-      </ButtonContainer>
+      </ButtonWrapper>
+      {isErrorExist && <ErrorModal onClose={() => setIsErrorExist(false)} />}
     </Form>
   );
 };
@@ -96,11 +89,8 @@ const PostCreatePage = () => {
 const Form = styled.form`
   padding: 1.7rem;
 `;
-const PetPhotoContainer = styled.div`
-  margin: ${({ margin }) => margin};
-`;
 
-const ButtonContainer = styled.div`
+const ButtonWrapper = styled.div`
   margin: ${({ margin }) => margin};
 `;
 

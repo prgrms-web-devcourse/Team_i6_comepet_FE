@@ -22,20 +22,21 @@ const SelectionBox = ({
   name,
   margin,
   onChange,
-  propRef
+  propRef,
+  usedAt
 }) => {
-  const [color, setColor] = useState(decideColor({ required, disabled }));
+  const [color, setColor] = useState(decideColor({ required, usedAt, disabled }));
   const selectRef = useRef(null);
 
   const handleColorChange = (e) => {
     const chosen = !isDefaultOptionSelectedInEvent(e);
-    const nextColor = decideColor({ required, chosen, disabled });
+    const nextColor = decideColor({ required, usedAt, chosen, disabled });
     setColor(nextColor);
   };
 
   useEffect(() => {
     if (isDefaultOptionSelectedInRef(selectRef)) {
-      const nextColor = decideColor({ required, chosen: false, disabled });
+      const nextColor = decideColor({ required, usedAt, chosen: false, disabled });
       setColor(nextColor);
     }
   }, [options]);
@@ -114,12 +115,17 @@ SelectionBox.propTypes = {
   name: PropTypes.string,
   propRef: PropTypes.shape({
     current: PropTypes.instanceOf(Element)
-  })
+  }),
+  usedAt: PropTypes.string
 };
 
 export default SelectionBox;
 
-const decideColor = ({ required, chosen, disabled }) => {
+const decideColor = ({ required, chosen, disabled, usedAt }) => {
+  if (usedAt === 'filter') {
+    return COLOR_SET.brand;
+  }
+
   if (disabled) return COLOR_SET.disabled;
   if (chosen) return COLOR_SET.normalGreen;
   if (required) return COLOR_SET.normalPink;

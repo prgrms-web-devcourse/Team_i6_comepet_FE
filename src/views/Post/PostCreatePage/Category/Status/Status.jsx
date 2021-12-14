@@ -7,8 +7,8 @@ import { SelectionBox } from '@/components/SelectionBox';
 
 const Status = ({ onChange }) => {
   const handleChange = (e) => {
-    if (isDefalutOptionSelected(e)) {
-      onChange(e);
+    if (!isDefalutOptionSelected(e)) {
+      onChange({ target: { name: 'status', value: e.target.value } });
     } else {
       onChange({ target: { name: 'status', value: null } });
     }
@@ -22,11 +22,10 @@ const Status = ({ onChange }) => {
       <LineBreakWrapper margin="1.8rem 0 0 0">
         <SelectionBox
           id="status"
-          name="status"
           onChange={handleChange}
           options={['실종', '목격', '발견', '완료']}
           defaultOption="상태 옵션"
-          required={true}
+          required
         />
       </LineBreakWrapper>
     </Wrapper>
