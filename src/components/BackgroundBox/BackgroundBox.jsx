@@ -2,9 +2,14 @@ import React from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 
-const BackgroundBox = ({ children, width, height, boxShadow, borderRadius }) => {
+const BackgroundBox = ({ children, margin, width, height, boxShadow, borderRadius }) => {
   return (
-    <Wrapper width={width} height={height} boxShadow={boxShadow} borderRadius={borderRadius}>
+    <Wrapper
+      margin={margin}
+      width={width}
+      height={height}
+      boxShadow={boxShadow}
+      borderRadius={borderRadius}>
       {children}
     </Wrapper>
   );
@@ -12,6 +17,7 @@ const BackgroundBox = ({ children, width, height, boxShadow, borderRadius }) => 
 
 const Wrapper = styled.div`
   overflow: hidden;
+  margin: ${({ margin }) => margin || '0'};
   width: ${({ width }) => width || '100%'};
   height: ${({ height }) => height};
   background-color: ${({ theme }) => theme.colors.normalWhite};
@@ -26,6 +32,7 @@ BackgroundBox.defaultProps = {
 
 BackgroundBox.propTypes = {
   children: PropTypes.node.isRequired,
+  margin: PropTypes.string,
   width: PropTypes.string,
   height: PropTypes.string,
   boxShadow: PropTypes.string,
