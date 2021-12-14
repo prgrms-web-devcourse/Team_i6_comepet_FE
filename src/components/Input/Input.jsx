@@ -10,6 +10,7 @@ const Input = ({
   border,
   borderRadius,
   fontSize,
+  bgColor,
   placeholder,
   type,
   name,
@@ -18,6 +19,7 @@ const Input = ({
   maxlength,
   accept,
   required,
+  disabled,
   onChange,
   onBlur,
   margin
@@ -31,7 +33,9 @@ const Input = ({
       border={border}
       borderRadius={borderRadius}
       fontSize={fontSize}
+      bgColor={bgColor}
       required={required}
+      disabled={disabled}
       placeholder={placeholder}
       type={type}
       name={name}
@@ -54,6 +58,7 @@ const StyledInput = styled.input`
   border: ${({ border }) => border || '0'};
   border-radius: ${({ borderRadius }) => borderRadius || '1rem'};
   font-size: ${({ fontSize }) => fontSize || '1.6rem'};
+  background-color: ${({ theme, bgColor }) => theme.colors[bgColor] || theme.colors.normalWhite};
   box-shadow: 0 0.4rem 1.6rem rgba(0, 0, 0, 0.08);
   ::-ms-input-placeholder {
     color: ${({ required, theme }) => (required && theme.colors.normalPink) || 'auto'};
@@ -75,6 +80,7 @@ Input.propTypes = {
   padding: PropTypes.string,
   border: PropTypes.string,
   fontSize: PropTypes.string,
+  bgColor: PropTypes.string,
   type: PropTypes.string,
   name: PropTypes.string,
   value: PropTypes.string,
@@ -82,6 +88,7 @@ Input.propTypes = {
   maxlength: PropTypes.string,
   accept: PropTypes.string,
   required: PropTypes.bool,
+  disabled: PropTypes.bool,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   margin: PropTypes.string
