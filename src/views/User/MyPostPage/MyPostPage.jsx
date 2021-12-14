@@ -6,7 +6,7 @@ import { postsData } from '@/assets/data.js';
 
 const MyPostPage = () => {
   const { posts } = postsData;
-  const postLength = 0;
+  const postLength = posts.length;
   return (
     <Wrapper>
       <ShortHeader location="내가 쓴 글" />
@@ -41,7 +41,7 @@ const PostCardList = styled.ul`
   display: flex;
   flex-wrap: wrap;
   gap: 1.2rem;
-  justify-content: space-between;
+  justify-content: center;
 `;
 
 const PostCardWrapper = styled.li`
