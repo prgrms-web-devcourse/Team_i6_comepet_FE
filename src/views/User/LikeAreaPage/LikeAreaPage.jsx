@@ -18,19 +18,19 @@ const LikeAreaPage = () => {
       <ShortHeader location="관심 지역 설정" />
       <LikeAreaWrapper>
         <LabelWrapper>
-          <Label fontSize="0.8rem" bgColor="lightGray" margin="0 0.8rem 0 0">
+          <Label fontSize="1rem" bgColor="lightGray" margin="0 0.8rem 0 0">
             관심지역설정
           </Label>
-          <Seperator type="horizon" width="24rem" bgColor="lightGray" />
+          <Seperator type="horizon" width="100%" bgColor="lightGray" />
         </LabelWrapper>
         <SwitchWrapper>
-          <StyledP>알림을 켜면, 관심 지역의 소식을 바로 확인할 수 있습니다.</StyledP>
+          <NoticeText>알림을 켜면, 관심 지역의 소식을 바로 확인할 수 있습니다.</NoticeText>
           <Button
             type="button"
-            margin="0 0.4rem 0 4rem"
+            margin="0 4rem 0 1rem"
             bgColor="normalWhite"
             height="2rem"
-            width="4rem"
+            width="3.4rem"
             onClick={() => {
               setIsToggled(!isToggled);
             }}>
@@ -38,32 +38,18 @@ const LikeAreaPage = () => {
           </Button>
         </SwitchWrapper>
         <SelectedAreaWrapper>
-          <BackgroundBox
-            width="10.8rem"
-            height="4"
-            boxShadow="light"
-            borderRadius="0"
-            margin="0 1.6rem">
+          <BackgroundBox width="40%" height="4rem" boxShadow="light" borderRadius="0">
             <Button
               type="button"
-              width="10.8rem"
-              height="4rem"
               bgColor="normalWhite"
               borderRadius="0"
               onClick={() => setIsVisible(true)}>
               <StyledAddIcon />
             </Button>
           </BackgroundBox>
-          <BackgroundBox
-            width="10.8rem"
-            height="4"
-            boxShadow="light"
-            borderRadius="0"
-            margin="0 1.6rem">
+          <BackgroundBox width="40%" height="4rem" boxShadow="light" borderRadius="0">
             <Button
               type="button"
-              width="10.8rem"
-              height="4rem"
               bgColor="normalWhite"
               borderRadius="0"
               onClick={() => setIsVisible(true)}>
@@ -71,7 +57,7 @@ const LikeAreaPage = () => {
             </Button>
           </BackgroundBox>
         </SelectedAreaWrapper>
-        <Button type="button" width="26rem" height="4rem" bgColor="normalOrange" margin="auto">
+        <Button type="button" width="60%" height="4rem" bgColor="normalOrange" margin="auto">
           저장하기
         </Button>
         {isVisible && <LikeAreaModal onClose={() => setIsVisible(false)} />}
@@ -84,17 +70,17 @@ export default LikeAreaPage;
 
 const Wrapper = styled.div`
   display: flex;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   justify-content: center;
 `;
 const LikeAreaWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 5.2rem;
-  width: 95%;
-  height: 90%;
   justify-content: center;
+  flex-grow: 1;
+  margin-top: 5.2rem;
+  width: 90%;
 `;
 const LabelWrapper = styled.div`
   display: flex;
@@ -106,12 +92,15 @@ const SwitchWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 4rem;
 `;
-const StyledP = styled.div`
-  margin: 0 0 0 0.8rem;
+const NoticeText = styled.span`
+  margin-left: 4rem;
   color: ${({ theme }) => theme.colors.brand};
   font-weight: bold;
-  font-size: 0.8rem;
+  font-size: 1.2rem;
+  flex-grow: 1;
+  white-space: nowrap;
 `;
 const StyledToggleOffIcon = styled(ToggleOffIcon)`
   font-size: 4rem;
@@ -121,11 +110,11 @@ const StyledToggleOnIcon = styled(ToggleOnIcon)`
   font-size: 4rem;
   color: ${({ theme }) => theme.colors.brand};
 `;
-const StyledAddIcon = styled(AddIcon)`
-  color: ${({ theme }) => theme.colors.normalOrange};
-`;
 const SelectedAreaWrapper = styled.div`
   display: flex;
-  margin: 2rem 0;
-  justify-content: center;
+  margin: 3rem;
+  justify-content: space-around;
+`;
+const StyledAddIcon = styled(AddIcon)`
+  color: ${({ theme }) => theme.colors.normalOrange};
 `;

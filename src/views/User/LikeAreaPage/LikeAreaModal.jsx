@@ -44,7 +44,7 @@ const LikeAreaModal = ({ onClose }) => {
   );
 };
 const Wrapper = styled.div`
-  padding: 2.4rem 2.4rem;
+  padding: 2.4rem;
   width: 100%;
   height: 100%;
 `;
