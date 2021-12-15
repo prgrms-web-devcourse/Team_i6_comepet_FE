@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { Formik } from 'formik';
@@ -8,22 +10,27 @@ import { FormError } from '@/components/FormError';
 import { ShortHeader } from '@/components/Header';
 import { Image } from '@/components/Image';
 import { Modal } from '@/components/Modal';
-import { EmailAuthForm } from '@/components/EmailAuthForm';
+import { AuthCodeForm } from '@/views/Auth/SignupPage/AuthCodeForm';
 import { POST } from '@/apis/axios';
 import { setCookie } from '@/utils/cookie';
-import { USER_ERROR, REGEX } from '@/utils/constants';
+import { USER_ERROR, REGEX, AUTH_ERROR } from '@/utils/constants';
 import { getImageSrc } from '@/utils/helpers';
 import { isValidInput } from '@/utils/helpers';
 
 const SignupPage = () => {
   const [email, setEmail] = useState('');
   const [verifiedId, setVerifiedId] = useState(0);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async ({ nickname, email, password, passwordCheck }, { setSubmitting }) => {
+    if (!verifiedId) {
+      alert(AUTH_ERROR.NO_CODE);
+      return;
+    }
+
     try {
-      const response = await POST('sign-up', {
+      const { data } = await POST('sign-up', {
         nickname,
         email,
         password,
@@ -31,34 +38,51 @@ const SignupPage = () => {
         verifiedId
       });
 
-      const token = response.data.token;
-      setCookie('token', token);
+      setCookie('token', data.token);
       navigate('/', { replace: true });
     } catch (error) {
-      const statusCode = error.response.status;
-      console.log(statusCode);
-      // 유저를 위한 에러 처리
+      const detailCode = error.response.data.code;
+
+      if (detailCode === 603) {
+        alert(AUTH_ERROR.NOT_NORMAL);
+        return;
+      }
+
+      alert(AUTH_ERROR.TRY_AGAIN);
     }
+
     setSubmitting(false);
   };
 
   const handleAuthButtonClick = async ({ target }) => {
-    setModalVisible(true);
     const inputEmailValue = target.previousSibling.value;
+
+    if (!isValidInput(REGEX.EMAIL, inputEmailValue)) {
+      alert(USER_ERROR.INVALID_EMAIL);
+      return;
+    }
+
+    setIsModalVisible(true);
     setEmail(inputEmailValue);
 
     try {
       await POST('send-email', { email: inputEmailValue });
     } catch (error) {
+      setIsModalVisible(false);
       const statusCode = error.response.status;
-      console.log(statusCode);
-      // 유저를 위한 에러 처리
+
+      if (statusCode === 409) {
+        alert(AUTH_ERROR.DUPLICATE);
+        return;
+      }
+
+      alert(AUTH_ERROR.TRY_AGAIN);
     }
   };
 
   const setStateAfterEmailAuth = (id) => {
     setVerifiedId(id);
-    setModalVisible(false);
+    setIsModalVisible(false);
   };
 
   return (
@@ -136,13 +160,9 @@ const SignupPage = () => {
           </Form>
         )}
       </Formik>
-      {modalVisible && (
-        <Modal width="90%" onClose={() => setModalVisible(false)}>
-          <EmailAuthForm
-            usedAt="sign-up"
-            emailForSignUp={email}
-            setStateAfterEmailAuth={setStateAfterEmailAuth}
-          />
+      {isModalVisible && (
+        <Modal width="90%" onClose={() => setIsModalVisible(false)}>
+          <AuthCodeForm emailForSignUp={email} setStateAfterEmailAuth={setStateAfterEmailAuth} />
         </Modal>
       )}
     </Wrapper>
