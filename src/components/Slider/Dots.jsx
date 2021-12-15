@@ -5,9 +5,10 @@ import PropTypes from 'prop-types';
 const Dots = ({ length, targetIndex, handleClick }) => {
   return (
     <Wrapper onClick={handleClick}>
-      {Array.from({ length }).map((_, index) => (
-        <Dot type="button" id={index} key={index} targetIndex={targetIndex === index} />
-      ))}
+      {length >= 2 &&
+        Array.from({ length }).map((_, index) => (
+          <Dot type="button" id={index} key={index} targetIndex={targetIndex === index} />
+        ))}
     </Wrapper>
   );
 };
@@ -30,7 +31,7 @@ const Dot = styled.button`
 `;
 
 Dots.propTypes = {
-  length: PropTypes.string.isRequired,
+  length: PropTypes.number.isRequired,
   handleClick: PropTypes.func.isRequired,
   targetIndex: PropTypes.number
 };

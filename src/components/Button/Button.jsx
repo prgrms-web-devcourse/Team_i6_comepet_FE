@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 
 const Button = ({
+  id,
   children,
   type,
   bgColor,
@@ -25,6 +26,7 @@ const Button = ({
 }) => {
   return (
     <Wrapper
+      id={id}
       type={type}
       bgColor={bgColor}
       color={color}
@@ -73,6 +75,7 @@ const Wrapper = styled.button`
 Button.propTypes = {
   children: PropTypes.node.isRequired,
   type: PropTypes.string.isRequired,
+  id: PropTypes.string,
   bgColor: PropTypes.string,
   color: PropTypes.string,
   width: PropTypes.string,

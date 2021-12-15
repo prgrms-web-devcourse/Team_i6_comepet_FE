@@ -38,7 +38,7 @@ const Wrapper = styled.label`
   display: inline-flex;
   justify-content: center;
   width: ${({ size, theme }) => theme.sizes.label[size]};
-  font-size: ${({ fontSize }) => fontSize || '1.6rem'};
+  font-size: ${({ fontSize, size }) => (size === 'xsmall' && '1.1rem') || fontSize || '1.6rem'};
   margin: ${({ margin }) => margin};
   padding: ${({ padding }) => padding || '0.6rem 1rem 0.6rem 1rem'};
   border-radius: ${({ borderRadius }) => borderRadius || '1.6rem'};
