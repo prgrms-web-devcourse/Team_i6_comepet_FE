@@ -15,14 +15,14 @@ const Input = ({
   type,
   name,
   value,
-  minlength,
-  maxlength,
+  minLength,
+  maxLength,
   accept,
   required,
+  margin,
   disabled,
   onChange,
-  onBlur,
-  margin
+  onBlur
 }) => {
   return (
     <StyledInput
@@ -35,17 +35,17 @@ const Input = ({
       fontSize={fontSize}
       bgColor={bgColor}
       required={required}
-      disabled={disabled}
       placeholder={placeholder}
       type={type}
       name={name}
       value={value}
-      maxlength={maxlength}
-      minlength={minlength}
+      maxLength={maxLength}
+      minLength={minLength}
       accept={accept}
+      margin={margin}
       onChange={onChange}
       onBlur={onBlur}
-      margin={margin}
+      disabled={disabled}
     />
   );
 };
@@ -84,14 +84,14 @@ Input.propTypes = {
   type: PropTypes.string,
   name: PropTypes.string,
   value: PropTypes.string,
-  minlength: PropTypes.string,
-  maxlength: PropTypes.string,
+  minLength: PropTypes.string,
+  maxLength: PropTypes.string,
   accept: PropTypes.string,
   required: PropTypes.bool,
+  margin: PropTypes.string,
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
-  onBlur: PropTypes.func,
-  margin: PropTypes.string
+  onBlur: PropTypes.func
 };
 
 export default Input;

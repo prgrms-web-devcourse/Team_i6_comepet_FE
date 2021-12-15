@@ -12,6 +12,7 @@ const SortHeader = ({ city, town, postLength }) => {
         defaultOption="최신순 정렬"
         fontSize="1.2rem"
         fontColor="normalGray"
+        usedAt="filter"
       />
     </Wrapper>
   );

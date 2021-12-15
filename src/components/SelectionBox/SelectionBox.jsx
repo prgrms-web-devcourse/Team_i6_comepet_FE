@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -17,45 +17,56 @@ const SelectionBox = ({
   required,
   disabled,
   fontSize,
-  fontColor,
   height,
   id,
+  name,
   margin,
-  isColored
+  onChange,
+  propRef,
+  usedAt
 }) => {
-  const [color, setColor] = useState(isColored && decideColor({ required, disabled }));
+  const [color, setColor] = useState(decideColor({ required, usedAt, disabled }));
+  const selectRef = useRef(null);
 
-  const changeHandler = (e) => {
-    const chosen = e.target.selectedIndex !== 0;
-    const nextColor = decideColor({ required, chosen, disabled });
-    isColored && setColor(nextColor);
+  const handleColorChange = (e) => {
+    const chosen = !isDefaultOptionSelectedInEvent(e);
+    const nextColor = decideColor({ required, usedAt, chosen, disabled });
+    setColor(nextColor);
   };
+
+  useEffect(() => {
+    if (isDefaultOptionSelectedInRef(selectRef)) {
+      const nextColor = decideColor({ required, usedAt, chosen: false, disabled });
+      setColor(nextColor);
+    }
+  }, [options]);
+
+  useEffect(() => {
+    propRef && (propRef.current = selectRef.current);
+  }, [propRef, selectRef]);
 
   return (
     <Wrapper color={color} margin={margin}>
-      <Selection
-        onChange={changeHandler}
+      <Select
+        onChange={(event) => {
+          handleColorChange(event);
+          onChange && onChange(event);
+        }}
+        ref={selectRef}
         disabled={disabled}
         color={color}
         fontSize={fontSize}
         height={height}
         id={id}
-        fontColor={fontColor}>
-        <Option isColored={isColored}>{defaultOption}</Option>
+        name={name}>
+        <Option>{defaultOption}</Option>
         {options?.map((option, index) => (
           <Option key={index}>{option}</Option>
         ))}
-      </Selection>
+      </Select>
       <Arrow color={color} />
     </Wrapper>
   );
-};
-
-const decideColor = ({ chosen, disabled, required }) => {
-  if (disabled) return COLOR_SET.disabled;
-  if (chosen) return COLOR_SET.normalGreen;
-  if (required) return COLOR_SET.normalPink;
-  return COLOR_SET.brand;
 };
 
 const Wrapper = styled.div`
@@ -66,7 +77,7 @@ const Wrapper = styled.div`
   border-bottom: ${({ color }) => `0.15rem solid ${color}`};
 `;
 
-const Selection = styled.select`
+const Select = styled.select`
   width: 100%;
   height: 100%;
   padding-right: 2.5rem;
@@ -76,16 +87,14 @@ const Selection = styled.select`
   font-size: ${({ fontSize }) => fontSize || '1.6rem'};
   color: ${({ color }) => color};
   font-weight: bold;
-  color: ${({ fontColor, theme }) => theme.colors[fontColor] || theme.colors.normalBlack};
 `;
 
 const Option = styled.option`
   color: ${COLOR_SET.normalBlack};
-  text-align: ${({ isColored }) => isColored || 'end'};
 `;
 
 const Arrow = styled(KeyboardArrowDownIcon)`
-  color: ${({ fontColor, theme }) => theme.colors[fontColor] || theme.colors.normalBlack};
+  color: ${({ color }) => color};
   position: absolute;
   top: -0.1rem;
   right: 0;
@@ -97,13 +106,31 @@ SelectionBox.propTypes = {
   options: PropTypes.array.isRequired,
   defaultOption: PropTypes.string.isRequired,
   fontSize: PropTypes.string,
-  fontColor: PropTypes.string,
   height: PropTypes.string,
   disabled: PropTypes.bool,
   required: PropTypes.bool,
   id: PropTypes.string,
   margin: PropTypes.string,
-  isColored: PropTypes.bool
+  onChange: PropTypes.func,
+  name: PropTypes.string,
+  propRef: PropTypes.shape({
+    current: PropTypes.instanceOf(Element)
+  }),
+  usedAt: PropTypes.string
 };
 
 export default SelectionBox;
+
+const decideColor = ({ required, chosen, disabled, usedAt }) => {
+  if (usedAt === 'filter') {
+    return COLOR_SET.brand;
+  }
+
+  if (disabled) return COLOR_SET.disabled;
+  if (chosen) return COLOR_SET.normalGreen;
+  if (required) return COLOR_SET.normalPink;
+  return COLOR_SET.brand;
+};
+
+const isDefaultOptionSelectedInRef = (ref) => ref.current.value === ref.current[0].textContent;
+const isDefaultOptionSelectedInEvent = (e) => e.target[0].textContent === e.target.value;
