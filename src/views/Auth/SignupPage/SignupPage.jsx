@@ -45,7 +45,7 @@ const SignupPage = () => {
                 value={values.email}
                 placeholder="이메일"
               />
-              <Button type="button" bgColor="brand" width="30%" margin="0 0 0 1rem">
+              <Button bgColor="brand" width="30%" margin="0 0 0 1rem">
                 인증
               </Button>
             </EmailInputWrapper>

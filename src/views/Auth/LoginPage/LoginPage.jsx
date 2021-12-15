@@ -55,7 +55,7 @@ const LoginPage = () => {
             <FormError isVisible={errors.password && touched.password}>{errors.password}</FormError>
             <PasswordOptionWrapper>
               <CheckBox id="save-password" text="비밀번호 기억하기" fontColor="normalGray" />
-              <UnderlineTextButton type="button" onClick={() => setIsModalVisible(true)}>
+              <UnderlineTextButton onClick={() => setIsModalVisible(true)}>
                 비밀번호를 잊어버리셨나요?
               </UnderlineTextButton>
             </PasswordOptionWrapper>

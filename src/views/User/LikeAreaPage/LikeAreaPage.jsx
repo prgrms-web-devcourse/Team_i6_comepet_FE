@@ -26,7 +26,6 @@ const LikeAreaPage = () => {
         <SwitchWrapper>
           <NoticeText>알림을 켜면, 관심 지역의 소식을 바로 확인할 수 있습니다.</NoticeText>
           <Button
-            type="button"
             margin="0 4rem 0 1rem"
             bgColor="normalWhite"
             height="2rem"
@@ -39,25 +38,17 @@ const LikeAreaPage = () => {
         </SwitchWrapper>
         <SelectedAreaWrapper>
           <BackgroundBox width="40%" height="4rem" boxShadow="light" borderRadius="0">
-            <Button
-              type="button"
-              bgColor="normalWhite"
-              borderRadius="0"
-              onClick={() => setIsVisible(true)}>
+            <Button bgColor="normalWhite" borderRadius="0" onClick={() => setIsVisible(true)}>
               <StyledAddIcon />
             </Button>
           </BackgroundBox>
           <BackgroundBox width="40%" height="4rem" boxShadow="light" borderRadius="0">
-            <Button
-              type="button"
-              bgColor="normalWhite"
-              borderRadius="0"
-              onClick={() => setIsVisible(true)}>
+            <Button bgColor="normalWhite" borderRadius="0" onClick={() => setIsVisible(true)}>
               <StyledAddIcon />
             </Button>
           </BackgroundBox>
         </SelectedAreaWrapper>
-        <Button type="button" width="60%" height="4rem" bgColor="normalOrange" margin="auto">
+        <Button width="60%" height="4rem" bgColor="normalOrange" margin="auto">
           저장하기
         </Button>
         {isVisible && <LikeAreaModal onClose={() => setIsVisible(false)} />}
