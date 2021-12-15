@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 import { BackgroundBox } from '@/components/BackgroundBox';
 import { Seperator } from '@/components/Seperator';
 
@@ -8,22 +9,38 @@ import UserProfile from './UserProfile/UserProfile';
 import PostHeader from './PostHeader/PostHeader';
 import PostContent from './PostContent/PostContent';
 
-const Post = () => {
+const Post = ({ data }) => {
   return (
     <BackgroundBox>
-      <ImageSlider />
+      <ImageSlider bookmarkCount={data.bookmarkCount} status={data.status} />
       <TextContentWrapper>
-        <UserProfile />
+        <UserProfile user={data.user} viewCount={data.viewCount} createdAt={data.createdAt} />
         <Seperator margin="1.6rem 0" type="horizon" />
-        <PostHeader />
+        <PostHeader
+          animal={data.animal}
+          animalKindName={data.animalKindName}
+          sex={data.sex}
+          postTags={data.postTags}
+        />
         <Seperator margin="1.8rem 0" type="horizon" />
-        <PostContent />
+        <PostContent
+          status={data.status}
+          date={data.date}
+          city={data.city}
+          town={data.town}
+          detailAddress={data.detailAddress}
+          chipNumber={data.chipNumber}
+          telNumber={data.telNumber}
+          content={data.content}
+        />
       </TextContentWrapper>
     </BackgroundBox>
   );
 };
 
-Post.propTypes = {};
+Post.propTypes = {
+  data: PropTypes.object
+};
 
 const TextContentWrapper = styled.div`
   padding: 1.2rem;

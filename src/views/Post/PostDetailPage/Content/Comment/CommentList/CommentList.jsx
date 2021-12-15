@@ -1,24 +1,44 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 import { Avatar } from '@/components/Avatar';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import EditIcon from '@mui/icons-material/Edit';
+import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
+import { timeForToday } from '@/utils/helpers';
 
-const CommentList = () => {
+const CommentList = ({ comments, createdAt }) => {
+  // const [commentVisibility, setCommentVisibility] = useState(makeCommentVisibilities(comments));
+
+  // const handleCompileMenuVisibility = (e) => {};
+
   return (
     <Wrapper>
-      <CommentItem>
-        <Avatar src="" size="3.6rem" margin="0"></Avatar>
-        <DetailInformationWrapper>
-          <Nickname>글자수가최대인경우임</Nickname>
-          <Text>나 어제 당산역 뒷골목에서 이 강아지봄!</Text>
-        </DetailInformationWrapper>
-        <AdditionalInformation>
-          <CommentDate>어제</CommentDate>
-          <CompileButton>
-            <StyledMoreHorizIcon></StyledMoreHorizIcon>
-          </CompileButton>
-        </AdditionalInformation>
-      </CommentItem>
+      {comments.map(({ id, content, user }) => (
+        <CommentItem key={id}>
+          <Avatar src={user.image} size="3.6rem" margin="0"></Avatar>
+          <DetailInformationWrapper>
+            <Nickname>{user.nickname}</Nickname>
+            <Text>{content}</Text>
+          </DetailInformationWrapper>
+          <AdditionalInformation>
+            <DateWrapper>
+              <Date>{timeForToday(createdAt)}</Date>
+              <CompileButton>
+                <StyledMoreHorizIcon></StyledMoreHorizIcon>
+              </CompileButton>
+            </DateWrapper>
+            <CompileMenuWrapper>
+              <StyledEditIconButton>
+                <StyledEditIcon />
+              </StyledEditIconButton>
+              <StyledRestoreFromTrashIconButton>
+                <StyledRestoreFromTrashIcon />
+              </StyledRestoreFromTrashIconButton>
+            </CompileMenuWrapper>
+          </AdditionalInformation>
+        </CommentItem>
+      ))}
     </Wrapper>
   );
 };
@@ -53,9 +73,15 @@ const AdditionalInformation = styled.div`
   top: 0;
   display: flex;
   align-items: center;
+  flex-direction: column;
 `;
 
-const CommentDate = styled.div``;
+const DateWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Date = styled.div``;
 
 const CompileButton = styled.button`
   display: flex;
@@ -68,6 +94,31 @@ const CompileButton = styled.button`
 
 const StyledMoreHorizIcon = styled(MoreHorizIcon)``;
 
-CommentList.propTypes = {};
+const CompileMenuWrapper = styled.div`
+  display: flex;
+`;
+
+const StyledEditIconButton = styled.button`
+  display: flex;
+  align-items: center;
+  border: ${({ theme }) => `0.1rem solid ${theme.colors.lighterGray}`};
+  border-radius: 0.8rem;
+`;
+const StyledEditIcon = styled(EditIcon)``;
+const StyledRestoreFromTrashIconButton = styled.button`
+  display: flex;
+  align-items: center;
+  margin-left: 0.6rem;
+  border: ${({ theme }) => `0.1rem solid ${theme.colors.lighterGray}`};
+  border-radius: 0.8rem;
+`;
+const StyledRestoreFromTrashIcon = styled(RestoreFromTrashIcon)``;
+
+CommentList.propTypes = {
+  comments: PropTypes.array,
+  createdAt: PropTypes.string
+};
 
 export default CommentList;
+
+// const makeCommentVisibilities = (comments) => comments.map(({ id }) => ({ id, isVisible: false }));

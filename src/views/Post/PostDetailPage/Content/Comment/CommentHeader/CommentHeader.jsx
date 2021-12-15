@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 
-const CommentHeader = () => {
+const CommentHeader = ({ commentCount }) => {
   return (
     <Wrapper>
       <CommentCount>
-        댓글 <TextHighLight color="normalGreen">2,300</TextHighLight>개
+        댓글 <TextHighLight color="normalGreen">{commentCount}</TextHighLight>개
       </CommentCount>
     </Wrapper>
   );
@@ -24,6 +25,8 @@ const TextHighLight = styled.span`
   color: ${({ theme, color }) => theme.colors[color]};
 `;
 
-CommentHeader.propTypes = {};
+CommentHeader.propTypes = {
+  commentCount: PropTypes.number
+};
 
 export default CommentHeader;

@@ -11,7 +11,8 @@ const Label = ({
   padding,
   borderRadius,
   bgColor,
-  color
+  color,
+  fontWeight
 }) => {
   return (
     <Wrapper
@@ -22,7 +23,8 @@ const Label = ({
       padding={padding}
       borderRadius={borderRadius}
       bgColor={bgColor}
-      color={color}>
+      color={color}
+      fontWeight={fontWeight}>
       {children}
     </Wrapper>
   );
@@ -38,7 +40,7 @@ const Wrapper = styled.label`
   border-radius: ${({ borderRadius }) => borderRadius || '1.6rem'};
   background-color: ${({ bgColor, theme }) => theme.colors[bgColor] || theme.colors.lighterGray};
   color: ${({ color, theme }) => theme.colors[color] || theme.colors.normalWhite};
-  font-weight: bold;
+  font-weight: ${({ fontWeight }) => fontWeight || 'bold'};
 `;
 
 Label.propTypes = {
@@ -50,7 +52,8 @@ Label.propTypes = {
   margin: PropTypes.string,
   padding: PropTypes.string,
   borderRadius: PropTypes.string,
-  color: PropTypes.string
+  color: PropTypes.string,
+  fontWeight: PropTypes.string
 };
 
 export default Label;

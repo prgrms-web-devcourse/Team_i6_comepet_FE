@@ -1,19 +1,37 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 import { Avatar } from '@/components/Avatar';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import EditIcon from '@mui/icons-material/Edit';
+import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
+import { changeTimeFormation } from '@/utils/helpers';
 
-const PostHeader = () => {
+const PostHeader = ({ user, viewCount, createdAt }) => {
   return (
     <Wrapper>
-      <Avatar src="" margin="0" size="5rem" />
+      <Avatar src={user.image} margin="0" size="5rem" />
       <InnerWrapper>
         <NicknameAndCompileIconWrapper>
-          <Nickname>닉네임최대글자수맞춤</Nickname>
-          <StyledMoreVertIcon />
+          <Nickname>{user.nickname}</Nickname>
+          <CompileWrapper>
+            <StyledMoreVertIconButton>
+              <StyledMoreVertIcon />
+            </StyledMoreVertIconButton>
+            <CompileMenuWrapper>
+              <StyledEditIconButton>
+                <StyledEditIcon />
+              </StyledEditIconButton>
+              <StyledRestoreFromTrashIconButton>
+                <StyledRestoreFromTrashIcon />
+              </StyledRestoreFromTrashIconButton>
+            </CompileMenuWrapper>
+          </CompileWrapper>
         </NicknameAndCompileIconWrapper>
         <PostDateWrapper>
-          <PostDate>2021년 11월 30일 / 조회수 200</PostDate>
+          <PostDate>
+            {changeTimeFormation(createdAt)} / 조회수 {viewCount}
+          </PostDate>
         </PostDateWrapper>
       </InnerWrapper>
     </Wrapper>
@@ -49,6 +67,39 @@ const Nickname = styled.div`
   font-weight: bold;
 `;
 
+const CompileWrapper = styled.div`
+  position: relative;
+`;
+
+const StyledMoreVertIconButton = styled.button``;
+
+const CompileMenuWrapper = styled.div`
+  display: flex;
+  position: absolute;
+  right: 0;
+`;
+
+const StyledEditIconButton = styled.button`
+  display: flex;
+  align-items: center;
+  border: ${({ theme }) => `0.1rem solid ${theme.colors.lighterGray}`};
+  border-radius: 0.8rem;
+  background-color: white;
+`;
+
+const StyledEditIcon = styled(EditIcon)``;
+
+const StyledRestoreFromTrashIconButton = styled.button`
+  display: flex;
+  align-items: center;
+  margin-left: 0.6rem;
+  border: ${({ theme }) => `0.1rem solid ${theme.colors.lighterGray}`};
+  border-radius: 0.8rem;
+  background-color: white;
+`;
+
+const StyledRestoreFromTrashIcon = styled(RestoreFromTrashIcon)``;
+
 const PostDate = styled.div`
   font-size: 1.2rem;
   color: ${({ theme }) => theme.colors.normalGray};
@@ -63,6 +114,10 @@ const StyledMoreVertIcon = styled(MoreVertIcon)`
   }
 `;
 
-PostHeader.propTypes = {};
+PostHeader.propTypes = {
+  user: PropTypes.object,
+  viewCount: PropTypes.number,
+  createdAt: PropTypes.string
+};
 
 export default PostHeader;

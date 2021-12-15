@@ -1,21 +1,24 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { BackgroundBox } from '@/components/BackgroundBox';
 import { Seperator } from '@/components/Seperator';
 import CommentHeader from './CommentHeader/CommentHeader';
 import CommentList from './CommentList/CommentList';
 import CommentCreate from './CommentCreate/CommentCreate';
 
-const Comment = () => {
+const Comment = ({ data }) => {
   return (
     <BackgroundBox>
-      <CommentHeader />
+      <CommentHeader commentCount={data.commentCount} />
       <Seperator type="horizon" />
-      <CommentList />
+      <CommentList comments={data.comments} createdAt={data.createdAt} />
       <CommentCreate />
     </BackgroundBox>
   );
 };
 
-Comment.propTypes = {};
+Comment.propTypes = {
+  data: PropTypes.object
+};
 
 export default Comment;

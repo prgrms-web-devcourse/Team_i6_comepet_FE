@@ -1,48 +1,54 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 import { Label } from '@/components/Label';
 
-const PostContent = () => {
+const PostContent = ({
+  status,
+  date,
+  city,
+  town,
+  detailAddress,
+  chipNumber,
+  telNumber,
+  content
+}) => {
   return (
     <Wrapper>
       <LabelWrapper>
         <Label size="xsmall" bgColor="brand">
-          실종
+          상태
         </Label>
-        <OneLineText bgColor="brand">실종</OneLineText>
+        <OneLineText bgColor="brand">{status}</OneLineText>
       </LabelWrapper>
       <LabelWrapper>
         <Label size="xsmall" bgColor="brand">
           실종 날짜
         </Label>
-        <OneLineText>2021년 11월 24일</OneLineText>
+        <OneLineText>{date}</OneLineText>
       </LabelWrapper>
       <LabelWrapper>
         <Label size="xsmall" bgColor="brand">
           장소
         </Label>
-        <OneLineText>
-          서울 특별시 영등포구 당산동 엠뷸런스 닉네임 최대 글자 맞춤 어떻게 주소가 될까 글자 맞춤
-          어떻게 주소가 될까 글자 맞춤 어떻게 주소가 될까 글자 맞춤 어떻게 주소가 될까 글자 맞춤
-          어떻게 주소가 될까 글자 맞춤 어떻게 주소가 될까
-        </OneLineText>
+        <OneLineText>{city + town + detailAddress}</OneLineText>
       </LabelWrapper>
       <LabelWrapper>
         <Label size="xsmall" bgColor="brand">
           칩 번호
         </Label>
-        <OneLineText>1234 567 8912 3456</OneLineText>
+        <OneLineText>{chipNumber}</OneLineText>
       </LabelWrapper>
       <LabelWrapper>
         <Label size="xsmall" bgColor="brand">
           연락처
         </Label>
-        <OneLineText>010 1234 5678</OneLineText>
+        <OneLineText>{telNumber}</OneLineText>
       </LabelWrapper>
       <Label size="xsmall" bgColor="brand">
         내용
       </Label>
-      <DividedLineText>목에 레전드라는 이름표를 달고 있습니다</DividedLineText>
+      <DividedLineText>{content}</DividedLineText>
     </Wrapper>
   );
 };
@@ -68,6 +74,15 @@ const DividedLineText = styled.div`
   font-size: 1.2rem;
 `;
 
-PostContent.propTypes = {};
+PostContent.propTypes = {
+  status: PropTypes.string,
+  date: PropTypes.string,
+  city: PropTypes.string,
+  town: PropTypes.string,
+  detailAddress: PropTypes.string,
+  chipNumber: PropTypes.string,
+  telNumber: PropTypes.string,
+  content: PropTypes.string
+};
 
 export default PostContent;

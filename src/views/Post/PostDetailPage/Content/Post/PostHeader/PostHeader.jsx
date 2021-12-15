@@ -1,24 +1,24 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 
-const PostHeader = () => {
-  const GENDER = 'Female';
+const PostHeader = ({ animal, animalKindName, sex, postTags }) => {
   return (
     <Wrapper>
       <AnimalWrapper>
-        <Animal>강아지/</Animal>
-        <Kinds>골든리트리버</Kinds>
-        {(GENDER === 'Male' && <StyledMaleIcon />) || (GENDER === 'Female' && <StyledFemaleIcon />)}
+        <Animal>{animal}/</Animal>
+        <Kinds>{animalKindName}</Kinds>
+        {(sex === 'MALE' && <StyledMaleIcon />) ||
+          (sex === 'FEMALE' && <StyledFemaleIcon />) ||
+          (sex === 'UNKNOWN' && <StyledQuestionMarkIcon />)}
       </AnimalWrapper>
       <HashTagWrapper>
-        <HashTag>#최대글자수 </HashTag>
-        <HashTag>#최대글자수 </HashTag>
-        <HashTag>#최대글자수 </HashTag>
-        <HashTag>#최대글자수 </HashTag>
-        <HashTag>#최대글자수 </HashTag>
-        <HashTag>#최대글자수</HashTag>
+        {postTags.map(({ id, name }) => (
+          <HashTag key={id}>#{name} </HashTag>
+        ))}
       </HashTagWrapper>
     </Wrapper>
   );
@@ -41,15 +41,26 @@ const Animal = styled.div`
 const Kinds = styled.div`
   font-size: 1.8rem;
   font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const StyledMaleIcon = styled(MaleIcon)`
+  margin-bottom: 0.3rem;
   font-size: 2.4rem;
   color: ${({ theme }) => theme.colors.normalGreen};
 `;
 
 const StyledFemaleIcon = styled(FemaleIcon)`
+  margin-bottom: 0.3rem;
   font-size: 2.6rem;
+  color: ${({ theme }) => theme.colors.normalGreen};
+`;
+
+const StyledQuestionMarkIcon = styled(QuestionMarkIcon)`
+  font-size: 2.2rem;
+  margin-bottom: 0.3rem;
   color: ${({ theme }) => theme.colors.normalGreen};
 `;
 
@@ -61,6 +72,11 @@ const HashTag = styled.span`
   color: ${({ theme }) => theme.colors.normalBlack};
 `;
 
-PostHeader.propTypes = {};
+PostHeader.propTypes = {
+  animal: PropTypes.string,
+  animalKindName: PropTypes.string,
+  sex: PropTypes.string,
+  postTags: PropTypes.array
+};
 
 export default PostHeader;

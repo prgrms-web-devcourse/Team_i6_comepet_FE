@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 import { Slider } from '@/components/Slider';
 import { ScrapCounter } from '@/components/ScrapCounter';
 import { StatusTag } from '@/components/StatusTag';
@@ -19,15 +20,17 @@ const imageList = [
   }
 ];
 
-const ImageSlider = () => {
+const ImageSlider = ({ bookmarkCount, status }) => {
   return (
     <Wrapper>
       <Slider imageList={imageList} borderRadius="1.6rem 1.6rem 0 0" />
       <ScrapCounterWrapper>
-        <ScrapCounter size="medium">5</ScrapCounter>
+        <ScrapCounter size="medium" isBookmark={false}>
+          {bookmarkCount}
+        </ScrapCounter>
       </ScrapCounterWrapper>
       <StatusTagWrapper>
-        <StatusTag status="MISSING" />
+        <StatusTag status={status} />
       </StatusTagWrapper>
     </Wrapper>
   );
@@ -51,6 +54,9 @@ const StatusTagWrapper = styled.div`
   right: 0;
 `;
 
-ImageSlider.propTypes = {};
+ImageSlider.propTypes = {
+  bookmarkCount: PropTypes.number,
+  status: PropTypes.string
+};
 
 export default ImageSlider;
