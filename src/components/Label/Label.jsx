@@ -12,7 +12,9 @@ const Label = ({
   borderRadius,
   bgColor,
   color,
-  fontWeight
+  fontWeight,
+  wordBreak,
+  whiteSpace
 }) => {
   return (
     <Wrapper
@@ -24,7 +26,9 @@ const Label = ({
       borderRadius={borderRadius}
       bgColor={bgColor}
       color={color}
-      fontWeight={fontWeight}>
+      fontWeight={fontWeight}
+      wordBreak={wordBreak}
+      whiteSpace={whiteSpace}>
       {children}
     </Wrapper>
   );
@@ -41,6 +45,8 @@ const Wrapper = styled.label`
   background-color: ${({ bgColor, theme }) => theme.colors[bgColor] || theme.colors.lighterGray};
   color: ${({ color, theme }) => theme.colors[color] || theme.colors.normalWhite};
   font-weight: ${({ fontWeight }) => fontWeight || 'bold'};
+  word-break: ${({ wordBreak }) => wordBreak || 'keep-all'};
+  white-space: ${({ whiteSpace }) => whiteSpace || 'nowrap'};
 `;
 
 Label.propTypes = {
@@ -53,7 +59,9 @@ Label.propTypes = {
   padding: PropTypes.string,
   borderRadius: PropTypes.string,
   color: PropTypes.string,
-  fontWeight: PropTypes.string
+  fontWeight: PropTypes.string,
+  wordBreak: PropTypes.string,
+  whiteSpace: PropTypes.string
 };
 
 export default Label;
