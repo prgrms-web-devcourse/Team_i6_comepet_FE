@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { Formik } from 'formik';
 import { Input } from '@/components/Input';
@@ -8,12 +8,16 @@ import { ShortHeader } from '@/components/Header';
 import { CheckBox } from '@/components/CheckBox';
 import { Seperator } from '@/components/Seperator';
 import { Image } from '@/components/Image';
-import { FoldingForm } from '@/components/FoldingForm';
+import { EmailAuthForm } from '@/components/EmailAuthForm';
+import { Modal } from '@/components/Modal';
 import { USER_ERROR, REGEX } from '@/utils/constants';
 import { getImageSrc, isValidInput } from '@/utils/helpers';
 import { SocialLink } from './SocialLink';
+import { Link } from 'react-router-dom';
 
 const LoginPage = () => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   return (
     <Wrapper>
       <ShortHeader location="로그인" />
@@ -51,8 +55,9 @@ const LoginPage = () => {
             <FormError isVisible={errors.password && touched.password}>{errors.password}</FormError>
             <PasswordOptionWrapper>
               <CheckBox id="save-password" text="비밀번호 기억하기" fontColor="normalGray" />
-              {/* TODO: 버튼으로 감싸기 & 클릭한 경우 FoldingForm 보여주기 */}
-              <UnderlineText>비밀번호를 잊어버리셨나요?</UnderlineText>
+              <UnderlineTextButton type="button" onClick={() => setIsModalVisible(true)}>
+                비밀번호를 잊어버리셨나요?
+              </UnderlineTextButton>
             </PasswordOptionWrapper>
             <Button
               type="submit"
@@ -64,8 +69,9 @@ const LoginPage = () => {
             </Button>
             <LoginOptionWrapper>
               <NormalText>계정이 없으신가요?</NormalText>
-              {/* TODO: react-router Link 추가 */}
-              <UnderlineText>회원가입</UnderlineText>
+              <Link to="/sign-up">
+                <UnderlineText>회원가입</UnderlineText>
+              </Link>
             </LoginOptionWrapper>
             <Seperator type="horizon" width="100%" />
             <LoginOptionWrapper>
@@ -79,13 +85,17 @@ const LoginPage = () => {
           </Form>
         )}
       </Formik>
-      <FoldingForm />
+      {isModalVisible && (
+        <Modal width="90%" onClose={() => setIsModalVisible(false)}>
+          <EmailAuthForm />
+        </Modal>
+      )}
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  padding: 0 2.4rem 2.4rem 2.4rem;
+  padding: 20% 2.4rem 2.4rem 2.4rem;
   text-align: center;
 `;
 
@@ -106,6 +116,13 @@ const NormalText = styled.span`
   color: ${({ theme }) => theme.colors.lightGray};
   margin: 0 0.5rem;
   font-weight: bold;
+`;
+
+const UnderlineTextButton = styled.button`
+  color: ${({ theme }) => theme.colors.normalGray};
+  text-decoration: underline;
+  font-size: 1rem;
+  padding: 0;
 `;
 
 const UnderlineText = styled.span`
