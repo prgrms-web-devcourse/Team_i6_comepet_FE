@@ -18,7 +18,7 @@ const LikeAreaPage = () => {
       <ShortHeader location="관심 지역 설정" />
       <LikeAreaWrapper>
         <LabelWrapper>
-          <Label fontSize="1rem" bgColor="lightGray" margin="0 0.8rem 0 0">
+          <Label fontSize="1rem" bgColor="lightGray" margin="0 1rem 0 0">
             관심지역설정
           </Label>
           <Seperator type="horizon" width="100%" bgColor="lightGray" />
@@ -70,21 +70,21 @@ export default LikeAreaPage;
 
 const Wrapper = styled.div`
   display: flex;
-  width: 100vw;
-  height: 100vh;
   justify-content: center;
+  width: 100%;
+  height: 100%;
 `;
 const LikeAreaWrapper = styled.div`
+  margin: 5.2rem 2.4rem 0 2.4rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   flex-grow: 1;
-  margin-top: 5.2rem;
-  width: 90%;
 `;
 const LabelWrapper = styled.div`
-  display: flex;
   margin-top: 2rem;
+  padding: 0 2.4rem;
+  display: flex;
   justify-content: center;
   align-items: center;
 `;
