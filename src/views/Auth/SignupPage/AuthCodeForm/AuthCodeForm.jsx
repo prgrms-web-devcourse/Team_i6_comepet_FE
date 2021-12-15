@@ -12,7 +12,7 @@ const AuthCodeForm = ({ emailForSignUp, setStateAfterEmailAuth }) => {
     initialValues: { key: '' },
     onSubmit: async () => {
       try {
-        const { data } = await POST('verify-email', {
+        const { data } = await POST('/verify-email', {
           email: emailForSignUp,
           key: values.key
         });

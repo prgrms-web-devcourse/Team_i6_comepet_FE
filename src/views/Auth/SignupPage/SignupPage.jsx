@@ -28,7 +28,7 @@ const SignupPage = () => {
     }
 
     try {
-      const { data } = await POST('sign-up', {
+      const { data } = await POST('/sign-up', {
         nickname,
         email,
         password,
@@ -64,7 +64,7 @@ const SignupPage = () => {
     setEmail(inputEmailValue);
 
     try {
-      await POST('send-email', { email: inputEmailValue });
+      await POST('/send-email', { email: inputEmailValue });
     } catch (error) {
       setIsModalVisible(false);
       const statusCode = error.response.status;
