@@ -26,11 +26,6 @@ const MissingScrap = ({ isVisible }) => {
   );
 };
 
-MissingScrap.propTypes = {
-  isVisible: PropTypes.bool.isRequired
-};
-export default MissingScrap;
-
 const MissingWrapper = styled.div`
   display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
 `;
@@ -53,3 +48,9 @@ const NoResultText = styled.div`
   text-align: center;
   color: ${({ theme }) => theme.colors.normalGray};
 `;
+
+MissingScrap.propTypes = {
+  isVisible: PropTypes.bool.isRequired
+};
+
+export default MissingScrap;
