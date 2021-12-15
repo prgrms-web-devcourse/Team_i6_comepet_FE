@@ -1,4 +1,10 @@
-export const AUTH_ALERT = {};
+export const AUTH_ERROR = {
+  DUPLICATE: '이미 가입된 이메일입니다.',
+  INVALID_CODE: '잘못된 인증 코드입니다.',
+  TRY_AGAIN: '서버 에러가 발생했습니다. 다시 시도해주세요.',
+  NOT_NORMAL: '비정상적인 접근입니다. 다시 시도해주세요.',
+  NO_CODE: '이메일 인증을 완료해주세요.'
+};
 
 export const DEV_ERROR = Object.freeze({
   INVALID_PROP: '잘못된 Prop이 입력되었습니다.',
