@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { Formik } from 'formik';
