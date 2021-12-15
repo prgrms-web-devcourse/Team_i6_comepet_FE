@@ -13,7 +13,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-const LongHeader = ({ isLoggedIn = true }) => {
+const LongHeader = ({ isLoggedIn = false }) => {
   const [isSidebarModalVisible, setIsSidebarModalVisible] = useState(false);
   const [isInformationModalVisible, setIsInformationModalVisible] = useState(false);
   const [isNotificationModalVisible, setIsNotificationModalVisible] = useState(false);
