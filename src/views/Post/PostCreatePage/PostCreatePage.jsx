@@ -59,9 +59,6 @@ const PostCreatePage = () => {
     }
   });
 
-  // Eslint Error 방지용 로그
-  console.log('Eslint Error 방지용 로그', values, errors, isLoading, handleSubmit);
-
   return (
     <Form onsumbit={handleSubmit}>
       <Status onChange={handleChange} />

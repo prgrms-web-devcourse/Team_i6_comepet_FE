@@ -12,7 +12,7 @@ const PetPhoto = ({ margin }) => {
   const handleChooseFile = () => {
     inputRef.current.click();
   };
-
+  // TODO: 파일 개수 및 용량 제한
   const handleFileChange = (e) => {
     const uploadedFiles = [...e.target.files];
     const nextFiles = [...files];

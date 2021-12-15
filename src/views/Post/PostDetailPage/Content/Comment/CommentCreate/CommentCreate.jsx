@@ -1,13 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { Label } from '@/components/Label';
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 
-const Content = ({ margin, onChange }) => {
+const CommentCreate = () => {
   const handleInput = (e) => {
+    const onlyText = e.target.textContent;
     const textWithTags = e.target.innerHTML;
-
-    onChange({ target: { name: 'content', value: textWithTags } });
+    console.log(onlyText, textWithTags);
+    // onChange({ target: { name: 'content', value: textWithTags } });
   };
 
   const handleKeyDown = (e) => {
@@ -21,11 +21,10 @@ const Content = ({ margin, onChange }) => {
     e.preventDefault();
   };
 
+  // TODO: 댓글 입력창 contentEditable로 변경
   return (
-    <Wrapper margin={margin}>
-      <Label forHtml="status" bgColor="brand">
-        내용
-      </Label>
+    <Wrapper>
+      {/* <Input placeholder="댓글을 입력해주세요" /> */}
       <ContentEditor
         margin="1.8rem 0 0 0"
         onKeyDown={handleKeyDown}
@@ -33,13 +32,17 @@ const Content = ({ margin, onChange }) => {
         contentEditable
         onPaste={handlePaste}
         placeholder="내용을 입력해주세요"
+        padding="1.5rem"
       />
+      <Button>
+        <StyledArrowCircleRightIcon />
+      </Button>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  margin: ${({ margin }) => margin};
+  position: relative;
 `;
 
 const ContentEditor = styled.div`
@@ -48,21 +51,29 @@ const ContentEditor = styled.div`
   padding: ${({ padding }) => padding || '2rem'};
   border: ${({ border }) => border || '0'};
   border-radius: ${({ borderRadius }) => borderRadius || '1rem'};
+  background-color: #fafafa;
   font-size: ${({ fontSize }) => fontSize || '1.6rem'};
   box-shadow: 0 0.4rem 1.6rem rgba(0, 0, 0, 0.08);
   outline: none;
-
   &:empty:before {
     content: attr(placeholder);
-    color: ${({ theme }) => theme.colors.normalRed};
-    display: inline-block;
     opacity: 0.5;
   }
 `;
 
-Content.propTypes = {
-  margin: PropTypes.string,
-  onChange: PropTypes.func
-};
+const StyledArrowCircleRightIcon = styled(ArrowCircleRightIcon)`
+  font-size: 4.5rem;
+  transform: rotate(-90deg);
+  color: ${({ theme }) => theme.colors.normalOrange};
+`;
 
-export default Content;
+const Button = styled.button`
+  position: absolute;
+  z-index: 1;
+  right: 0.3rem;
+  bottom: 0;
+`;
+
+CommentCreate.propTypes = {};
+
+export default CommentCreate;

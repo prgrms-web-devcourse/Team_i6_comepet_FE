@@ -5,7 +5,7 @@ import Dots from './Dots';
 import SliderButton from './SliderButton';
 import { Image } from '@/components/Image';
 
-const Slider = ({ imageList, size }) => {
+const Slider = ({ imageList, size, borderRadius }) => {
   const [slideIndex, setSlideIndex] = useState(0);
   const prevSlide = () => {
     if (slideIndex !== 0) {
@@ -32,9 +32,9 @@ const Slider = ({ imageList, size }) => {
   };
 
   return (
-    <Wrapper size={size}>
+    <Wrapper size={size} borderRadius={borderRadius}>
       {(imageList.length !== 0 &&
-        imageList?.map((image, index) => (
+        imageList.map((image, index) => (
           <ImageWrapper key={index} opacity={(index === slideIndex && 1) || 0}>
             <Image src={URL.createObjectURL(image)} width="100%" height="100%" />
           </ImageWrapper>
@@ -55,7 +55,9 @@ const Slider = ({ imageList, size }) => {
 
 const Wrapper = styled.div`
   width: 100%;
-  height: ${({ theme, size }) => theme.sizes.slider.wrapper[size].height};
+  height: ${({ theme, size }) => theme.sizes.slider.wrapper[size]?.height || '100%'};
+  border-radius: ${({ borderRadius }) => borderRadius};
+  overflow: hidden;
   position: relative;
 `;
 
@@ -77,7 +79,8 @@ const DotContainer = styled.div`
 
 Slider.propTypes = {
   imageList: PropTypes.array.isRequired,
-  size: PropTypes.string
+  size: PropTypes.string,
+  borderRadius: PropTypes.string
 };
 
 export default Slider;
