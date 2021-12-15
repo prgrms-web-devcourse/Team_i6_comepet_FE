@@ -14,18 +14,10 @@ import {
 } from './Category';
 import ErrorModal from './ErrorModal/ErrorModal';
 import useForm from '@/hooks/useForm';
-// TODO: 삭제 예정
-// const MARGIN_BETTWEN = Object.freeze({
-//   SelectionBox_AND_Label: '1.8rem 0 0 0',
-//   Input_AND_Label: '1.8rem 0 0 0',
-//   Anything_AND_CheckBox: '0 0 0 1.6rem',
-//   SelectionBox: '0 0 0 2rem',
-//   CATEGORY: '2.4rem 0 0 0'
-// });
 
 const PostCreatePage = () => {
   const [isErrorExist, setIsErrorExist] = useState(false);
-  const { values, errors, isLoading, handleChange, handleSubmit } = useForm({
+  const { handleChange, handleSubmit } = useForm({
     initialValues: {
       status: null,
       date: null,
@@ -71,10 +63,10 @@ const PostCreatePage = () => {
       <PetPhoto margin="5rem 0 0 0" />
       <Content margin="5rem 0 0 0" onChange={handleChange} />
       <ButtonWrapper margin="5rem 0 0 0">
-        <Button width="60%" margin="5% auto 0 auto" bgColor="normalOrange" type="button">
+        <Button width="60%" margin="5% auto 0 auto" bgColor="normalOrange">
           작성하기
         </Button>
-        <Button width="60%" margin="5% auto 0 auto" bgColor="brand" type="button">
+        <Button width="60%" margin="5% auto 0 auto" bgColor="brand">
           취소하기
         </Button>
       </ButtonWrapper>
