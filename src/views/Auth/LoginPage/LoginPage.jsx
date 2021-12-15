@@ -6,7 +6,6 @@ import { ShortHeader } from '@/components/Header';
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
 import { FormError } from '@/components/FormError';
-import { CheckBox } from '@/components/CheckBox';
 import { Seperator } from '@/components/Seperator';
 import { Image } from '@/components/Image';
 import { Modal } from '@/components/Modal';
@@ -85,8 +84,7 @@ const LoginPage = () => {
             />
             <FormError isVisible={errors.password && touched.password}>{errors.password}</FormError>
             <PasswordOptionWrapper>
-              <CheckBox id="save-password" text="비밀번호 기억하기" fontColor="normalGray" />
-              <UnderlineTextButton type="button" onClick={() => setIsModalVisible(true)}>
+              <UnderlineTextButton onClick={() => setIsModalVisible(true)}>
                 비밀번호를 잊어버리셨나요?
               </UnderlineTextButton>
             </PasswordOptionWrapper>
@@ -94,7 +92,7 @@ const LoginPage = () => {
               type="submit"
               bgColor="brand"
               width="60%"
-              margin="10% auto 8% auto"
+              margin="8% auto 8% auto"
               disabled={isSubmitting}>
               로그인
             </Button>
@@ -133,20 +131,11 @@ const Wrapper = styled.div`
 const Form = styled.form``;
 
 const PasswordOptionWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 4% 0 0 0;
+  text-align: right;
 `;
 
 const LoginOptionWrapper = styled.div`
   margin: 8% 0;
-`;
-
-const NormalText = styled.span`
-  color: ${({ theme }) => theme.colors.lightGray};
-  margin: 0 0.5rem;
-  font-weight: bold;
 `;
 
 const UnderlineTextButton = styled.button`
@@ -159,6 +148,12 @@ const UnderlineTextButton = styled.button`
 const UnderlineText = styled.span`
   color: ${({ theme }) => theme.colors.normalGray};
   text-decoration: underline;
+`;
+
+const NormalText = styled.span`
+  color: ${({ theme }) => theme.colors.lightGray};
+  margin: 0 0.5rem;
+  font-weight: bold;
 `;
 
 const SocialLinkWrapper = styled.div`
