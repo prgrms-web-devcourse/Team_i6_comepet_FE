@@ -24,12 +24,7 @@ const PetPhoto = ({ margin }) => {
     <Wrapper margin={margin}>
       <Slider imageList={files} size="large" />
       <Input onChange={handleFileChange} ref={inputRef} type="file" accept="image/*" multiple />
-      <Button
-        onClick={handleChooseFile}
-        width="60%"
-        margin="5% auto 0 auto"
-        bgColor="normalOrange"
-        type="button">
+      <Button onClick={handleChooseFile} width="60%" margin="5% auto 0 auto" bgColor="normalOrange">
         반려동물 사진 등록
       </Button>
     </Wrapper>

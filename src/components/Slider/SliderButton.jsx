@@ -8,7 +8,6 @@ const SliderButton = ({ direction, handleSlide }) => {
   return (
     <Button
       bgColor="transparent"
-      type="button"
       borderRadius="50%"
       padding="0"
       width="3rem"

@@ -7,7 +7,7 @@ const Dots = ({ length, targetIndex, handleClick }) => {
     <Wrapper onClick={handleClick}>
       {length >= 2 &&
         Array.from({ length }).map((_, index) => (
-          <Dot type="button" id={index} key={index} targetIndex={targetIndex === index} />
+          <Dot id={index} key={index} targetIndex={targetIndex === index} />
         ))}
     </Wrapper>
   );

@@ -27,7 +27,7 @@ const Button = ({
   return (
     <Wrapper
       id={id}
-      type={type}
+      type={type || 'button'}
       bgColor={bgColor}
       color={color}
       width={width}
@@ -74,7 +74,7 @@ const Wrapper = styled.button`
 
 Button.propTypes = {
   children: PropTypes.node.isRequired,
-  type: PropTypes.string.isRequired,
+  type: PropTypes.string,
   id: PropTypes.string,
   bgColor: PropTypes.string,
   color: PropTypes.string,

@@ -69,19 +69,14 @@ const LongHeader = ({ isLoggedIn = false }) => {
               </StyledNotificationIconButton>
             </IconWrapper>
           ) : (
-            <Button type="button" width="2.6rem" height="2.6rem">
+            <Button width="2.6rem" height="2.6rem">
               <StyledAccountCircleIcon />
             </Button>
           )}
         </TopWrapper>
         <MiddleWrapper>
           <BackgroundBox width="45%" boxShadow="0px 4px 16px rgba(0, 0, 0, 0.08)">
-            <Button
-              bgColor="normalWhite"
-              type="button"
-              color="brand"
-              fontWeight="bold"
-              borderRadius="1.6rem">
+            <Button bgColor="normalWhite" color="brand" fontWeight="bold" borderRadius="1.6rem">
               <Image
                 src={getImageSrc('/images/finding.png')}
                 width="1.6rem"
@@ -92,12 +87,7 @@ const LongHeader = ({ isLoggedIn = false }) => {
             </Button>
           </BackgroundBox>
           <BackgroundBox width="45%" boxShadow="0px 4px 16px rgba(0, 0, 0, 0.08)">
-            <Button
-              bgColor="normalWhite"
-              type="button"
-              color="brand"
-              fontWeight="bold"
-              borderRadius="1.6rem">
+            <Button bgColor="normalWhite" color="brand" fontWeight="bold" borderRadius="1.6rem">
               <Image
                 src={getImageSrc('/images/home.png')}
                 width="1.6rem"

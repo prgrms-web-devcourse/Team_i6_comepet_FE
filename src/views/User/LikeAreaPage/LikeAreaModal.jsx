@@ -35,7 +35,7 @@ const LikeAreaModal = ({ onClose }) => {
               isColored="true"
             />
           </LineBreakWrapper>
-          <Button type="button" bgColor="brand" margin="22rem auto">
+          <Button bgColor="brand" margin="22rem auto">
             검색
           </Button>
         </Wrapper>
