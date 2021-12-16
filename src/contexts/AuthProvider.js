@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     getAuthStatus();
-  }, [isLoggedIn]);
+  }, []);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
