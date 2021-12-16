@@ -22,7 +22,8 @@ const Input = ({
   margin,
   disabled,
   onChange,
-  onBlur
+  onBlur,
+  onKeyDown
 }) => {
   return (
     <StyledInput
@@ -46,6 +47,7 @@ const Input = ({
       onChange={onChange}
       onBlur={onBlur}
       disabled={disabled}
+      onKeyDown={onKeyDown}
     />
   );
 };
@@ -91,7 +93,8 @@ Input.propTypes = {
   margin: PropTypes.string,
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
-  onBlur: PropTypes.func
+  onBlur: PropTypes.func,
+  onKeyDown: PropTypes.func
 };
 
 export default Input;
