@@ -28,7 +28,7 @@ const SignupPage = () => {
     }
 
     try {
-      const { data } = await POST('/sign-up', {
+      const { token } = await POST('/sign-up', {
         nickname,
         email,
         password,
@@ -36,7 +36,7 @@ const SignupPage = () => {
         verifiedId
       });
 
-      setCookie('token', data.token);
+      setCookie('token', token);
       navigate('/', { replace: true });
     } catch (error) {
       const detailCode = error.response.data.code;

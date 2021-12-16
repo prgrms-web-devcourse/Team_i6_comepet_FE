@@ -12,12 +12,11 @@ const AuthCodeForm = ({ emailForSignUp, setStateAfterEmailAuth }) => {
     initialValues: { key: '' },
     onSubmit: async () => {
       try {
-        const { data } = await POST('/verify-email', {
+        const { id: verifiedId } = await POST('/verify-email', {
           email: emailForSignUp,
           key: values.key
         });
 
-        const verifiedId = data.id;
         setStateAfterEmailAuth(verifiedId);
       } catch (error) {
         const detailCode = error.response.data.code;
