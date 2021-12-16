@@ -15,12 +15,9 @@ import {
 } from './Category';
 import ErrorModal from './ErrorModal/ErrorModal';
 import useForm from '@/hooks/useForm';
-import useSWR from 'swr';
-import { GET } from '@/apis/axios';
 
 const PostCreatePage = () => {
   const [isErrorExist, setIsErrorExist] = useState(false);
-
   const { handleChange, handleSubmit } = useForm({
     initialValues: {
       status: null,
@@ -72,6 +69,7 @@ const PostCreatePage = () => {
   const { data: animalData } = useSWR('/animals', GET);
 
   return (
+<<<<<<< HEAD
     <Wrapper>
       <ShortHeader />
       <Form onsumbit={handleSubmit}>
@@ -109,6 +107,28 @@ const PostCreatePage = () => {
         {isErrorExist && <ErrorModal onClose={() => setIsErrorExist(false)} />}
       </Form>
     </Wrapper>
+=======
+    <Form onsumbit={handleSubmit}>
+      <Status onChange={handleChange} />
+      <Date margin="5rem 0 0 0" onChange={handleChange} />
+      <Place margin="5rem 0 0 0" />
+      <Contact margin="5rem 0 0 0" onChange={handleChange} />
+      <PetInformation margin="5rem 0 0 0" onChange={handleChange} />
+      <ChipInformation margin="5rem 0 0 0" onChange={handleChange} />
+      <HashTag margin="5rem 0 0 0" onChange={handleChange} />
+      <PetPhoto margin="5rem 0 0 0" />
+      <Content margin="5rem 0 0 0" onChange={handleChange} />
+      <ButtonWrapper margin="5rem 0 0 0">
+        <Button width="60%" margin="5% auto 0 auto" bgColor="normalOrange">
+          작성하기
+        </Button>
+        <Button width="60%" margin="5% auto 0 auto" bgColor="brand">
+          취소하기
+        </Button>
+      </ButtonWrapper>
+      {isErrorExist && <ErrorModal onClose={() => setIsErrorExist(false)} />}
+    </Form>
+>>>>>>> a329fbc477ab4b13e451e115a1faf99aa03daa16
   );
 };
 

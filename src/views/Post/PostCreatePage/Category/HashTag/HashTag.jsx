@@ -58,7 +58,7 @@ const HashTag = ({ margin, onChange }) => {
           {tags.map(({ name }, index) => (
             <TagWrapper key={index}>
               <Tag>{name}</Tag>
-              <Button onClick={handleDelete} type="button">
+              <Button onClick={handleDelete}>
                 <StyledCancelRoundedIcon />
               </Button>
             </TagWrapper>

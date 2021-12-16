@@ -3,11 +3,11 @@ import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import { isNotValidSize } from '@/utils/helpers';
+import { isValidProp } from '@/utils/helpers';
 import { DEV_ERROR } from '@/utils/constants';
 
 const ScrapCounter = ({ children, size, isBookmark }) => {
-  if (isNotValidSize(size, ['small', 'medium'])) {
+  if (!isValidProp(size, ['small', 'medium'])) {
     console.error(DEV_ERROR.INVALID_PROP);
     return;
   }
