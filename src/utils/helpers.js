@@ -1,5 +1,5 @@
-export const isNotValidSize = (size, validSizes) => {
-  return !validSizes.includes(size);
+export const isValidProp = (prop, validProps) => {
+  return validProps.includes(prop);
 };
 
 export const getImageSrc = (URL) => {

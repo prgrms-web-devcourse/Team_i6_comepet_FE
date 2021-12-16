@@ -8,7 +8,6 @@ import { ShortHeader } from '@/components/Header';
 import { CheckBox } from '@/components/CheckBox';
 import { Seperator } from '@/components/Seperator';
 import { Image } from '@/components/Image';
-import { EmailAuthForm } from '@/components/EmailAuthForm';
 import { Modal } from '@/components/Modal';
 import { USER_ERROR, REGEX } from '@/utils/constants';
 import { getImageSrc, isValidInput } from '@/utils/helpers';
@@ -85,11 +84,7 @@ const LoginPage = () => {
           </Form>
         )}
       </Formik>
-      {isModalVisible && (
-        <Modal width="90%" onClose={() => setIsModalVisible(false)}>
-          <EmailAuthForm />
-        </Modal>
-      )}
+      {isModalVisible && <Modal width="90%" onClose={() => setIsModalVisible(false)}></Modal>}
     </Wrapper>
   );
 };

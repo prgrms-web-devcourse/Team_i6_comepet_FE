@@ -1,15 +1,88 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { Formik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
 import { FormError } from '@/components/FormError';
 import { ShortHeader } from '@/components/Header';
-import { USER_ERROR, REGEX } from '@/utils/constants';
 import { Image } from '@/components/Image';
+import { Modal } from '@/components/Modal';
+import { AuthCodeForm } from '@/views/Auth/SignupPage/AuthCodeForm';
+import { POST } from '@/apis/axios';
+import { setCookie } from '@/utils/cookie';
+import { USER_ERROR, REGEX, AUTH_ERROR } from '@/utils/constants';
 import { getImageSrc } from '@/utils/helpers';
+import { isValidInput } from '@/utils/helpers';
 
 const SignupPage = () => {
+  const [email, setEmail] = useState('');
+  const [verifiedId, setVerifiedId] = useState(0);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSubmit = async ({ nickname, email, password, passwordCheck }, { setSubmitting }) => {
+    if (!verifiedId) {
+      alert(AUTH_ERROR.NO_CODE);
+      return;
+    }
+
+    try {
+      const { data } = await POST('/sign-up', {
+        nickname,
+        email,
+        password,
+        passwordCheck,
+        verifiedId
+      });
+
+      setCookie('token', data.token);
+      navigate('/', { replace: true });
+    } catch (error) {
+      const detailCode = error.response.data.code;
+
+      if (detailCode === 603) {
+        alert(AUTH_ERROR.NOT_NORMAL);
+        return;
+      }
+
+      alert(AUTH_ERROR.TRY_AGAIN);
+    }
+
+    setSubmitting(false);
+  };
+
+  const handleAuthButtonClick = async ({ target }) => {
+    const inputEmailValue = target.previousSibling.value;
+
+    if (!isValidInput(REGEX.EMAIL, inputEmailValue)) {
+      alert(USER_ERROR.INVALID_EMAIL);
+      return;
+    }
+
+    setIsModalVisible(true);
+    setEmail(inputEmailValue);
+
+    try {
+      await POST('/send-email', { email: inputEmailValue });
+    } catch (error) {
+      setIsModalVisible(false);
+      const statusCode = error.response.status;
+
+      if (statusCode === 409) {
+        alert(AUTH_ERROR.DUPLICATE);
+        return;
+      }
+
+      alert(AUTH_ERROR.TRY_AGAIN);
+    }
+  };
+
+  const setStateAfterEmailAuth = (id) => {
+    setVerifiedId(id);
+    setIsModalVisible(false);
+  };
+
   return (
     <Wrapper>
       <ShortHeader location="회원가입" />
@@ -22,7 +95,7 @@ const SignupPage = () => {
         boxShadow="normal"
       />
       <Formik
-        initialValues={{ nickname: '', email: '', password: '', password2: '' }}
+        initialValues={{ nickname: '', email: '', password: '', passwordCheck: '' }}
         validate={validate}
         onSubmit={handleSubmit}>
         {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
@@ -45,7 +118,11 @@ const SignupPage = () => {
                 value={values.email}
                 placeholder="이메일"
               />
-              <Button bgColor="brand" width="30%" margin="0 0 0 1rem">
+              <Button
+                bgColor="brand"
+                width="30%"
+                margin="0 0 0 1rem"
+                onClick={handleAuthButtonClick}>
                 인증
               </Button>
             </EmailInputWrapper>
@@ -61,14 +138,14 @@ const SignupPage = () => {
             <FormError isVisible={errors.password && touched.password}>{errors.password}</FormError>
             <Input
               type="password"
-              name="password2"
+              name="passwordCheck"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.password2}
+              value={values.passwordCheck}
               placeholder="비밀번호 확인"
             />
-            <FormError isVisible={errors.password2 && touched.password2}>
-              {errors.password2}
+            <FormError isVisible={errors.passwordCheck && touched.passwordCheck}>
+              {errors.passwordCheck}
             </FormError>
             <Button
               type="submit"
@@ -81,6 +158,11 @@ const SignupPage = () => {
           </Form>
         )}
       </Formik>
+      {isModalVisible && (
+        <Modal width="90%" onClose={() => setIsModalVisible(false)}>
+          <AuthCodeForm emailForSignUp={email} setStateAfterEmailAuth={setStateAfterEmailAuth} />
+        </Modal>
+      )}
     </Wrapper>
   );
 };
@@ -99,7 +181,7 @@ const EmailInputWrapper = styled.div`
 
 export default SignupPage;
 
-const validate = ({ nickname, email, password, password2 }) => {
+const validate = ({ nickname, email, password, passwordCheck }) => {
   const errors = {};
   const {
     NO_NICKNAME,
@@ -108,7 +190,7 @@ const validate = ({ nickname, email, password, password2 }) => {
     INVALID_NICKNAME,
     INVALID_EMAIL,
     INVALID_PASSWORD,
-    INVALID_PASSWORD2
+    INVALID_PASSWORD_CHECK
   } = USER_ERROR;
 
   if (!nickname) {
@@ -127,20 +209,9 @@ const validate = ({ nickname, email, password, password2 }) => {
     errors.password = NO_PASSWORD;
   } else if (!isValidInput(REGEX.PASSWORD, password)) {
     errors.password = INVALID_PASSWORD;
-  } else if (password !== password2) {
-    errors.password2 = INVALID_PASSWORD2;
+  } else if (password !== passwordCheck) {
+    errors.passwordCheck = INVALID_PASSWORD_CHECK;
   }
 
   return errors;
-};
-
-const isValidInput = (regex, target) => {
-  return regex.test(target);
-};
-
-const handleSubmit = (values, { setSubmitting }) => {
-  setTimeout(() => {
-    alert(JSON.stringify(values, null, 2));
-    setSubmitting(false);
-  }, 400);
 };
