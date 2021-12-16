@@ -14,7 +14,7 @@ const useForm = ({ initialValues, onSubmit, validate }) => {
     setIsLoading(true);
     e.preventDefault();
 
-    const newErrors = validate ? validate(values) : {};
+    const newErrors = (validate && validate(values)) || {};
 
     if (Object.keys(newErrors).length === 0) {
       await onSubmit();
