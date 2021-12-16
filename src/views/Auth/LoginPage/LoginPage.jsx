@@ -22,7 +22,8 @@ const LoginPage = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      const { token } = await POST('/login', values);
+      const headers = { Authorization: '' };
+      const { token } = await POST('/login', values, headers);
 
       setCookie('token', token);
       navigate('/', { replace: true });

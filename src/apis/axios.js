@@ -20,7 +20,7 @@ export const GET = async (url) => {
   }
 };
 
-export const POST = async (url, body) => {
+export const POST = async (url, body, headers) => {
   if (!(url && body)) {
     console.error(DEV_ERROR.INVALID_ARGS);
     return;
@@ -30,7 +30,8 @@ export const POST = async (url, body) => {
     const { data } = await axios({
       method: 'post',
       url,
-      data: body
+      data: body,
+      headers
     });
 
     return data.data;
