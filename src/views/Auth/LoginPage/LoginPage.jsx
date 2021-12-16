@@ -84,7 +84,7 @@ const LoginPage = () => {
             />
             <FormError isVisible={errors.password && touched.password}>{errors.password}</FormError>
             <PasswordOptionWrapper>
-              <UnderlineTextButton onClick={() => setIsModalVisible(true)}>
+              <UnderlineTextButton type="button" onClick={() => setIsModalVisible(true)}>
                 비밀번호를 잊어버리셨나요?
               </UnderlineTextButton>
             </PasswordOptionWrapper>
