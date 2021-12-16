@@ -1,11 +1,21 @@
-import React, { useState, createContext } from 'react';
+import React, { useEffect, useState, createContext } from 'react';
 import PropTypes from 'prop-types';
+import { GET } from '@/apis/axios';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true); // TODO: 인증 API에서 확인한 로그인 여부를 기본값으로 사용
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const value = { isLoggedIn, setIsLoggedIn };
+
+  useEffect(() => {
+    const getAuthStatus = async () => {
+      const userIdData = await GET('/auth-user');
+      userIdData && setIsLoggedIn(true);
+    };
+
+    getAuthStatus();
+  }, [isLoggedIn]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
