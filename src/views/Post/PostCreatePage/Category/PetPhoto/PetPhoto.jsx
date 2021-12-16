@@ -4,26 +4,36 @@ import PropTypes from 'prop-types';
 import { Slider } from '@/components/Slider';
 import { Button } from '@/components/Button';
 
-const PetPhoto = ({ margin }) => {
+const PetPhoto = ({ margin, onChange }) => {
   const [files, setFiles] = useState([]);
+  const [isErrorOccurred, setIsErrorOccurred] = useState(false);
 
   const inputRef = useRef(null);
 
   const handleChooseFile = () => {
     inputRef.current.click();
   };
-  // TODO: 파일 개수 및 용량 제한
+
   const handleFileChange = (e) => {
-    const uploadedFiles = [...e.target.files];
-    const nextFiles = [...files];
-    nextFiles.push(...uploadedFiles);
-    setFiles(nextFiles);
+    if (isTheNumberOfPhotosUnderThree(e) && areFileSizesUnder5MB(e)) {
+      const nextFiles = [...e.target.files];
+      setFiles(nextFiles);
+      setIsErrorOccurred(!isErrorOccurred);
+      onChange({ target: { name: 'images', value: makeFormData(e) } });
+      return;
+    }
+
+    setFiles([]);
+    setIsErrorOccurred(!isErrorOccurred);
   };
 
   return (
     <Wrapper margin={margin}>
       <Slider imageList={files} size="large" />
       <Input onChange={handleFileChange} ref={inputRef} type="file" accept="image/*" multiple />
+      <Caution isErrorOccurred={isErrorOccurred}>
+        ※ 이미지는 3개까지 등록 가능하며, 한 장당 5MB 이하여야 합니다.
+      </Caution>
       <Button
         onClick={handleChooseFile}
         width="60%"
@@ -40,12 +50,41 @@ const Wrapper = styled.div`
   margin: ${({ margin }) => margin};
 `;
 
+const Caution = styled.div`
+  color: ${({ isErrorOccurred, theme }) => isErrorOccurred && theme.colors.normalRed};
+  font-size: 1rem;
+  font-weight: ${({ isErrorOccurred }) => isErrorOccurred && 'bold'};
+`;
+
 const Input = styled.input`
   display: none;
 `;
 
 PetPhoto.propTypes = {
+  onChange: PropTypes.func,
   margin: PropTypes.string
 };
 
 export default PetPhoto;
+
+const areFileSizesUnder5MB = (e) => {
+  const { files } = e.target;
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    if (file.size > 1024 * 1024 * 5) return false;
+  }
+
+  return true;
+};
+
+const isTheNumberOfPhotosUnderThree = (e) => e.target.files.length <= 3;
+
+const makeFormData = (e) => {
+  const { files } = e.target;
+  const formData = new FormData();
+  for (let i = 0; i < files.length; i++) {
+    formData.append(`images`, files[i]);
+  }
+
+  return formData;
+};
