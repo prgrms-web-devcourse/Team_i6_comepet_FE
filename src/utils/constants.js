@@ -25,8 +25,7 @@ export const STATUS = Object.freeze({
 
 export const GENDER = Object.freeze({
   MALE: '수컷',
-  FEMALE: '암컷',
-  UNKNOWN: '모름'
+  FEMALE: '암컷'
 });
 
 export const REGEX = Object.freeze({
