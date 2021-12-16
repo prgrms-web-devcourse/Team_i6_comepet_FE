@@ -6,8 +6,18 @@ const useForm = ({ initialValues, onSubmit, validate }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = ({ target }) => {
-    const { name, value } = target;
-    setValues({ ...values, [name]: value });
+    let nextValues = { ...values };
+    const InputValue = target;
+
+    if (Array.isArray(InputValue)) {
+      for (let i = 0; i < InputValue.length; i++) {
+        const { name, value } = InputValue[i];
+        nextValues = { ...nextValues, [name]: value };
+      }
+      setValues(nextValues);
+    } else {
+      setValues({ ...values, [InputValue.name]: InputValue.value });
+    }
   };
 
   const handleSubmit = async (e) => {
