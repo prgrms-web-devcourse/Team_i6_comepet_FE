@@ -80,7 +80,8 @@ const NotificationModal = ({ isVisible, left, right, bottom, top }) => {
             height="100%"
             bgColor="lighterGray"
             borderRadius="0 0 1rem 1rem"
-            color="normalBlack">
+            color="normalBlack"
+            type="button">
             <ArrowDropDownIconCostomized />
           </Button>
         </BottomContainer>
