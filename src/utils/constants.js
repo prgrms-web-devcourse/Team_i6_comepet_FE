@@ -1,9 +1,15 @@
+export const NOTICE = {
+  SENT_EMAIL: '이메일이 전송되었습니다.'
+};
+
 export const AUTH_ERROR = {
   DUPLICATE: '이미 가입된 이메일입니다.',
   INVALID_CODE: '잘못된 인증 코드입니다.',
   TRY_AGAIN: '서버 에러가 발생했습니다. 다시 시도해주세요.',
   NOT_NORMAL: '비정상적인 접근입니다. 다시 시도해주세요.',
-  NO_CODE: '이메일 인증을 완료해주세요.'
+  NO_CODE: '이메일 인증을 완료해주세요.',
+  NO_EMAIL: '가입되지 않은 이메일입니다.',
+  INVALID_PASSWORD: '비밀번호가 일치하지 않습니다.'
 };
 
 export const DEV_ERROR = Object.freeze({
