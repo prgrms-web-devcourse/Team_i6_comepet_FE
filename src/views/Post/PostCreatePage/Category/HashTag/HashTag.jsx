@@ -21,7 +21,7 @@ const HashTag = ({ margin, onChange }) => {
       e.target.value = '';
     }
 
-    if (e.key === 'Enter' && (e.target.value.length > 5 || tags.length > 6)) {
+    if (e.key === 'Enter' && (e.target.value.length > 5 || tags.length >= 6)) {
       setErrors('5글자씩 총 6개까지만 입력이 가능합니다');
     }
   };
@@ -32,6 +32,7 @@ const HashTag = ({ margin, onChange }) => {
     );
 
     setTags(nextTags);
+    onChange({ target: { name: 'tags', value: nextTags } });
   };
 
   const handleAppendTag = (nextTag) => {
