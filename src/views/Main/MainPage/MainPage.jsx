@@ -38,7 +38,7 @@ const MainPage = () => {
       <LongHeader />
       <ContentWrapper>
         <SortHeader city={city || '전체'} town={town || ''} postLength={postLength} />
-        {postLength ? (
+        {(postLength && (
           <PostCardList>
             {posts.map(({ id, ...props }) => (
               <PostCardWrapper key={id}>
@@ -46,9 +46,7 @@ const MainPage = () => {
               </PostCardWrapper>
             ))}
           </PostCardList>
-        ) : (
-          <NoResultText>검색 결과가 없습니다.</NoResultText>
-        )}
+        )) || <NoResultText>검색 결과가 없습니다.</NoResultText>}
         <Button
           width="50%"
           margin="6rem auto"
@@ -61,7 +59,7 @@ const MainPage = () => {
       <StyledLink to="/post/create">
         <StyledAddCircleIcon />
       </StyledLink>
-      <div ref={target}></div>
+      <div ref={target} />
     </Wrapper>
   );
 };

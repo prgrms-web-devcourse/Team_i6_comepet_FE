@@ -14,7 +14,7 @@ const PostCard = ({
   postId,
   city,
   town,
-  animalKind,
+  animalKindName,
   status,
   createdAt,
   sex,
@@ -26,12 +26,12 @@ const PostCard = ({
   width,
   height
 }) => {
-  const switchTextBy = (animalKind) => {
-    switch (animalKind) {
+  const switchTextBy = (animalKindName) => {
+    switch (animalKindName) {
       case 'UNKNOWN':
         return '종류 모름';
       default:
-        return animalKind;
+        return animalKindName;
     }
   };
 
@@ -63,7 +63,7 @@ const PostCard = ({
         </ImageWrapper>
         <Content>
           <Title>
-            {switchTextBy(animalKind)}
+            {switchTextBy(animalKindName)}
             <SexIconWrapper>{switchIconBy(sex)}</SexIconWrapper>
           </Title>
           <Area>
@@ -129,7 +129,7 @@ PostCard.propTypes = {
   postId: PropTypes.number,
   city: PropTypes.string,
   town: PropTypes.string,
-  animalKind: PropTypes.string,
+  animalKindName: PropTypes.string,
   status: PropTypes.string,
   createdAt: PropTypes.string,
   foundDate: PropTypes.string,
