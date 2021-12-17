@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const useForm = ({ initialValues, onSubmit, validate }) => {
+const useForm = ({ initialValues, onSubmit, validate, handleNavigate }) => {
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -26,12 +26,15 @@ const useForm = ({ initialValues, onSubmit, validate }) => {
 
     const newErrors = (validate && validate(values)) || {};
 
+    let onSubmitResult = null;
+
     if (Object.keys(newErrors).length === 0) {
-      await onSubmit();
+      onSubmitResult = await onSubmit();
     }
 
     setErrors(newErrors);
     setIsLoading(false);
+    handleNavigate(onSubmitResult);
   };
 
   return {
@@ -40,7 +43,8 @@ const useForm = ({ initialValues, onSubmit, validate }) => {
     isLoading,
     setIsLoading,
     handleChange,
-    handleSubmit
+    handleSubmit,
+    handleNavigate
   };
 };
 
