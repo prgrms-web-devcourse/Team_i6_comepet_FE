@@ -37,7 +37,7 @@ const HashTag = ({ margin, onChange }) => {
 
   const handleAppendTag = (nextTag) => {
     const nextTags = [...tags];
-    nextTags.push({ name: '#' + nextTag });
+    nextTags.push({ name: `#${nextTag}` });
     setTags(nextTags);
     onChange({ target: { name: 'tags', value: nextTags } });
   };
@@ -58,7 +58,7 @@ const HashTag = ({ margin, onChange }) => {
           {tags.map(({ name }, index) => (
             <TagWrapper key={index}>
               <Tag>{name}</Tag>
-              <Button onClick={handleDelete}>
+              <Button onClick={handleDelete} type="button">
                 <StyledCancelRoundedIcon />
               </Button>
             </TagWrapper>
