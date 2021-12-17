@@ -11,7 +11,7 @@ const MainPage = () => {
   const { data } = useSWR('/missing-posts', (url) =>
     GET(url, {
       page: 1,
-      size: 20
+      size: 30
     })
   );
 
