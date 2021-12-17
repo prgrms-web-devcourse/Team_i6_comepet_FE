@@ -15,28 +15,25 @@ import {
 } from './Category';
 import ErrorModal from './ErrorModal/ErrorModal';
 import useForm from '@/hooks/useForm';
+import useSWR from 'swr';
+import { GET, POST } from '@/apis/axios';
 
 const PostCreatePage = () => {
   const [isErrorExist, setIsErrorExist] = useState(false);
-  const { handleChange, handleSubmit } = useForm({
+
+  const { values, handleChange, handleSubmit } = useForm({
     initialValues: {
-      status: null,
-      date: null,
-      cityId: null,
-      townId: null,
-      detailAddress: null,
-      telNumber: null,
-      animalId: null,
-      animalKindName: null,
-      age: null,
-      sex: null,
-      chipNumber: null,
-      tags: [],
-      files: null,
-      content: null,
       images: null
     },
-    onSubmit: () => {},
+    onSubmit: async () => {
+      const formData = new FormData();
+      formData.append('images', values.images);
+
+      const { images, ...param } = values; // eslint-disable-line no-unused-vars
+      formData.append('param', new Blob([JSON.stringify(param)], { type: 'application/json' }));
+
+      const res = await POST('/missing-posts', formData, { 'Content-type': 'multipart/form-data' });
+    },
     validate: ({
       status,
       date,
@@ -60,7 +57,6 @@ const PostCreatePage = () => {
       if (!sex) errors.sex = '성별을 선택해주세요';
       if (!content) errors.content = '내용을 작성해주세요';
       Object.keys(errors).length !== 0 && setIsErrorExist(isErrorExist);
-
       return errors;
     }
   });
@@ -68,18 +64,19 @@ const PostCreatePage = () => {
   const { data: placeData } = useSWR('/cities', GET);
   const { data: animalData } = useSWR('/animals', GET);
 
+  if (!placeData || !animalData) return <div></div>;
+
   return (
-<<<<<<< HEAD
     <Wrapper>
       <ShortHeader />
       <Form onsumbit={handleSubmit}>
         <Status onChange={handleChange} />
         <Date margin="5rem 0 0 0" onChange={handleChange} />
-        <Place margin="5rem 0 0 0" onChange={handleChange} placeData={placeData?.data.cities} />
+        <Place margin="5rem 0 0 0" onChange={handleChange} placeData={placeData.cities} />
         <Contact margin="5rem 0 0 0" onChange={handleChange} />
         <PetInformation
           margin="5rem 0 0 0"
-          animalData={animalData?.data.animals}
+          animalData={animalData.animals}
           onChange={handleChange}
         />
         <ChipInformation margin="5rem 0 0 0" onChange={handleChange} />
@@ -107,28 +104,6 @@ const PostCreatePage = () => {
         {isErrorExist && <ErrorModal onClose={() => setIsErrorExist(false)} />}
       </Form>
     </Wrapper>
-=======
-    <Form onsumbit={handleSubmit}>
-      <Status onChange={handleChange} />
-      <Date margin="5rem 0 0 0" onChange={handleChange} />
-      <Place margin="5rem 0 0 0" />
-      <Contact margin="5rem 0 0 0" onChange={handleChange} />
-      <PetInformation margin="5rem 0 0 0" onChange={handleChange} />
-      <ChipInformation margin="5rem 0 0 0" onChange={handleChange} />
-      <HashTag margin="5rem 0 0 0" onChange={handleChange} />
-      <PetPhoto margin="5rem 0 0 0" />
-      <Content margin="5rem 0 0 0" onChange={handleChange} />
-      <ButtonWrapper margin="5rem 0 0 0">
-        <Button width="60%" margin="5% auto 0 auto" bgColor="normalOrange">
-          작성하기
-        </Button>
-        <Button width="60%" margin="5% auto 0 auto" bgColor="brand">
-          취소하기
-        </Button>
-      </ButtonWrapper>
-      {isErrorExist && <ErrorModal onClose={() => setIsErrorExist(false)} />}
-    </Form>
->>>>>>> a329fbc477ab4b13e451e115a1faf99aa03daa16
   );
 };
 
