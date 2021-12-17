@@ -1,5 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { RequireAuth, RestrictUser } from '@/components/AuthRoute';
+import { AuthProvider } from '@/contexts/AuthProvider';
 
 import {
   LoginPage,
@@ -18,21 +20,27 @@ import {
 
 const App = function () {
   return (
-    <Routes>
-      <Route exact path="/sign-up" element={<SignupPage />} />
-      <Route exact path="/login" element={<LoginPage />} />
-      <Route exact path="/" element={<MainPage />} />
-      <Route exact path="/post/create" element={<PostCreatePage />} />
-      <Route exact path="/post/edit" element={<PostCreatePage />} />
-      <Route exact path="/post/:id" element={<PostDetailPage />} />
-      <Route exact path="/shelter" element={<ShelterPostPage />} />
-      <Route exact path="/shelter/:id" element={<ShelterPostDetailPage />} />
-      <Route exact path="/edit/profile" element={<ProfileUpdatePage />} />
-      <Route exact path="/edit/area" element={<LikeAreaPage />} />
-      <Route exact path="/user/post" element={<MyPostPage />} />
-      <Route exact path="/user/scrap" element={<MyScrapPage />} />
-      <Route exact path="*" element={<NotFoundPage />} />
-    </Routes>
+    <AuthProvider>
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/post/:id" element={<PostDetailPage />} />
+        <Route path="/shelter" element={<ShelterPostPage />} />
+        <Route path="/shelter/:id" element={<ShelterPostDetailPage />} />
+        <Route element={<RestrictUser />}>
+          <Route path="/sign-up" element={<SignupPage />} />
+          <Route path="/login" element={<LoginPage />} />
+        </Route>
+        <Route element={<RequireAuth />}>
+          <Route path="/post/create" element={<PostCreatePage />} />
+          <Route path="/post/edit" element={<PostCreatePage />} />
+          <Route path="/edit/profile" element={<ProfileUpdatePage />} />
+          <Route path="/edit/area" element={<LikeAreaPage />} />
+          <Route path="/user/post" element={<MyPostPage />} />
+          <Route path="/user/scrap" element={<MyScrapPage />} />
+        </Route>
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </AuthProvider>
   );
 };
 

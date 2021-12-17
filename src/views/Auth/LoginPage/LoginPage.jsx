@@ -22,9 +22,10 @@ const LoginPage = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      const { data } = await POST('/login', values);
+      const headers = { Authorization: '' };
+      const { token } = await POST('/login', values, headers);
 
-      setCookie('token', data.token);
+      setCookie('token', token);
       navigate('/', { replace: true });
     } catch (error) {
       const statusCode = error.response.status;
