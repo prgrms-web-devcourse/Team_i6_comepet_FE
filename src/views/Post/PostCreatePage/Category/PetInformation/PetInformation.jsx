@@ -71,7 +71,14 @@ const PetInformation = ({ margin, onChange, animalData }) => {
           onChange(makeObjectForm('sex', null));
         } else {
           setSex(e.target.value);
-          onChange(makeObjectForm('sex', e.target.value));
+          onChange(
+            makeObjectForm(
+              'sex',
+              (e.target.value === '수컷' && 'MALE') ||
+                (e.target.value === '암컷' && 'FEMALE') ||
+                (e.target.value === '모름' && 'UNKNOWN')
+            )
+          );
         }
         return;
       }
@@ -91,10 +98,11 @@ const PetInformation = ({ margin, onChange, animalData }) => {
           setAge(null);
           onChange(makeObjectForm('age', null));
         } else {
-          if (e.target.value >= 499) e.target.value = 499;
-          if (e.target.value < 0) e.target.value = 0;
-          setAge(e.target.value);
-          onChange(makeObjectForm('age', e.target.value));
+          let age = Number(e.target.value);
+          if (age >= 499) age = 499;
+          if (age < 0) age = 0;
+          setAge(age);
+          onChange(makeObjectForm('age', age));
         }
         return;
       }
