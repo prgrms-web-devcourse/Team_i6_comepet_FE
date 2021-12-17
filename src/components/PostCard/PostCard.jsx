@@ -11,6 +11,7 @@ import FemaleRoundedIcon from '@mui/icons-material/FemaleRounded';
 import QuestionMarkRoundedIcon from '@mui/icons-material/QuestionMarkRounded';
 
 const PostCard = ({
+  postId,
   city,
   town,
   animalKind,
@@ -71,8 +72,8 @@ const PostCard = ({
           <Date>{formatDate(createdAt || foundDate)}</Date>
           {tags && (
             <TagList>
-              {tags.map(({ id, name }) => (
-                <TagItem key={id}>#{name} </TagItem>
+              {tags.map(({ name }, tagIndex) => (
+                <TagItem key={`${postId}${tagIndex}`}>#{name} </TagItem>
               ))}
             </TagList>
           )}
@@ -125,6 +126,7 @@ const Date = styled.div`
 `;
 
 PostCard.propTypes = {
+  postId: PropTypes.number,
   city: PropTypes.string,
   town: PropTypes.string,
   animalKind: PropTypes.string,
