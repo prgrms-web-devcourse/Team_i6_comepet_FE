@@ -42,7 +42,12 @@ const Date = ({ margin, onChange }) => {
       selectedDay !== undefined
     ) {
       onChange({
-        target: { name: 'date', value: `${selectedYear}-${selectedMonth}-${selectedDay}` }
+        target: {
+          name: 'date',
+          value: `${selectedYear}-${makeYYYYMMDDForm(selectedMonth)}-${makeYYYYMMDDForm(
+            selectedDay
+          )}`
+        }
       });
     } else {
       onChange({
@@ -166,4 +171,5 @@ const isYearSelection = (e) => e.target[0].textContent === '년';
 const isMonthSelection = (e) => e.target[0].textContent === '월';
 const isDaySelection = (e) => e.target[0].textContent === '일';
 const isDefalutOptionSelected = (e) => e.target[0].textContent === e.target.value;
+const makeYYYYMMDDForm = (number) => (number < 10 && `0${number}`) || number;
 const February = 2;
