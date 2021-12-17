@@ -2,16 +2,31 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { LongHeader } from '@/components/Header';
 import { PostCard } from '@/components/PostCard';
-import { postsData } from '@/assets/data.js';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { SortHeader } from '@/views/Main/SortHeader';
+import useSWR from 'swr';
+import { GET } from '@/apis/axios';
 
 const MainPage = () => {
-  const { posts } = postsData; // useSwr
-  const postLength = posts.length;
-  // temp
-  const city = '서울특별시';
-  const town = '도봉구';
+  const { data } = useSWR('/missing-posts', (url) =>
+    GET(url, {
+      page: 1,
+      size: 20
+    })
+  );
+
+  if (!data) {
+    return (
+      <Wrapper>
+        <LongHeader />
+      </Wrapper>
+    );
+  }
+
+  const posts = data.missingPosts;
+  const postLength = posts.length || 0;
+  const city = posts[0].city;
+  const town = posts[0].town;
 
   return (
     <Wrapper>
