@@ -19,7 +19,7 @@ const PetPhoto = ({ margin, onChange }) => {
       const nextFiles = [...e.target.files];
       setFiles(nextFiles);
       setIsErrorOccurred(!isErrorOccurred);
-      onChange({ target: { name: 'images', value: makeFormData(e) } });
+      onChange({ target: { name: 'images', value: nextFiles } });
       return;
     }
 
@@ -79,12 +79,4 @@ const areFileSizesUnder5MB = (e) => {
 
 const isTheNumberOfPhotosUnderThree = (e) => e.target.files.length <= 3;
 
-const makeFormData = (e) => {
-  const { files } = e.target;
-  const formData = new FormData();
-  for (let i = 0; i < files.length; i++) {
-    formData.append(`images`, files[i]);
-  }
-
-  return formData;
-};
+//
