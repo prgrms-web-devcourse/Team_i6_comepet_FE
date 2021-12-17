@@ -50,6 +50,10 @@ const LongHeader = ({ isLoggedIn = false }) => {
     setIsNotificationModalVisible(!isNotificationModalVisible);
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <Wrapper>
       <BackgroundBox borderRadius="0 0 1.6rem 1.6rem" height="17rem">
@@ -57,7 +61,7 @@ const LongHeader = ({ isLoggedIn = false }) => {
           <StyledMenuIconButton onClick={handleSidebarModalClick}>
             <StyledMenuIcon />
           </StyledMenuIconButton>
-          <StyledHeader>Comepet</StyledHeader>
+          <StyledHeader onClick={scrollToTop}>Comepet</StyledHeader>
           {isLoggedIn ? (
             <IconWrapper>
               <StyledErrorOutlineIconButton onClick={handleInformationModalClick}>
