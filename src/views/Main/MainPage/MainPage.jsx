@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
 import useSWRInfinite from 'swr/infinite';
 import { useInView } from 'react-intersection-observer';
 import { LongHeader } from '@/components/Header';
@@ -57,9 +58,9 @@ const MainPage = () => {
           {(isReachingEnd && '마지막') || '더보기'}
         </Button>
       </ContentWrapper>
-      <Link>
+      <StyledLink to="/post/create">
         <StyledAddCircleIcon />
-      </Link>
+      </StyledLink>
       <div ref={target}></div>
     </Wrapper>
   );
@@ -92,8 +93,7 @@ const NoResultText = styled.div`
   color: ${({ theme }) => theme.colors.normalGray};
 `;
 
-// react-router Link로 교체 필요
-const Link = styled.button`
+const StyledLink = styled(Link)`
   position: fixed;
   right: 0;
   bottom: 0;
