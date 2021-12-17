@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/Button';
 import { ShortHeader } from '@/components/Header';
 import {
@@ -20,6 +21,7 @@ import { GET, POST } from '@/apis/axios';
 
 const PostCreatePage = () => {
   const [isErrorExist, setIsErrorExist] = useState(false);
+  const navigate = useNavigate();
 
   const { values, handleChange, handleSubmit } = useForm({
     initialValues: {
@@ -33,6 +35,10 @@ const PostCreatePage = () => {
       formData.append('param', new Blob([JSON.stringify(param)], { type: 'application/json' }));
 
       const res = await POST('/missing-posts', formData, { 'Content-type': 'multipart/form-data' });
+      return res;
+    },
+    handleNavigate: (res) => {
+      navigate(`/post/${res.id}`, { replace: true });
     },
     validate: ({
       status,
