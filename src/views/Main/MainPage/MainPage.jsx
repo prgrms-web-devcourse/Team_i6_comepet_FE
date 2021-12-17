@@ -12,7 +12,7 @@ import { GET } from '@/apis/axios';
 import { DEV_ERROR } from '@/utils/constants';
 
 const MainPage = () => {
-  const [target, targetInView] = useInView();
+  const [target, isTargetInView] = useInView();
   const { data, error, size, setSize } = useSWRInfinite(
     (index) => `/missing-posts?page=${index + 1}&size=6`,
     GET
@@ -30,8 +30,8 @@ const MainPage = () => {
   const postLength = posts?.length || 0;
 
   useEffect(() => {
-    targetInView && setSize(size + 1);
-  }, [targetInView]);
+    isTargetInView && setSize(size + 1);
+  }, [isTargetInView]);
 
   return (
     <Wrapper>
