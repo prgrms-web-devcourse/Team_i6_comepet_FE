@@ -9,7 +9,8 @@ export const AUTH_ERROR = {
   NOT_NORMAL: '비정상적인 접근입니다. 다시 시도해주세요.',
   NO_CODE: '이메일 인증을 완료해주세요.',
   NO_EMAIL: '가입되지 않은 이메일입니다.',
-  INVALID_PASSWORD: '비밀번호가 일치하지 않습니다.'
+  INVALID_PASSWORD: '비밀번호가 일치하지 않습니다.',
+  REQUESTING: '요청을 처리 중입니다. 잠시만 기다려주세요.'
 };
 
 export const DEV_ERROR = Object.freeze({
