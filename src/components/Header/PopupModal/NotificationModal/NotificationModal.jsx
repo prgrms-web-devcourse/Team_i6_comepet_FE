@@ -1,4 +1,6 @@
-import React from 'react';
+/* eslint-disable no-unused-vars */
+
+import React, { useState, useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -6,41 +8,37 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { Button } from '@/components/Button';
 import { Avatar } from '@/components/Avatar';
 import { BackgroundBox } from '@/components/BackgroundBox';
-import { Text } from '@/components/Text';
 import { Seperator } from '@/components/Seperator';
-
-const dummyData = [
-  {
-    nickname: '고양이가 멍멍',
-    image: 'https://source.unsplash.com/random',
-    postId: 100,
-    status: '목격',
-    checked: true
-  },
-  {
-    nickname: '성격 드러운 고먐미',
-    image: 'https://source.unsplash.com/daily',
-    postId: 101,
-    status: '완료',
-    checked: false
-  },
-  {
-    nickname: '어벤져스에서아이언멘은',
-    image: 'https://source.unsplash.com/weekly',
-    postId: 102,
-    status: '발견',
-    checked: false
-  },
-  {
-    nickname: '블랑킷을입은양탄자를',
-    image: 'https://source.unsplash.com/category/nature',
-    postId: 103,
-    status: '실종',
-    checked: true
-  }
-];
+import useSWRInfinite from 'swr/infinite';
+import { GET } from '@/apis/axios';
+import { STATUS, DEV_ERROR } from '@/utils/constants';
+import useBlockScroll from '@/hooks/useBlockScroll';
 
 const NotificationModal = ({ isVisible, left, right, bottom, top }) => {
+  const scrollRef = useRef(null);
+  const { data, error, size, setSize } = useSWRInfinite(
+    (index) => `/notices?page=${index + 1}&size=4`,
+    GET
+  );
+
+  useBlockScroll(document.body);
+
+  error && alert(DEV_ERROR.LOAD_FAILED);
+
+  const notificationList = data?.reduce((prevData, nextData) => {
+    return { notifications: [...prevData.notifications, ...nextData.notifications] };
+  })?.notifications;
+
+  const handleMoreButtonClick = () => {
+    setSize(size + 1);
+  };
+
+  useEffect(() => {
+    console.log('scroll');
+
+    scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+  }, []);
+
   return (
     <Wrapper isVisible={isVisible} top={top} left={left} right={right} bottom={bottom}>
       <BackgroundBox width="34rem">
@@ -49,27 +47,23 @@ const NotificationModal = ({ isVisible, left, right, bottom, top }) => {
             <TextWrapper>전체삭제</TextWrapper>
           </StyledButton>
         </TopContainer>
-        <MiddleContainer>
+        <MiddleContainer ref={scrollRef}>
           <NotificationList aria-labelledby="notificationButton">
-            {dummyData.map(({ nickname, image, postId, status, checked }, index) => {
+            {notificationList?.map(({ nickname, image, postId, status, checked }, index) => {
               return (
                 <div key={index}>
-                  <Seperator type="horizon" key={index} />
+                  <Seperator type="horizon" />
                   <NotificationItem key={postId} checked={checked}>
                     <Avatar src={image} margin="0 0 0 2rem"></Avatar>
                     <TextContainer>
-                      <Text color="normalGreen" fontSize="1.6rem" fontWeight="bold">
-                        {nickname}
-                      </Text>
-                      님이
+                      <BoldText>{nickname} </BoldText>님이
                       <br />
-                      <Text color="normalGreen" fontSize="1.6rem" fontWeight="bold">
-                        {status}
-                      </Text>
-                      글을 작성했어요!
+                      <BoldText>{STATUS[status]} </BoldText>
+                      글을 작성하셨어요!
                     </TextContainer>
                     <StyledCloseRoundedIcon />
                   </NotificationItem>
+                  <Seperator type="horizon" />
                 </div>
               );
             })}
@@ -80,7 +74,8 @@ const NotificationModal = ({ isVisible, left, right, bottom, top }) => {
             height="100%"
             bgColor="lighterGray"
             borderRadius="0 0 1rem 1rem"
-            color="normalBlack">
+            color="normalBlack"
+            onClick={handleMoreButtonClick}>
             <ArrowDropDownIconCostomized />
           </Button>
         </BottomContainer>
@@ -97,6 +92,7 @@ const Wrapper = styled.div`
   bottom: ${({ bottom }) => bottom};
   right: ${({ right }) => right};
   z-index: 1001;
+  height: 100%;
 `;
 
 const TopContainer = styled.div`
@@ -107,6 +103,11 @@ const TopContainer = styled.div`
 `;
 
 const StyledButton = styled.button``;
+
+const MiddleContainer = styled.div`
+  overflow: scroll;
+  height: 40rem;
+`;
 
 const TextWrapper = styled.span`
   display: inline-block;
@@ -121,7 +122,11 @@ const TextWrapper = styled.span`
   }
 `;
 
-const MiddleContainer = styled.div``;
+const BoldText = styled.span`
+color: ${({ theme }) => theme.colors.normalGreen};
+font-size: "1.6rem"
+font-weight: "bold"
+`;
 
 const BottomContainer = styled.div`
   width: 100%;
@@ -130,7 +135,7 @@ const BottomContainer = styled.div`
 
 const NotificationList = styled.ul`
   display: flex;
-  height: 100%;
+
   flex-direction: column;
 `;
 
