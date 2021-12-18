@@ -46,19 +46,21 @@ const NotificationModal = ({ isVisible, left, right, bottom, top }) => {
                   return (
                     <div key={postId}>
                       <Seperator type="horizon" />
-                      <NotificationItem key={postId} checked={checked}>
-                        <Avatar src={image} margin="0 0 0 1.5rem"></Avatar>
-                        <TextContainer>
-                          <ColoredText>{town}</ColoredText>에서
-                          <ColoredText> {nickname}</ColoredText>님이
-                          <br />
-                          <ColoredText> {animalKindName}</ColoredText>에 대한
-                          <ColoredText status={status}> {STATUS[status]}</ColoredText>글을
-                          <br />
-                          작성했습니다.
-                        </TextContainer>
-                        <StyledCloseRoundedIcon />
-                      </NotificationItem>
+                      <Link to={`post/${postId}`}>
+                        <NotificationItem key={postId} checked={checked}>
+                          <Avatar src={image} margin="0 0 0 1.5rem"></Avatar>
+                          <TextContainer>
+                            <ColoredText>{town}</ColoredText>에서
+                            <ColoredText> {nickname}</ColoredText>님이
+                            <br />
+                            <ColoredText> {animalKindName}</ColoredText>에 대한
+                            <ColoredText status={status}> {STATUS[status]}</ColoredText>글을
+                            <br />
+                            작성했습니다.
+                          </TextContainer>
+                          <StyledCloseRoundedIcon id={postId} onClick={handleDeleteButtonClick} />
+                        </NotificationItem>
+                      </Link>
                       <Seperator type="horizon" />
                     </div>
                   );
