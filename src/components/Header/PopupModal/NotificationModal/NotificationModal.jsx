@@ -1,72 +1,69 @@
-/* eslint-disable no-unused-vars */
-
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
+import useSWRInfinite from 'swr/infinite';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { Button } from '@/components/Button';
 import { Avatar } from '@/components/Avatar';
 import { BackgroundBox } from '@/components/BackgroundBox';
 import { Seperator } from '@/components/Seperator';
-import useSWRInfinite from 'swr/infinite';
 import { GET } from '@/apis/axios';
 import { STATUS, DEV_ERROR } from '@/utils/constants';
 import useBlockScroll from '@/hooks/useBlockScroll';
 
 const NotificationModal = ({ isVisible, left, right, bottom, top }) => {
-  const scrollRef = useRef(null);
+  useBlockScroll(document.body);
+
   const { data, error, size, setSize } = useSWRInfinite(
     (index) => `/notices?page=${index + 1}&size=4`,
     GET
   );
 
-  useBlockScroll(document.body);
-
   error && alert(DEV_ERROR.LOAD_FAILED);
 
+  const isReachingEnd = data && data[data?.length - 1]?.last;
   const notificationList = data?.reduce((prevData, nextData) => {
     return { notifications: [...prevData.notifications, ...nextData.notifications] };
   })?.notifications;
 
   const handleMoreButtonClick = () => {
-    setSize(size + 1);
+    !isReachingEnd && setSize(size + 1);
   };
-
-  useEffect(() => {
-    console.log('scroll');
-
-    scrollRef.current.scrollIntoView({ behavior: 'smooth' });
-  }, []);
 
   return (
     <Wrapper isVisible={isVisible} top={top} left={left} right={right} bottom={bottom}>
-      <BackgroundBox width="34rem">
+      <BackgroundBox width="30rem">
         <TopContainer>
-          <StyledButton>
-            <TextWrapper>전체삭제</TextWrapper>
-          </StyledButton>
+          <StyledButton>모든 알림 지우기</StyledButton>
         </TopContainer>
-        <MiddleContainer ref={scrollRef}>
+        <Seperator type="horizon" />
+        <MiddleContainer>
           <NotificationList aria-labelledby="notificationButton">
-            {notificationList?.map(({ nickname, image, postId, status, checked }, index) => {
-              return (
-                <div key={index}>
-                  <Seperator type="horizon" />
-                  <NotificationItem key={postId} checked={checked}>
-                    <Avatar src={image} margin="0 0 0 2rem"></Avatar>
-                    <TextContainer>
-                      <BoldText>{nickname} </BoldText>님이
-                      <br />
-                      <BoldText>{STATUS[status]} </BoldText>
-                      글을 작성하셨어요!
-                    </TextContainer>
-                    <StyledCloseRoundedIcon />
-                  </NotificationItem>
-                  <Seperator type="horizon" />
-                </div>
-              );
-            })}
+            {(notificationList?.length &&
+              notificationList?.map(
+                ({ animalKindName, image, nickname, postId, status, town, checked }) => {
+                  return (
+                    <div key={postId}>
+                      <Seperator type="horizon" />
+                      <NotificationItem key={postId} checked={checked}>
+                        <Avatar src={image} margin="0 0 0 1.5rem"></Avatar>
+                        <TextContainer>
+                          <ColoredText>{town}</ColoredText>에서
+                          <ColoredText> {nickname}</ColoredText>님이
+                          <br />
+                          <ColoredText> {animalKindName}</ColoredText>에 대한
+                          <ColoredText status={status}> {STATUS[status]}</ColoredText>글을
+                          <br />
+                          작성했습니다.
+                        </TextContainer>
+                        <StyledCloseRoundedIcon />
+                      </NotificationItem>
+                      <Seperator type="horizon" />
+                    </div>
+                  );
+                }
+              )) || <EmptyItem>알림이 없습니다.</EmptyItem>}
           </NotificationList>
         </MiddleContainer>
         <BottomContainer>
@@ -75,7 +72,8 @@ const NotificationModal = ({ isVisible, left, right, bottom, top }) => {
             bgColor="lighterGray"
             borderRadius="0 0 1rem 1rem"
             color="normalBlack"
-            onClick={handleMoreButtonClick}>
+            onClick={handleMoreButtonClick}
+            disabled={isReachingEnd}>
             <ArrowDropDownIconCostomized />
           </Button>
         </BottomContainer>
@@ -92,50 +90,38 @@ const Wrapper = styled.div`
   bottom: ${({ bottom }) => bottom};
   right: ${({ right }) => right};
   z-index: 1001;
-  height: 100%;
 `;
 
 const TopContainer = styled.div`
   display: flex;
-  justify-content: start;
+  justify-content: center;
   align-items: center;
   height: 2.8rem;
+  padding-top: 0.2rem;
 `;
 
-const StyledButton = styled.button``;
-
-const MiddleContainer = styled.div`
-  overflow: scroll;
-  height: 40rem;
-`;
-
-const TextWrapper = styled.span`
-  display: inline-block;
-  margin: 0 0 0 2.5rem;
-  font-size: 1.2rem;
+const StyledButton = styled.button`
+  padding: 0;
   font-weight: bold;
-  cursor: pointer;
-  font-size: 1.6rem;
+  letter-spacing: 0.1rem;
 
   &:hover {
     color: ${({ theme }) => theme.colors.normalRed};
   }
 `;
 
-const BoldText = styled.span`
-color: ${({ theme }) => theme.colors.normalGreen};
-font-size: "1.6rem"
-font-weight: "bold"
-`;
+const MiddleContainer = styled.div`
+  height: 40rem;
+  overflow: scroll;
+  -ms-overflow-style: none;
 
-const BottomContainer = styled.div`
-  width: 100%;
-  height: 10%;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const NotificationList = styled.ul`
   display: flex;
-
   flex-direction: column;
 `;
 
@@ -149,29 +135,50 @@ const NotificationItem = styled.li`
   cursor: pointer;
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.lighterGray};
+    background-color: ${({ theme }) => theme.colors.lighterBlue};
   }
 `;
 
-const TextContainer = styled.div`
-  flex-grow: 1;
-  margin-left: 2rem;
+const TextContainer = styled.p`
+  width: 80%;
+  margin: 0;
+  padding: 1.6rem 1.6rem 1.6rem 1.6rem;
   font-size: 1.6rem;
+  word-break: keep-all;
+  line-height: 2.2rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 const StyledCloseRoundedIcon = styled(CloseRoundedIcon)`
   position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  font-size: 1.6rem;
+  top: 1rem;
+  right: 1rem;
+  font-size: 2rem;
+  color: ${({ theme }) => theme.colors.normalGray};
   cursor: pointer;
   &:hover {
     color: ${({ theme }) => theme.colors.normalRed};
   }
 `;
 
+const ColoredText = styled.span`
+  color: ${({ theme, status }) => (status && theme.colors[status]) || theme.colors.normalGreen};
+`;
+
+const EmptyItem = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.6rem;
+`;
+
+const BottomContainer = styled.div``;
+
 const ArrowDropDownIconCostomized = styled(ArrowDropDownIcon)`
-  font-size: 2rem;
+  font-size: 2.8rem;
 `;
 
 NotificationModal.propTypes = {

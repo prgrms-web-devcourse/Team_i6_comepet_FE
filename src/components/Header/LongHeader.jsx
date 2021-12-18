@@ -106,7 +106,7 @@ const LongHeader = ({ isLoggedIn = false }) => {
         </BottomWrapper>
       </BackgroundBox>
       <InformationModal isVisible={isInformationModalVisible} top="5rem" right="3rem" />
-      <NotificationModal isVisible={isNotificationModalVisible} top="5rem" right="3rem" />
+      <NotificationModal isVisible={isNotificationModalVisible} top="5rem" right="3%" />
       <SidebarModal isVisible={isSidebarModalVisible} top="5rem" left="2rem" />
     </Wrapper>
   );
