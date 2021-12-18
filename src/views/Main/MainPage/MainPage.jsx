@@ -42,7 +42,9 @@ const MainPage = () => {
           <PostCardList>
             {posts.map(({ id, ...props }) => (
               <PostCardWrapper key={id}>
-                <PostCard postId={id} {...props} />
+                <Link to={`/post/${id}`}>
+                  <PostCard postId={id} {...props} />
+                </Link>
               </PostCardWrapper>
             ))}
           </PostCardList>
