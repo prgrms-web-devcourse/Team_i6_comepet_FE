@@ -14,11 +14,26 @@ import {
 } from './Category';
 import ErrorModal from './ErrorModal/ErrorModal';
 import useForm from '@/hooks/useForm';
+import { POST } from '@/apis/axios';
 
 const PostCreatePage = () => {
   const [isErrorExist, setIsErrorExist] = useState(false);
-  const { handleChange, handleSubmit } = useForm({
+  const { values, handleChange, handleSubmit } = useForm({
     initialValues: {
+      status: null,
+      date: null,
+      cityId: null,
+      townId: null,
+      detailAddress: null,
+      telNumber: null,
+      animalId: null,
+      animalKindName: null,
+      age: null,
+      sex: null,
+      chipNumber: null,
+      tags: [],
+      files: null,
+      content: null,
       images: null
     },
     onSubmit: async () => {
@@ -27,10 +42,11 @@ const PostCreatePage = () => {
 
       const { images, ...param } = values; // eslint-disable-line no-unused-vars
       formData.append('param', new Blob([JSON.stringify(param)], { type: 'application/json' }));
+
       const res = await POST('/missing-posts', formData, { 'Content-type': 'multipart/form-data' });
+
       return res;
     },
-    onSubmit: () => {},
     validate: ({ status, date, cityId, townId, animalId, animalKindName, sex, content }) => {
       const errors = {};
 
