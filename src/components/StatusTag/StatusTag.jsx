@@ -42,6 +42,7 @@ const Wrapper = styled.div`
   position: absolute;
   top: 0;
   right: 0;
+  z-index: 1;
   width: ${({ theme }) => theme.sizes.statusTag.wrapper.small.width};
   height: ${({ theme }) => theme.sizes.statusTag.wrapper.small.height};
   background-color: ${(props) => decideColor(props)};

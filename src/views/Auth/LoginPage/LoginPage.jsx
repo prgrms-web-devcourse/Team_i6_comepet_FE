@@ -15,6 +15,7 @@ import { USER_ERROR, AUTH_ERROR, REGEX } from '@/utils/constants';
 import { getImageSrc, isValidInput } from '@/utils/helpers';
 import { POST } from '@/apis/axios';
 import { setCookie } from '@/utils/cookie';
+import axios from 'axios';
 
 const LoginPage = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -25,6 +26,7 @@ const LoginPage = () => {
       const headers = { Authorization: '' };
       const { token } = await POST('/login', values, headers);
 
+      changeAxiosHeader(token);
       setCookie('token', token);
       navigate('/', { replace: true });
     } catch (error) {
@@ -179,4 +181,8 @@ const validate = ({ email, password }) => {
   }
 
   return errors;
+};
+
+const changeAxiosHeader = (token) => {
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 };

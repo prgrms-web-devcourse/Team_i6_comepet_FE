@@ -11,9 +11,10 @@ import FemaleRoundedIcon from '@mui/icons-material/FemaleRounded';
 import QuestionMarkRoundedIcon from '@mui/icons-material/QuestionMarkRounded';
 
 const PostCard = ({
+  postId,
   city,
   town,
-  animalKind,
+  animalKindName,
   status,
   createdAt,
   sex,
@@ -25,12 +26,12 @@ const PostCard = ({
   width,
   height
 }) => {
-  const switchTextBy = (animalKind) => {
-    switch (animalKind) {
+  const switchTextBy = (animalKindName) => {
+    switch (animalKindName) {
       case 'UNKNOWN':
         return '종류 모름';
       default:
-        return animalKind;
+        return animalKindName;
     }
   };
 
@@ -49,31 +50,33 @@ const PostCard = ({
     <Wrapper>
       <BackgroundBox width={width || '14.4rem'} height={height || '21.1rem'}>
         {status && <StatusTag status={status} />}
-        <Image
-          src={thumbnail}
-          width={width || '14.4rem'}
-          height="12.6rem"
-          borderRadius="1.6rem 1.6rem 0 0"
-        />
-        <ScrapCounter size="small" isBookmark={isBookmark}>
-          {bookmarkCount}
-        </ScrapCounter>
+        <ImageWrapper>
+          <Image
+            src={thumbnail}
+            width={width || '14.4rem'}
+            height="12.6rem"
+            borderRadius="1.6rem 1.6rem 0 0"
+          />
+          <ScrapCounter size="small" isBookmark={isBookmark}>
+            {bookmarkCount}
+          </ScrapCounter>
+        </ImageWrapper>
         <Content>
           <Title>
-            {switchTextBy(animalKind)}
+            {switchTextBy(animalKindName)}
             <SexIconWrapper>{switchIconBy(sex)}</SexIconWrapper>
           </Title>
           <Area>
             {city} {town}
           </Area>
+          <Date>{formatDate(createdAt || foundDate)}</Date>
           {tags && (
             <TagList>
-              {tags.map(({ id, name }) => (
-                <TagItem key={id}>#{name} </TagItem>
+              {tags.map(({ name }, tagIndex) => (
+                <TagItem key={`${postId}${tagIndex}`}>#{name} </TagItem>
               ))}
             </TagList>
           )}
-          <Date>{formatDate(createdAt || foundDate)}</Date>
         </Content>
       </BackgroundBox>
     </Wrapper>
@@ -82,6 +85,10 @@ const PostCard = ({
 
 const Wrapper = styled.div`
   font-size: 0.8rem;
+`;
+
+const ImageWrapper = styled.div`
+  position: relative;
 `;
 
 const Content = styled.div`
@@ -105,6 +112,7 @@ const Area = styled.div`
 `;
 
 const TagList = styled.ul`
+  width: 13rem;
   margin-bottom: 0.4rem;
   color: ${({ theme }) => theme.colors.normalGray};
 `;
@@ -118,9 +126,10 @@ const Date = styled.div`
 `;
 
 PostCard.propTypes = {
+  postId: PropTypes.number,
   city: PropTypes.string,
   town: PropTypes.string,
-  animalKind: PropTypes.string,
+  animalKindName: PropTypes.string,
   status: PropTypes.string,
   createdAt: PropTypes.string,
   foundDate: PropTypes.string,
