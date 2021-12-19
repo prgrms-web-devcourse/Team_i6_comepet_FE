@@ -99,10 +99,11 @@ const PetInformation = ({ margin, onChange, animalData }) => {
           onChange(makeObjectForm('age', null));
         } else {
           let age = Number(e.target.value);
-          if (age >= 499) age = 499;
-          if (age < 0) age = 0;
-          setAge(age);
-          onChange(makeObjectForm('age', age));
+          if (age >= 499) e.target.value = 499;
+          if (age < 0) e.target.value = 0;
+
+          setAge(Number(e.target.value));
+          onChange(makeObjectForm('age', Number(e.target.value)));
         }
         return;
       }
@@ -197,6 +198,7 @@ const PetInformation = ({ margin, onChange, animalData }) => {
             type="number"
             margin="1.8rem 0 0 0"
             disabled={isAgeUnknown}
+            required
           />
           <CheckBox
             onChange={handleUnknownChecked}
