@@ -54,6 +54,7 @@ const Post = ({ data, postId }) => {
           compileMenuToggle={compileMenuToggle}
           onToggleCompileMenu={() => setCompileMenuToggle(!compileMenuToggle)}
           onRemove={handleRemovePost}
+          postId={postId}
         />
         <Seperator margin="1.6rem 0" type="horizon" />
         <PostHeader

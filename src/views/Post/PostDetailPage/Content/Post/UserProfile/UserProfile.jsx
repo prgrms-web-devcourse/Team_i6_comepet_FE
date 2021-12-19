@@ -7,6 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 import useAuth from '@/hooks/useAuth';
 import { changeTimeFormation } from '@/utils/helpers';
+import { useNavigate } from 'react-router-dom';
 
 const PostHeader = ({
   account,
@@ -14,9 +15,11 @@ const PostHeader = ({
   viewCount,
   createdAt,
   onToggleCompileMenu,
-  onRemove
+  onRemove,
+  postId
 }) => {
   const { userId } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <Wrapper>
@@ -31,7 +34,7 @@ const PostHeader = ({
               <StyledMoreVertIcon />
             </StyledMoreVertIconButton>
             <CompileMenuWrapper isNotCompileMenuShown={compileMenuToggle}>
-              <StyledEditIconButton>
+              <StyledEditIconButton onClick={() => navigate(`/post/edit/${postId}`)}>
                 <StyledEditIcon />
               </StyledEditIconButton>
               <StyledRestoreFromTrashIconButton onClick={onRemove}>
@@ -134,12 +137,12 @@ PostHeader.propTypes = {
   createdAt: PropTypes.string,
   onToggleCompileMenu: PropTypes.func,
   compileMenuToggle: PropTypes.bool,
-  onRemove: PropTypes.func
+  onRemove: PropTypes.func,
+  postId: PropTypes.string
 };
 
 export default PostHeader;
 
 const isNotCompileButtonShown = (commentId, userId) => {
-  console.log(commentId, userId);
   return commentId !== userId;
 };
