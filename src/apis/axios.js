@@ -62,7 +62,7 @@ export const PUT = async (url, body) => {
 };
 
 export const DELETE = async (url, body) => {
-  if (!(url && body)) {
+  if (!url) {
     console.error(DEV_ERROR.INVALID_ARGS);
     return;
   }
