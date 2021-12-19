@@ -1,30 +1,69 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import { Avatar } from '@/components/Avatar';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import EditIcon from '@mui/icons-material/Edit';
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import { timeForToday } from '@/utils/helpers';
 import useAuth from '@/hooks/useAuth';
 
 const CommentList = ({
   comments,
-  onRemove,
-  onCompile,
+  onRemoveComment,
+  onCompileComment,
   compileMenuToggles,
+  compileEditorToggles,
+  onToggleCompileEditor,
   onToggleCompileMenu
 }) => {
+  const [input, setInput] = useState('');
+
   const { userId } = useAuth();
 
+  const handleInput = async (e) => {
+    const textWithTags = e.target.innerHTML;
+    setInput(textWithTags);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.target.textContent.length >= 255 && e.key !== 'Backspace') {
+      e.preventDefault();
+      return;
+    }
+  };
+
+  const handlePaste = (e) => {
+    e.preventDefault();
+  };
+
+  // TODO: CompileEditor에 ContentEditor 컴포넌트 이용하기
   return (
     <Wrapper>
       {comments.map(({ id, content, account, createdAt }, index) => (
         <CommentItem key={id}>
-          <Avatar src={account.image} size="3.6rem" margin="0"></Avatar>
+          <Avatar src={account.image} size="3.6rem" margin="0" />
           <DetailInformationWrapper>
             <Nickname>{account.nickname}</Nickname>
-            <Text dangerouslySetInnerHTML={{ __html: content }} />
+            {(!isCompiling(compileEditorToggles, index) && (
+              <Text dangerouslySetInnerHTML={{ __html: content }} />
+            )) ||
+              (isCompiling(compileEditorToggles, index) && (
+                <CommentEditorWrapper>
+                  <CommentEditor
+                    contentEditable
+                    dangerouslySetInnerHTML={{ __html: content }}
+                    onKeyDown={handleKeyDown}
+                    onInput={handleInput}
+                    onPaste={handlePaste}
+                  />
+                  <CompiledCommentSubmitButton
+                    onClick={() => onCompileComment(input.length !== 0 ? input : content, id)}>
+                    <StyledArrowCircleRightIcon />
+                  </CompiledCommentSubmitButton>
+                </CommentEditorWrapper>
+              ))}
           </DetailInformationWrapper>
           <AdditionalInformation>
             <DateWrapper>
@@ -36,12 +75,12 @@ const CommentList = ({
               </CompileButton>
             </DateWrapper>
             <CompileMenuWrapper isNotCompileMenuShown={compileMenuToggles[index]}>
-              <StyledEditIconButton onClick={() => onCompile()}>
+              <StyledEditIconButton onClick={() => onToggleCompileEditor(index)}>
                 <StyledEditIcon />
               </StyledEditIconButton>
               <StyledRestoreFromTrashIconButton
                 onClick={() => {
-                  onRemove(id);
+                  onRemoveComment(id);
                   onToggleCompileMenu(index);
                 }}>
                 <StyledRestoreFromTrashIcon />
@@ -65,6 +104,7 @@ const CommentItem = styled.li`
 `;
 
 const DetailInformationWrapper = styled.div`
+  flex-grow: 1;
   margin-left: 1.6rem;
 `;
 
@@ -72,6 +112,26 @@ const Nickname = styled.div`
   margin-bottom: 1.2rem;
   font-size: 1.2rem;
   font-weight: bold;
+`;
+
+const CommentEditorWrapper = styled.div`
+  position: relative;
+`;
+
+const CommentEditor = styled.div`
+  background-color: ${({ theme }) => theme.colors.lighterBlue};
+  width: 100%;
+  border-radius: 0.6rem;
+  padding: 2rem;
+  font-size: 1.2rem;
+  outline: none;
+`;
+
+const CompiledCommentSubmitButton = styled.button`
+  position: absolute;
+  z-index: 1;
+  right: 0.3rem;
+  bottom: 0;
 `;
 
 const Text = styled.div`
@@ -83,11 +143,7 @@ const Text = styled.div`
   font-size: 1.2rem;
 `;
 
-const AdditionalInformation = styled.div`
-  position: absolute;
-  right: 0;
-  top: 0;
-`;
+const AdditionalInformation = styled.div``;
 
 const DateWrapper = styled.div`
   display: flex;
@@ -129,15 +185,25 @@ const StyledRestoreFromTrashIconButton = styled.button`
 `;
 const StyledRestoreFromTrashIcon = styled(RestoreFromTrashIcon)``;
 
+const StyledArrowCircleRightIcon = styled(ArrowCircleRightIcon)`
+  font-size: 4.5rem;
+  transform: rotate(-90deg);
+  color: ${({ theme }) => theme.colors.normalOrange};
+`;
+
 CommentList.propTypes = {
   comments: PropTypes.array,
-  onRemove: PropTypes.func,
-  onCompile: PropTypes.func,
+  onRemoveComment: PropTypes.func,
+  onCompileComment: PropTypes.func,
   onToggleCompileMenu: PropTypes.func,
-  compileMenuToggles: PropTypes.array
+  compileMenuToggles: PropTypes.array,
+  compileEditorToggles: PropTypes.array,
+  onToggleCompileEditor: PropTypes.func
 };
 
 export default CommentList;
 
 const isNotCompileButtonShown = (commentId, userId, content) =>
   commentId !== userId || content === '작성자가 삭제한 댓글입니다.';
+
+const isCompiling = (compileEditorToggles, index) => compileEditorToggles[index] === true;

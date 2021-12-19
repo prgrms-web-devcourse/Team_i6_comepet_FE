@@ -5,13 +5,17 @@ import { Seperator } from '@/components/Seperator';
 import CommentHeader from './CommentHeader/CommentHeader';
 import CommentList from './CommentList/CommentList';
 import CommentCreate from './CommentCreate/CommentCreate';
-import { POST, DELETE } from '@/apis/axios';
+import { POST, DELETE, PATCH } from '@/apis/axios';
 
 const Comment = ({ data, postId }) => {
   const [comments, setComments] = useState([...data]);
   const [commentCount, setCommentCount] = useState(comments.length);
   const [compileMenuToggles, setCompileMenuToggles] = useState(
     new Array(comments.length).fill(true)
+  );
+  // TODO: compileMenu 도 추후에 false로 통일시킬 것
+  const [compileEditorToggles, setCompileEditorToggles] = useState(
+    new Array(comments.length).fill(false)
   );
 
   const handleCreateComment = async (content) => {
@@ -23,10 +27,18 @@ const Comment = ({ data, postId }) => {
     const nextComment = [...comments];
     nextComment.push(res);
     setComments(nextComment);
+  };
 
+  const handleAddCompileMenuToggle = () => {
     const nextCompileMenuToggles = [...compileMenuToggles];
     nextCompileMenuToggles.push(true);
     setCompileMenuToggles(nextCompileMenuToggles);
+  };
+
+  const handleAddCompileEditorToggle = () => {
+    const nextCompileEditorToggles = [...compileEditorToggles];
+    nextCompileEditorToggles.push(false);
+    setCompileEditorToggles(nextCompileEditorToggles);
   };
 
   const handleToggleCompileMenu = (index) => {
@@ -36,8 +48,22 @@ const Comment = ({ data, postId }) => {
     setCompileMenuToggles(nextState);
   };
 
+  const handleToggleCompileEditor = (index) => {
+    const nextState = [...compileEditorToggles];
+    const compilingCommentIndex = nextState.findIndex((isCompiling) => isCompiling);
+    const indexToEdit = nextState.findIndex((_, targetIndex) => targetIndex === index);
+
+    if (compilingCommentIndex !== indexToEdit) {
+      nextState[compilingCommentIndex] = false;
+      handleToggleCompileMenu(compilingCommentIndex);
+    }
+
+    nextState[indexToEdit] = !nextState[indexToEdit];
+    setCompileEditorToggles(nextState);
+  };
+
   const handleRemoveComment = async (commentId) => {
-    await DELETE('/comments/' + commentId);
+    await DELETE(`/comments/${commentId}`);
     const nextState = [...comments];
     const indexToDelete = comments.findIndex(({ id }) => id === commentId);
     const indexToDeleteObject = nextState[indexToDelete];
@@ -47,8 +73,16 @@ const Comment = ({ data, postId }) => {
     setComments(nextState);
   };
 
-  const handleCompileComment = (comment) => {
-    console.log(comment);
+  const handleCompileComment = async (content, commentId) => {
+    const compiledComment = await PATCH(`/comments/${commentId}`, {
+      content
+    });
+
+    const nextState = [...comments];
+    const targetCommentIndex = nextState.findIndex(({ id }) => id === commentId);
+    nextState[targetCommentIndex] = compiledComment;
+
+    setComments(nextState);
   };
 
   const handleIncreaseCommentCount = () => {
@@ -66,17 +100,24 @@ const Comment = ({ data, postId }) => {
       <CommentList
         comments={comments}
         compileMenuToggles={compileMenuToggles}
-        onRemove={(id) => {
+        compileEditorToggles={compileEditorToggles}
+        onRemoveComment={(id) => {
           handleRemoveComment(id);
           handleDecreaseCommentCount();
         }}
-        onCompile={handleCompileComment}
+        onCompileComment={(input, index) => {
+          handleCompileComment(input, index);
+          handleToggleCompileEditor();
+        }}
         onToggleCompileMenu={handleToggleCompileMenu}
+        onToggleCompileEditor={handleToggleCompileEditor}
       />
       <CommentCreate
         onChange={(input) => {
           handleCreateComment(input);
           handleIncreaseCommentCount();
+          handleAddCompileMenuToggle();
+          handleAddCompileEditorToggle();
         }}
       />
     </BackgroundBox>
