@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 
-const CommentCreate = () => {
-  const handleInput = (e) => {
-    const onlyText = e.target.textContent;
+const CommentCreate = ({ onChange }) => {
+  const [input, setInput] = useState('');
+
+  const contentEditorRef = useRef(null);
+
+  const handleInput = async (e) => {
     const textWithTags = e.target.innerHTML;
-    console.log(onlyText, textWithTags);
-    // onChange({ target: { name: 'content', value: textWithTags } });
+    setInput(textWithTags);
   };
 
   const handleKeyDown = (e) => {
@@ -21,20 +24,24 @@ const CommentCreate = () => {
     e.preventDefault();
   };
 
-  // TODO: 댓글 입력창 contentEditable로 변경
   return (
     <Wrapper>
-      {/* <Input placeholder="댓글을 입력해주세요" /> */}
       <ContentEditor
         margin="1.8rem 0 0 0"
         onKeyDown={handleKeyDown}
         onInput={handleInput}
         contentEditable
         onPaste={handlePaste}
-        placeholder="내용을 입력해주세요"
+        placeholder="내용을 입력해주세요 (최대 255글자)"
         padding="1.5rem"
+        ref={contentEditorRef}
       />
-      <Button>
+      <Button
+        onClick={() => {
+          onChange(input);
+          setInput('');
+          contentEditorRef.current.textContent = '';
+        }}>
         <StyledArrowCircleRightIcon />
       </Button>
     </Wrapper>
@@ -74,6 +81,8 @@ const Button = styled.button`
   bottom: 0;
 `;
 
-CommentCreate.propTypes = {};
+CommentCreate.propTypes = {
+  onChange: PropTypes.func
+};
 
 export default CommentCreate;

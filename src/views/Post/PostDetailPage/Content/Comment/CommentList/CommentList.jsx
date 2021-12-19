@@ -6,33 +6,44 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import EditIcon from '@mui/icons-material/Edit';
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 import { timeForToday } from '@/utils/helpers';
+import useAuth from '@/hooks/useAuth';
 
-const CommentList = ({ comments, createdAt }) => {
-  // const [commentVisibility, setCommentVisibility] = useState(makeCommentVisibilities(comments));
-
-  // const handleCompileMenuVisibility = (e) => {};
+const CommentList = ({
+  comments,
+  onRemove,
+  onCompile,
+  compileMenuToggles,
+  onToggleCompileMenu
+}) => {
+  const { userId } = useAuth();
 
   return (
     <Wrapper>
-      {comments.map(({ id, content, user }) => (
+      {comments.map(({ id, content, account, createdAt }, index) => (
         <CommentItem key={id}>
-          <Avatar src={user.image} size="3.6rem" margin="0"></Avatar>
+          <Avatar src={account.image} size="3.6rem" margin="0"></Avatar>
           <DetailInformationWrapper>
-            <Nickname>{user.nickname}</Nickname>
-            <Text>{content}</Text>
+            <Nickname>{account.nickname}</Nickname>
+            <Text dangerouslySetInnerHTML={{ __html: content }} />
           </DetailInformationWrapper>
           <AdditionalInformation>
             <DateWrapper>
               <Date>{timeForToday(createdAt)}</Date>
-              <CompileButton>
-                <StyledMoreHorizIcon></StyledMoreHorizIcon>
+              <CompileButton
+                isNotCompileButtonShown={isNotCompileButtonShown(account.id, userId, content)}
+                onClick={() => onToggleCompileMenu(index)}>
+                <StyledMoreHorizIcon />
               </CompileButton>
             </DateWrapper>
-            <CompileMenuWrapper>
-              <StyledEditIconButton>
+            <CompileMenuWrapper isNotCompileMenuShown={compileMenuToggles[index]}>
+              <StyledEditIconButton onClick={() => onCompile()}>
                 <StyledEditIcon />
               </StyledEditIconButton>
-              <StyledRestoreFromTrashIconButton>
+              <StyledRestoreFromTrashIconButton
+                onClick={() => {
+                  onRemove(id);
+                  onToggleCompileMenu(index);
+                }}>
                 <StyledRestoreFromTrashIcon />
               </StyledRestoreFromTrashIconButton>
             </CompileMenuWrapper>
@@ -64,6 +75,11 @@ const Nickname = styled.div`
 `;
 
 const Text = styled.div`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
   font-size: 1.2rem;
 `;
 
@@ -71,9 +87,6 @@ const AdditionalInformation = styled.div`
   position: absolute;
   right: 0;
   top: 0;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
 `;
 
 const DateWrapper = styled.div`
@@ -84,7 +97,7 @@ const DateWrapper = styled.div`
 const Date = styled.div``;
 
 const CompileButton = styled.button`
-  display: flex;
+  display: ${({ isNotCompileButtonShown }) => (isNotCompileButtonShown && 'none') || 'flex'};
   align-items: center;
   padding: 0 0.6rem;
   :hover {
@@ -95,7 +108,9 @@ const CompileButton = styled.button`
 const StyledMoreHorizIcon = styled(MoreHorizIcon)``;
 
 const CompileMenuWrapper = styled.div`
-  display: flex;
+  display: ${({ isNotCompileMenuShown }) => (isNotCompileMenuShown && 'none') || 'flex'};
+  position: absolute;
+  right: 0.1rem;
 `;
 
 const StyledEditIconButton = styled.button`
@@ -116,9 +131,13 @@ const StyledRestoreFromTrashIcon = styled(RestoreFromTrashIcon)``;
 
 CommentList.propTypes = {
   comments: PropTypes.array,
-  createdAt: PropTypes.string
+  onRemove: PropTypes.func,
+  onCompile: PropTypes.func,
+  onToggleCompileMenu: PropTypes.func,
+  compileMenuToggles: PropTypes.array
 };
 
 export default CommentList;
 
-// const makeCommentVisibilities = (comments) => comments.map(({ id }) => ({ id, isVisible: false }));
+const isNotCompileButtonShown = (commentId, userId, content) =>
+  commentId !== userId || content === '작성자가 삭제한 댓글입니다.';
