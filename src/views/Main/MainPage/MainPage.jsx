@@ -9,16 +9,13 @@ import { PostCard } from '@/components/PostCard';
 import { Button } from '@/components/Button';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { GET } from '@/apis/axios';
-import { DEV_ERROR } from '@/utils/constants';
 
 const MainPage = () => {
   const [target, isTargetInView] = useInView();
-  const { data, error, size, setSize } = useSWRInfinite(
+  const { data, size, setSize } = useSWRInfinite(
     (index) => `/missing-posts?page=${index + 1}&size=6`,
     GET
   );
-
-  error && alert(DEV_ERROR.LOAD_FAILED);
 
   const posts = data?.reduce((prevData, nextData) => {
     return { missingPosts: [...prevData.missingPosts, ...nextData.missingPosts] };
