@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import LineBreakWrapper from '../Common/LineBreakWrapper';
@@ -8,40 +8,8 @@ import { Input } from '@/components/Input';
 import { CheckBox } from '@/components/CheckBox';
 import { GENDER } from '@/utils/constants';
 
-const kindsOfCat = [
-  '페르시안',
-  '메인쿤',
-  '벵골',
-  '브리티시 쇼트헤어',
-  '시암고양이',
-  '스핑크스',
-  '래그들',
-  '먼치킨',
-  '스코티시 폴드',
-  '노르웨이 숲 고양이',
-  '아메리칸 쇼트헤어'
-];
-
-const kindsOfDog = [
-  '저먼 셰퍼드',
-  '래브라도 리트리버',
-  '시베리안 허스키',
-  '아메리칸 핏불 테리어',
-  '닥스훈트',
-  '로트바일러',
-  '저면 셰퍼드',
-  '도베르만 핀셔',
-  '시바견'
-];
-
-const responsedAnimalId = {
-  1: '개',
-  2: '고양이',
-  3: '기타'
-};
-
-const PetInformation = ({ margin, onChange }) => {
-  const [animalId, setAnimalId] = useState(null);
+const PetInformation = ({ margin, onChange, animalData }) => {
+  const [animal, setAnimal] = useState(null);
   const [animalKindName, setAnimalKindName] = useState(null);
   const [age, setAge] = useState(null);
   const [sex, setSex] = useState(null);
@@ -51,14 +19,31 @@ const PetInformation = ({ margin, onChange }) => {
   const kindsSelectionBoxRef = useRef(null);
   const kindsCheckBoxRef = useRef(null);
 
+  const animalList = useMemo(() => {
+    const targetAnimal = animalData?.find(({ name }) => name === animal);
+    const kinds = targetAnimal?.kinds;
+    const res = kinds?.map(({ name }) => name);
+    return res;
+  }, [animal, animalData]);
+
+  useEffect(() => {
+    if (animal !== null && animal !== '동물') {
+      const targetObject = animalData?.find(({ name }) => name === animal);
+      const targetId = targetObject.id;
+      onChange({ target: { name: 'animalId', value: targetId } });
+    } else if (animal === null) {
+      onChange({ target: { name: 'animalId', value: null } });
+    }
+  }, [animal]);
+
   const handleChange = (e) => {
     if (isSelectChange(e)) {
       if (isAnimalSelection(e)) {
         if (isDefalutOptionSelected(e)) {
-          setAnimalId(null);
+          setAnimal(null);
           onChange(makeObjectForm('animalId', null));
         } else {
-          setAnimalId(e.target.value);
+          setAnimal(e.target.value);
           onChange(makeObjectForm('animalId', e.target.value));
         }
 
@@ -86,7 +71,14 @@ const PetInformation = ({ margin, onChange }) => {
           onChange(makeObjectForm('sex', null));
         } else {
           setSex(e.target.value);
-          onChange(makeObjectForm('sex', e.target.value));
+          onChange(
+            makeObjectForm(
+              'sex',
+              (e.target.value === '수컷' && 'MALE') ||
+                (e.target.value === '암컷' && 'FEMALE') ||
+                (e.target.value === '모름' && 'UNKNOWN')
+            )
+          );
         }
         return;
       }
@@ -106,10 +98,12 @@ const PetInformation = ({ margin, onChange }) => {
           setAge(null);
           onChange(makeObjectForm('age', null));
         } else {
-          if (e.target.value >= 499) e.target.value = 499;
-          if (e.target.value < 0) e.target.value = 0;
-          setAge(e.target.value);
-          onChange(makeObjectForm('age', e.target.value));
+          let age = Number(e.target.value);
+          if (age >= 499) e.target.value = 499;
+          if (age < 0) e.target.value = 0;
+
+          setAge(Number(e.target.value));
+          onChange(makeObjectForm('age', Number(e.target.value)));
         }
         return;
       }
@@ -150,12 +144,12 @@ const PetInformation = ({ margin, onChange }) => {
         <SelectionBox
           id="animal"
           onChange={handleChange}
-          options={Object.values(responsedAnimalId)}
+          options={['개', '고양이', '기타']}
           defaultOption="동물"
           required
         />
-        {((animalId === '동물' || animalId === null) && <></>) ||
-          (animalId === '기타' && (
+        {((animal === '동물' || animal === null) && <></>) ||
+          (animal === '기타' && (
             <>
               <Input
                 id="kinds-input"
@@ -167,29 +161,34 @@ const PetInformation = ({ margin, onChange }) => {
                 required
                 disabled={isAnimalUnknown}
               />
+              <CheckBox
+                id="kinds-checkbox"
+                propRef={kindsCheckBoxRef}
+                onChange={handleUnknownChecked}
+                margin="0 0 0 1.6rem"
+                fontSize="1.4rem"
+              />
             </>
           )) || (
-            <>
+            <LineBreakWrapper>
               <SelectionBox
                 onChange={handleChange}
-                options={
-                  (animalId === '고양이' && kindsOfCat) || (animalId === '개' && kindsOfDog) || []
-                }
+                options={animalList || []}
                 defaultOption="품종"
-                margin="0 0 0 2rem"
+                margin="1.6rem 0 0 0"
                 required
                 disabled={isAnimalUnknown}
                 propRef={kindsSelectionBoxRef}
               />
-            </>
+              <CheckBox
+                id="kinds-checkbox"
+                propRef={kindsCheckBoxRef}
+                onChange={handleUnknownChecked}
+                margin="0 0 0 1.6rem"
+                fontSize="1.4rem"
+              />
+            </LineBreakWrapper>
           )}
-        <CheckBox
-          id="kinds-checkbox"
-          propRef={kindsCheckBoxRef}
-          onChange={handleUnknownChecked}
-          margin="0 0 0 1.6rem"
-          fontSize="1.4rem"
-        />
         <LineBreakWrapper>
           <Input
             id="age-input"
@@ -198,8 +197,8 @@ const PetInformation = ({ margin, onChange }) => {
             placeholder="나이"
             type="number"
             margin="1.8rem 0 0 0"
-            required
             disabled={isAgeUnknown}
+            required
           />
           <CheckBox
             onChange={handleUnknownChecked}
@@ -232,8 +231,9 @@ const Wrapper = styled.div`
 `;
 
 PetInformation.propTypes = {
-  margin: PropTypes.string,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  animalData: PropTypes.array,
+  margin: PropTypes.string
 };
 
 export default PetInformation;

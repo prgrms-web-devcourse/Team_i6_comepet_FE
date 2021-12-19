@@ -23,6 +23,7 @@ const Input = ({
   disabled,
   onChange,
   onBlur,
+  onKeyDown,
   cursor
 }) => {
   return (
@@ -47,6 +48,7 @@ const Input = ({
       onChange={onChange}
       onBlur={onBlur}
       disabled={disabled}
+      onKeyDown={onKeyDown}
       cursor={cursor}
     />
   );
@@ -95,6 +97,7 @@ Input.propTypes = {
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
+  onKeyDown: PropTypes.func,
   cursor: PropTypes.string
 };
 
