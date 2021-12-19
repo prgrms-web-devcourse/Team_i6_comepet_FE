@@ -6,7 +6,6 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Avatar } from '@/components/Avatar';
 import { Seperator } from '@/components/Seperator';
 import { BackgroundBox } from '@/components/BackgroundBox';
-import { Text } from '@/components/Text';
 
 const SidebarModal = ({ src, nickname = '둘리가 귀여워', isVisible, left, top, right, bottom }) => {
   return (
@@ -66,6 +65,15 @@ const Nickname = styled.span`
   font-size: 1.6rem;
   font-weight: bold;
   color: ${({ theme }) => theme.colors.normalBlack};
+`;
+
+const Text = styled.span`
+  display: inline-block;
+  margin: ${({ margin }) => margin};
+  font-size: ${({ fontSize }) => fontSize};
+  font-weight: ${({ fontWeight }) => fontWeight};
+  color: ${({ theme, color }) => theme.colors[color] || color};
+  cursor: ${({ cursor }) => cursor};
 `;
 
 const MiddleContainer = styled.ul`
