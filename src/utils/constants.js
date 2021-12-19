@@ -14,7 +14,8 @@ export const AUTH_ERROR = {
 
 export const DEV_ERROR = Object.freeze({
   INVALID_PROP: '잘못된 Prop이 입력되었습니다.',
-  INVALID_ARGS: '유효하지 않은 Argument입니다.'
+  INVALID_ARGS: '유효하지 않은 Argument입니다.',
+  LOAD_FAILED: '데이터를 불러오는 데 실패했습니다.'
 });
 
 export const USER_ERROR = Object.freeze({

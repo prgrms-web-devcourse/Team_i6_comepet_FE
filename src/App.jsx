@@ -19,6 +19,8 @@ import {
 } from '@/views';
 
 const App = function () {
+  initScrollForReload();
+
   return (
     <AuthProvider>
       <Routes>
@@ -45,3 +47,9 @@ const App = function () {
 };
 
 export default App;
+
+const initScrollForReload = () => {
+  window.onbeforeunload = () => {
+    window.scrollTo(0, 0);
+  };
+};

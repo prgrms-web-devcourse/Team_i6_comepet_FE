@@ -1,7 +1,7 @@
 import axios from '@/apis/config';
 import { DEV_ERROR } from '@/utils/constants';
 
-export const GET = async (url) => {
+export const GET = async (url, params) => {
   if (!url) {
     console.error(DEV_ERROR.INVALID_ARGS);
     return;
@@ -10,7 +10,8 @@ export const GET = async (url) => {
   try {
     const { data } = await axios({
       method: 'get',
-      url
+      url,
+      params
     });
 
     return data.data;
