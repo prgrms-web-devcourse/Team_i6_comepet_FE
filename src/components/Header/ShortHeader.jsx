@@ -85,13 +85,16 @@ const TopWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2.4rem;
+  height: 100%;
 `;
 
 const StyledHeader = styled.h1`
   position: absolute;
   left: 50%;
-  transform: translateX(-50%);
-  font-size: 2.5rem;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2.4rem;
+  margin: 0.2rem 0 0 0;
   color: ${({ theme }) => theme.colors.brand};
   cursor: pointer;
 `;
