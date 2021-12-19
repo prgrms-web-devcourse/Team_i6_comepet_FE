@@ -42,7 +42,12 @@ const Date = ({ margin, onChange }) => {
       selectedDay !== undefined
     ) {
       onChange({
-        target: { name: 'date', value: `${selectedYear}-${selectedMonth}-${selectedDay}` }
+        target: {
+          name: 'date',
+          value: `${selectedYear}-${makeYYYYMMDDForm(selectedMonth)}-${makeYYYYMMDDForm(
+            selectedDay
+          )}`
+        }
       });
     } else {
       onChange({
@@ -98,8 +103,8 @@ export default Date;
 
 const getRangeOfYear = () => {
   const thisYear = new window.Date().getFullYear();
-  const differenceBetween1970AndThisYear = thisYear - 1970 + 1;
-  const res = new Array(differenceBetween1970AndThisYear).fill(0).map((_, i) => i + 1970);
+  const TenYearsAgo = thisYear - 10;
+  const res = new Array(thisYear - TenYearsAgo + 1).fill(0).map((_, i) => i + TenYearsAgo);
   return res;
 };
 
@@ -166,4 +171,5 @@ const isYearSelection = (e) => e.target[0].textContent === '년';
 const isMonthSelection = (e) => e.target[0].textContent === '월';
 const isDaySelection = (e) => e.target[0].textContent === '일';
 const isDefalutOptionSelected = (e) => e.target[0].textContent === e.target.value;
+const makeYYYYMMDDForm = (number) => (number < 10 && `0${number}`) || number;
 const February = 2;
