@@ -5,27 +5,12 @@ import { Slider } from '@/components/Slider';
 import { ScrapCounter } from '@/components/ScrapCounter';
 import { StatusTag } from '@/components/StatusTag';
 
-const imageList = [
-  {
-    image: 'https://images.unsplash.com/photo-1546190255-451a91afc548?ixlib=rb-1.2.1'
-  },
-  {
-    image: 'https://images.unsplash.com/photo-1591348122449-02525d70379b?ixlib=rb-1.2.1'
-  },
-  {
-    image: 'https://images.unsplash.com/photo-1548802673-380ab8ebc7b7?ixlib=rb-1.2.1'
-  },
-  {
-    image: 'https://images.unsplash.com/photo-1577023311546-cdc07a8454d9?ixlib=rb-1.2.1'
-  }
-];
-
-const ImageSlider = ({ bookmarkCount, status }) => {
+const ImageSlider = ({ bookmarkCount, isBookmark, status, images, onClickBookmark }) => {
   return (
     <Wrapper>
-      <Slider imageList={imageList} borderRadius="1.6rem 1.6rem 0 0" />
+      <Slider imageList={images} borderRadius="1.6rem 1.6rem 0 0" />
       <ScrapCounterWrapper>
-        <ScrapCounter size="medium" isBookmark={false}>
+        <ScrapCounter size="medium" isBookmark={isBookmark} onClick={onClickBookmark}>
           {bookmarkCount}
         </ScrapCounter>
       </ScrapCounterWrapper>
@@ -56,7 +41,10 @@ const StatusTagWrapper = styled.div`
 
 ImageSlider.propTypes = {
   bookmarkCount: PropTypes.number,
-  status: PropTypes.string
+  status: PropTypes.string,
+  images: PropTypes.array,
+  isBookmark: PropTypes.bool,
+  onClickBookmark: PropTypes.func
 };
 
 export default ImageSlider;

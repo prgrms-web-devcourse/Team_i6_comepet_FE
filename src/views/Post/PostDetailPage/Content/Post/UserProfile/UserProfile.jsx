@@ -5,24 +5,36 @@ import { Avatar } from '@/components/Avatar';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
+import useAuth from '@/hooks/useAuth';
 import { changeTimeFormation } from '@/utils/helpers';
 
-const PostHeader = ({ user, viewCount, createdAt }) => {
+const PostHeader = ({
+  account,
+  compileMenuToggle,
+  viewCount,
+  createdAt,
+  onToggleCompileMenu,
+  onRemove
+}) => {
+  const { userId } = useAuth();
+
   return (
     <Wrapper>
-      <Avatar src={user.image} margin="0" size="5rem" />
+      <Avatar src={account.image} margin="0" size="5rem" />
       <InnerWrapper>
         <NicknameAndCompileIconWrapper>
-          <Nickname>{user.nickname}</Nickname>
+          <Nickname>{account.nickname}</Nickname>
           <CompileWrapper>
-            <StyledMoreVertIconButton>
+            <StyledMoreVertIconButton
+              isNotCompileButtonShown={isNotCompileButtonShown(account.id, userId)}
+              onClick={onToggleCompileMenu}>
               <StyledMoreVertIcon />
             </StyledMoreVertIconButton>
-            <CompileMenuWrapper>
+            <CompileMenuWrapper isNotCompileMenuShown={compileMenuToggle}>
               <StyledEditIconButton>
                 <StyledEditIcon />
               </StyledEditIconButton>
-              <StyledRestoreFromTrashIconButton>
+              <StyledRestoreFromTrashIconButton onClick={onRemove}>
                 <StyledRestoreFromTrashIcon />
               </StyledRestoreFromTrashIconButton>
             </CompileMenuWrapper>
@@ -71,10 +83,12 @@ const CompileWrapper = styled.div`
   position: relative;
 `;
 
-const StyledMoreVertIconButton = styled.button``;
+const StyledMoreVertIconButton = styled.button`
+  display: ${({ isNotCompileButtonShown }) => isNotCompileButtonShown && 'none'};
+`;
 
 const CompileMenuWrapper = styled.div`
-  display: flex;
+  display: ${({ isNotCompileMenuShown }) => (isNotCompileMenuShown && 'none') || 'flex'};
   position: absolute;
   right: 0;
 `;
@@ -115,9 +129,17 @@ const StyledMoreVertIcon = styled(MoreVertIcon)`
 `;
 
 PostHeader.propTypes = {
-  user: PropTypes.object,
+  account: PropTypes.object,
   viewCount: PropTypes.number,
-  createdAt: PropTypes.string
+  createdAt: PropTypes.string,
+  onToggleCompileMenu: PropTypes.func,
+  compileMenuToggle: PropTypes.bool,
+  onRemove: PropTypes.func
 };
 
 export default PostHeader;
+
+const isNotCompileButtonShown = (commentId, userId) => {
+  console.log(commentId, userId);
+  return commentId !== userId;
+};

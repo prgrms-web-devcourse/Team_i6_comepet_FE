@@ -31,13 +31,13 @@ const PostContent = ({
         <Label size="xsmall" bgColor="brand">
           장소
         </Label>
-        <OneLineText>{city + town + detailAddress}</OneLineText>
+        <OneLineText>{`${city} ${town} ${detailAddress || ''}`}</OneLineText>
       </LabelWrapper>
       <LabelWrapper>
         <Label size="xsmall" bgColor="brand">
           칩 번호
         </Label>
-        <OneLineText>{chipNumber}</OneLineText>
+        <OneLineText>{chipNumber || '모름'}</OneLineText>
       </LabelWrapper>
       <LabelWrapper>
         <Label size="xsmall" bgColor="brand">
