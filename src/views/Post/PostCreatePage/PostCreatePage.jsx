@@ -25,7 +25,20 @@ const PostCreatePage = () => {
 
   const { values, handleChange, handleSubmit } = useForm({
     initialValues: {
-      images: null
+      images: null,
+      status: null,
+      date: null,
+      cityId: null,
+      townId: null,
+      detailAddress: null,
+      telNumber: null,
+      animalId: null,
+      animalKindName: null,
+      age: null,
+      sex: null,
+      chipNumber: null,
+      content: null,
+      tags: []
     },
     onSubmit: async () => {
       const formData = new FormData();
@@ -34,7 +47,7 @@ const PostCreatePage = () => {
       const { images, ...param } = values; // eslint-disable-line no-unused-vars
       formData.append('param', new Blob([JSON.stringify(param)], { type: 'application/json' }));
 
-      const res = await POST('/missing-posts', formData, { 'Content-type': 'multipart/form-data' });
+      const res = await POST('/missing-posts', formData, { type: 'multipart/form-data' });
       return res;
     },
     handleNavigate: (res) => {
@@ -49,6 +62,7 @@ const PostCreatePage = () => {
       animalId,
       animalKindName,
       sex,
+      age,
       content
     }) => {
       const errors = {};
@@ -61,6 +75,7 @@ const PostCreatePage = () => {
       if (!animalKindName) errors.animalKindName = '품종을 선택해주세요';
       if (!telNumber) errors.telNumber = '전화번호를 입력해주세요';
       if (!sex) errors.sex = '성별을 선택해주세요';
+      if (!age) errors.age = '나이를 입력해주세요';
       if (!content) errors.content = '내용을 작성해주세요';
       Object.keys(errors).length !== 0 && setIsErrorExist(isErrorExist);
       return errors;
