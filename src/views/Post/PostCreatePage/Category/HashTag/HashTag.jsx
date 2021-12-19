@@ -28,7 +28,7 @@ const HashTag = ({ margin, onChange }) => {
 
   const handleDelete = (e) => {
     const nextTags = [...tags].filter(
-      ({ name }) => name !== e.currentTarget.previousSibling.textContent
+      ({ name }) => '#' + name !== e.currentTarget.previousSibling.textContent
     );
 
     setTags(nextTags);
