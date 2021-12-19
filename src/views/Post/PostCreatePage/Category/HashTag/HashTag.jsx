@@ -21,22 +21,23 @@ const HashTag = ({ margin, onChange }) => {
       e.target.value = '';
     }
 
-    if (e.key === 'Enter' && (e.target.value.length > 5 || tags.length > 6)) {
+    if (e.key === 'Enter' && (e.target.value.length > 5 || tags.length >= 6)) {
       setErrors('5글자씩 총 6개까지만 입력이 가능합니다');
     }
   };
 
   const handleDelete = (e) => {
     const nextTags = [...tags].filter(
-      ({ name }) => name !== e.currentTarget.previousSibling.textContent
+      ({ name }) => '#' + name !== e.currentTarget.previousSibling.textContent
     );
 
     setTags(nextTags);
+    onChange({ target: { name: 'tags', value: nextTags } });
   };
 
   const handleAppendTag = (nextTag) => {
     const nextTags = [...tags];
-    nextTags.push({ name: '#' + nextTag });
+    nextTags.push({ name: `${nextTag}` });
     setTags(nextTags);
     onChange({ target: { name: 'tags', value: nextTags } });
   };
@@ -56,8 +57,8 @@ const HashTag = ({ margin, onChange }) => {
         <TagList>
           {tags.map(({ name }, index) => (
             <TagWrapper key={index}>
-              <Tag>{name}</Tag>
-              <Button onClick={handleDelete}>
+              <Tag>#{name}</Tag>
+              <Button onClick={handleDelete} type="button">
                 <StyledCancelRoundedIcon />
               </Button>
             </TagWrapper>

@@ -1,20 +1,29 @@
 import React, { useEffect, useState, createContext } from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
+import { getCookie, removeCookie } from '@/utils/cookie';
+import { AUTH_ERROR } from '@/utils/constants';
 import { GET } from '@/apis/axios';
-import { getCookie } from '@/utils/cookie';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const value = { isLoggedIn, setIsLoggedIn };
+  const navigate = useNavigate();
 
   useEffect(() => {
     const userToken = getCookie('token');
 
     const getAuthStatus = async () => {
-      const userIdData = await GET('/auth-user');
-      userIdData && setIsLoggedIn(true);
+      try {
+        const userIdData = await GET('/auth-user');
+        userIdData && setIsLoggedIn(true);
+      } catch (error) {
+        alert(AUTH_ERROR.EXPIRED_TOKEN);
+        navigate('/login', { replace: true });
+        removeCookie('token');
+      }
     };
 
     userToken && getAuthStatus();

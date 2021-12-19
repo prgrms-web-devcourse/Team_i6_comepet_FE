@@ -9,12 +9,15 @@ export const AUTH_ERROR = {
   NOT_NORMAL: '비정상적인 접근입니다. 다시 시도해주세요.',
   NO_CODE: '이메일 인증을 완료해주세요.',
   NO_EMAIL: '가입되지 않은 이메일입니다.',
-  INVALID_PASSWORD: '비밀번호가 일치하지 않습니다.'
+  INVALID_PASSWORD: '비밀번호가 일치하지 않습니다.',
+  REQUESTING: '요청을 처리 중입니다. 잠시만 기다려주세요.',
+  EXPIRED_TOKEN: '로그인이 만료되었습니다. 다시 로그인해주세요.'
 };
 
 export const DEV_ERROR = Object.freeze({
   INVALID_PROP: '잘못된 Prop이 입력되었습니다.',
-  INVALID_ARGS: '유효하지 않은 Argument입니다.'
+  INVALID_ARGS: '유효하지 않은 Argument입니다.',
+  LOAD_FAILED: '데이터를 불러오는 데 실패했습니다.'
 });
 
 export const USER_ERROR = Object.freeze({
@@ -37,8 +40,7 @@ export const STATUS = Object.freeze({
 
 export const GENDER = Object.freeze({
   MALE: '수컷',
-  FEMALE: '암컷',
-  UNKNOWN: '모름'
+  FEMALE: '암컷'
 });
 
 export const REGEX = Object.freeze({

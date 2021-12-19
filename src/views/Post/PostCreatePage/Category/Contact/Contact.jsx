@@ -23,6 +23,7 @@ const Contact = ({ margin, onChange }) => {
         placeholder="연락처 정보를 적어주세요"
         maxLength="15"
         margin="1.8rem 0 0 0"
+        required
       />
     </Wrapper>
   );

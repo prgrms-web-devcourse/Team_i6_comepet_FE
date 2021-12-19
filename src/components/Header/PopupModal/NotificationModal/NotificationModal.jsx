@@ -1,89 +1,128 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
+import useSWRInfinite from 'swr/infinite';
+import { Link } from 'react-router-dom';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import { Button } from '@/components/Button';
 import { Avatar } from '@/components/Avatar';
 import { BackgroundBox } from '@/components/BackgroundBox';
-import { Text } from '@/components/Text';
 import { Seperator } from '@/components/Seperator';
-
-const dummyData = [
-  {
-    nickname: '고양이가 멍멍',
-    image: 'https://source.unsplash.com/random',
-    postId: 100,
-    status: '목격',
-    checked: true
-  },
-  {
-    nickname: '성격 드러운 고먐미',
-    image: 'https://source.unsplash.com/daily',
-    postId: 101,
-    status: '완료',
-    checked: false
-  },
-  {
-    nickname: '어벤져스에서아이언멘은',
-    image: 'https://source.unsplash.com/weekly',
-    postId: 102,
-    status: '발견',
-    checked: false
-  },
-  {
-    nickname: '블랑킷을입은양탄자를',
-    image: 'https://source.unsplash.com/category/nature',
-    postId: 103,
-    status: '실종',
-    checked: true
-  }
-];
+import { GET, DELETE, PATCH } from '@/apis/axios';
+import { STATUS } from '@/utils/constants';
+import useBlockScroll from '@/hooks/useBlockScroll';
+import { AUTH_ERROR } from '@/utils/constants';
 
 const NotificationModal = ({ isVisible, left, right, bottom, top }) => {
+  isVisible && useBlockScroll(document.body);
+
+  const [isRequesting, setIsRequesting] = useState(false);
+  const { data, size, setSize, mutate } = useSWRInfinite(
+    (index) => `/notices?page=${index + 1}&size=4`,
+    GET
+  );
+
+  const isReachingEnd = data && data[data?.length - 1]?.last;
+  const notificationList = data?.reduce((prevData, nextData) => {
+    return { notifications: [...prevData.notifications, ...nextData.notifications] };
+  })?.notifications;
+  const notificationLength = notificationList?.length;
+
+  const handleDeleteAllClick = async () => {
+    if (isRequesting) {
+      alert(AUTH_ERROR.REQUESTING);
+      return;
+    }
+
+    try {
+      setIsRequesting(true);
+      await DELETE('/notices');
+      mutate();
+    } catch (error) {
+      alert(AUTH_ERROR.TRY_AGAIN);
+    }
+
+    setIsRequesting(false);
+  };
+
+  const handleItemClick = async ({ target }) => {
+    const { id: noticeId } = target.closest('div');
+
+    try {
+      await PATCH(`/notices/${noticeId}`, {
+        checked: true
+      });
+    } catch (error) {
+      alert(AUTH_ERROR.TRY_AGAIN);
+    }
+  };
+
+  const handleDeleteClick = async ({ target }) => {
+    if (isRequesting) {
+      alert(AUTH_ERROR.REQUESTING);
+      return;
+    }
+
+    const { id: noticeId } = target.closest('button');
+
+    try {
+      setIsRequesting(true);
+      await DELETE(`/notices/${noticeId}`);
+      mutate();
+    } catch (error) {
+      alert(AUTH_ERROR.TRY_AGAIN);
+    }
+
+    setIsRequesting(false);
+  };
+
+  const handleMoreClick = () => {
+    !isReachingEnd && setSize(size + 1);
+  };
+
   return (
     <Wrapper isVisible={isVisible} top={top} left={left} right={right} bottom={bottom}>
-      <BackgroundBox width="34rem">
-        <TopContainer>
-          <StyledButton>
-            <TextWrapper>전체삭제</TextWrapper>
-          </StyledButton>
-        </TopContainer>
-        <MiddleContainer>
-          <NotificationList aria-labelledby="notificationButton">
-            {dummyData.map(({ nickname, image, postId, status, checked }, index) => {
-              return (
-                <div key={index}>
-                  <Seperator type="horizon" key={index} />
-                  <NotificationItem key={postId} checked={checked}>
-                    <Avatar src={image} margin="0 0 0 2rem"></Avatar>
-                    <TextContainer>
-                      <Text color="normalGreen" fontSize="1.6rem" fontWeight="bold">
-                        {nickname}
-                      </Text>
-                      님이
-                      <br />
-                      <Text color="normalGreen" fontSize="1.6rem" fontWeight="bold">
-                        {status}
-                      </Text>
-                      글을 작성했어요!
-                    </TextContainer>
-                    <StyledCloseRoundedIcon />
-                  </NotificationItem>
-                </div>
-              );
-            })}
+      <BackgroundBox width="30rem">
+        <TopWrapper>
+          <DeleteAllButton onClick={handleDeleteAllClick}>모든 알림 지우기</DeleteAllButton>
+        </TopWrapper>
+        <Seperator type="horizon" />
+        <MiddleWrapper notificationLength={notificationLength}>
+          <NotificationList>
+            {(notificationLength &&
+              notificationList?.map(
+                ({ id, animalKindName, image, nickname, postId, status, town, checked }) => (
+                  <NotificationItemWrapper key={postId}>
+                    <Link to={`post/${postId}`} id={id} onClick={handleItemClick}>
+                      <Seperator type="horizon" />
+                      <NotificationItem checked={checked}>
+                        <Avatar src={image} margin="0 0 0 1.5rem"></Avatar>
+                        <TextWrapper>
+                          <ColoredText>{town}</ColoredText>에서
+                          <ColoredText> {nickname}</ColoredText>님이
+                          <br />
+                          <ColoredText> {animalKindName}</ColoredText>에 대한
+                          <ColoredText status={status}> {STATUS[status]}</ColoredText>글을
+                          <br />
+                          작성했습니다.
+                        </TextWrapper>
+                      </NotificationItem>
+                    </Link>
+                    <DeleteButton id={id} onClick={handleDeleteClick}>
+                      <StyledCloseRoundedIcon />
+                    </DeleteButton>
+                  </NotificationItemWrapper>
+                )
+              )) || <EmptyItemText>알림이 없습니다.</EmptyItemText>}
           </NotificationList>
-        </MiddleContainer>
-        <BottomContainer>
-          <Button
-            height="100%"
-            bgColor="lighterGray"
-            borderRadius="0 0 1rem 1rem"
-            color="normalBlack">
-            <ArrowDropDownIconCostomized />
-          </Button>
-        </BottomContainer>
+        </MiddleWrapper>
+        <BottomWrapper>
+          {isReachingEnd || (
+            <MoreButton onClick={handleMoreClick} disabled={isReachingEnd}>
+              <StyledArrowDropDownIcon />
+            </MoreButton>
+          )}
+        </BottomWrapper>
       </BackgroundBox>
     </Wrapper>
   );
@@ -99,74 +138,111 @@ const Wrapper = styled.div`
   z-index: 1001;
 `;
 
-const TopContainer = styled.div`
+const TopWrapper = styled.div`
   display: flex;
-  justify-content: start;
+  justify-content: center;
   align-items: center;
   height: 2.8rem;
+  padding-top: 0.2rem;
 `;
 
-const StyledButton = styled.button``;
-
-const TextWrapper = styled.span`
-  display: inline-block;
-  margin: 0 0 0 2.5rem;
-  font-size: 1.2rem;
+const DeleteAllButton = styled.button`
+  padding: 0;
   font-weight: bold;
-  cursor: pointer;
-  font-size: 1.6rem;
+  letter-spacing: 0.1rem;
 
   &:hover {
     color: ${({ theme }) => theme.colors.normalRed};
   }
 `;
 
-const MiddleContainer = styled.div``;
+const MiddleWrapper = styled.div`
+  overflow: scroll;
+  -ms-overflow-style: none;
+  height: ${({ notificationLength }) => (notificationLength && '100%') || '9.6rem'};
+  max-height: 80vh;
+  position: relative;
 
-const BottomContainer = styled.div`
-  width: 100%;
-  height: 10%;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const NotificationList = styled.ul`
   display: flex;
-  height: 100%;
   flex-direction: column;
 `;
 
+const NotificationItemWrapper = styled.div`
+  position: relative;
+`;
+
 const NotificationItem = styled.li`
+  position: relative;
   display: flex;
   align-items: center;
-  position: relative;
   width: 100%;
   height: 10rem;
-  background-color: ${({ checked }) => (checked ? '#e1f5fe' : '#fff')};
+  background-color: ${({ theme, checked }) =>
+    (checked && theme.colors.normalWhite) || theme.colors.lighterBlue};
   cursor: pointer;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.lighterGray};
-  }
 `;
 
-const TextContainer = styled.div`
-  flex-grow: 1;
-  margin-left: 2rem;
+const TextWrapper = styled.p`
+  width: 80%;
+  margin: 0;
+  padding: 1.6rem 1.6rem 1.6rem 1.6rem;
   font-size: 1.6rem;
+  word-break: keep-all;
+  line-height: 2.2rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
-const StyledCloseRoundedIcon = styled(CloseRoundedIcon)`
+const ColoredText = styled.span`
+  color: ${({ theme, status }) => (status && theme.colors[status]) || theme.colors.normalGreen};
+`;
+
+const DeleteButton = styled.button`
   position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  font-size: 1.6rem;
-  cursor: pointer;
+  top: 1rem;
+  right: 1rem;
+  color: ${({ theme }) => theme.colors.normalGray};
+
   &:hover {
     color: ${({ theme }) => theme.colors.normalRed};
   }
 `;
 
-const ArrowDropDownIconCostomized = styled(ArrowDropDownIcon)`
+const StyledCloseRoundedIcon = styled(CloseRoundedIcon)`
   font-size: 2rem;
+`;
+
+const EmptyItemText = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.6rem;
+`;
+
+const BottomWrapper = styled.div`
+  text-align: center;
+  background-color: ${({ theme }) => theme.colors.normalWhite};
+`;
+
+const MoreButton = styled.button`
+  height: 100%;
+  padding: 0;
+  letter-spacing: 0.1rem;
+  border-radius: 0 0 1rem 1rem;
+  font-weight: bold;
+  color: ${({ theme }) => theme.colors.normalBlack};
+`;
+
+const StyledArrowDropDownIcon = styled(ArrowDropDownIcon)`
+  font-size: 2.8rem;
 `;
 
 NotificationModal.propTypes = {
