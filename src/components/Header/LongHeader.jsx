@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { BackgroundBox } from '@/components/BackgroundBox';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
@@ -69,9 +70,11 @@ const LongHeader = ({ isLoggedIn = false }) => {
               </StyledNotificationIconButton>
             </IconWrapper>
           ) : (
-            <Button width="2.6rem" height="2.6rem">
-              <StyledAccountCircleIcon />
-            </Button>
+            <Link to="/login">
+              <Button width="2.6rem" height="2.6rem">
+                <StyledAccountCircleIcon />
+              </Button>
+            </Link>
           )}
         </TopWrapper>
         <MiddleWrapper>
