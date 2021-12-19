@@ -14,7 +14,7 @@ import useBlockScroll from '@/hooks/useBlockScroll';
 import { AUTH_ERROR } from '@/utils/constants';
 
 const NotificationModal = ({ isVisible, left, right, bottom, top }) => {
-  useBlockScroll(document.body);
+  isVisible && useBlockScroll(document.body);
 
   const [isRequesting, setIsRequesting] = useState(false);
   const { data, size, setSize, mutate } = useSWRInfinite(
