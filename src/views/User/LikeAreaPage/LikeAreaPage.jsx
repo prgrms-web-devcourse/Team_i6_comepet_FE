@@ -117,33 +117,26 @@ const LikeAreaPage = () => {
                 <StyledAddIcon />
               </LikeAreaButton>
             )}
-
-            {initialInterestAreas?.length === 1 &&
-              initialInterestAreas?.map(({ id, townName, defaultArea }) => {
-                return (
-                  <LikeAreaButtonWrapper key={id}>
-                    <LikeAreaButton
-                      dataNo={id}
-                      isDefaultArea={defaultArea}
-                      initialInterestAreas={initialInterestAreas}
-                      onDelete={handleOnDelete}>
-                      {townName}
-                    </LikeAreaButton>
-                    <LikeAreaButton onClick={handleOnClick}>
-                      <StyledAddIcon />
-                    </LikeAreaButton>
-                  </LikeAreaButtonWrapper>
-                );
-              })}
-
+            {initialInterestAreas?.length === 1 && (
+              <LikeAreaButtonWrapper>
+                <LikeAreaButton
+                  dataNo={initialInterestAreas[0].id}
+                  isDefaultArea={initialInterestAreas[0].defaultArea}
+                  onDelete={handleOnDelete}>
+                  {initialInterestAreas[0].townName}
+                </LikeAreaButton>
+                <LikeAreaButton onClick={handleOnClick}>
+                  <StyledAddIcon />
+                </LikeAreaButton>
+              </LikeAreaButtonWrapper>
+            )}
             {initialInterestAreas?.length === 2 &&
-              initialInterestAreas?.map(({ id, townName, defaultArea }) => {
+              initialInterestAreas?.map(({ id, townId, townName, defaultArea }) => {
                 return (
                   <LikeAreaButton
-                    key={id}
+                    key={townId}
                     dataNo={id}
                     isDefaultArea={defaultArea}
-                    initialInterestAreas={initialInterestAreas}
                     onDelete={handleOnDelete}>
                     {townName}
                   </LikeAreaButton>
