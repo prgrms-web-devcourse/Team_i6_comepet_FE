@@ -25,7 +25,6 @@ const PostCreatePage = () => {
 
   const { values, handleChange, handleSubmit } = useForm({
     initialValues: {
-      images: null,
       status: null,
       date: null,
       cityId: null,
@@ -37,8 +36,9 @@ const PostCreatePage = () => {
       age: null,
       sex: null,
       chipNumber: null,
+      tags: [],
       content: null,
-      tags: []
+      images: null
     },
     onSubmit: async () => {
       const formData = new FormData();
