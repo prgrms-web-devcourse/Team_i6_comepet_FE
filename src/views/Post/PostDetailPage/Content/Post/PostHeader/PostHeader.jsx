@@ -10,7 +10,7 @@ const PostHeader = ({ animal, animalKind, sex, tags }) => {
     <Wrapper>
       <AnimalWrapper>
         <Animal>{animal}/</Animal>
-        <Kinds>{animalKind}</Kinds>
+        <Kinds>{animalKind || '모름'}</Kinds>
         {(sex === 'MALE' && <StyledMaleIcon />) ||
           (sex === 'FEMALE' && <StyledFemaleIcon />) ||
           (sex === 'UNKNOWN' && <StyledQuestionMarkIcon />)}
