@@ -6,12 +6,15 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const value = { isLoggedIn, setIsLoggedIn };
+  const [userId, setUserId] = useState(null);
+  const value = { isLoggedIn, setIsLoggedIn, userId };
 
   useEffect(() => {
     const getAuthStatus = async () => {
-      const userIdData = await GET('/auth-user');
-      userIdData && setIsLoggedIn(true);
+      const userAuthData = await GET('/auth-user');
+      const userAuthId = userAuthData?.id;
+      userAuthId && setIsLoggedIn(true);
+      setUserId(userAuthId);
     };
 
     getAuthStatus();
