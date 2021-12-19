@@ -19,20 +19,18 @@ const PostCreatePage = () => {
   const [isErrorExist, setIsErrorExist] = useState(false);
   const { handleChange, handleSubmit } = useForm({
     initialValues: {
-      status: null,
-      date: null,
-      cityId: null,
-      townId: null,
-      detailAddress: null,
-      telNumber: null,
-      animalId: null,
-      animalKindName: null,
-      age: null,
-      sex: null,
-      chipNumber: null,
-      tags: [],
-      files: null,
-      content: null
+      images: null
+    },
+    onSubmit: async () => {
+      const formData = new FormData();
+      formData.append('images', values.images);
+
+      const { images, ...param } = values; // eslint-disable-line no-unused-vars
+      formData.append('param', new Blob([JSON.stringify(param)], { type: 'application/json' }));
+      console.log(param);
+      const res = await POST('/missing-posts', formData, { 'Content-type': 'multipart/form-data' });
+      console.log(res);
+      return res;
     },
     onSubmit: () => {},
     validate: ({ status, date, cityId, townId, animalId, animalKindName, sex, content }) => {
