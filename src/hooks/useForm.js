@@ -25,7 +25,6 @@ const useForm = ({ initialValues, onSubmit, validate, handleNavigate }) => {
     e.preventDefault();
 
     const newErrors = (validate && validate(values)) || {};
-
     let onSubmitResult = null;
 
     if (Object.keys(newErrors).length === 0) {
@@ -34,7 +33,7 @@ const useForm = ({ initialValues, onSubmit, validate, handleNavigate }) => {
 
     setErrors(newErrors);
     setIsLoading(false);
-    handleNavigate(onSubmitResult);
+    onSubmitResult && handleNavigate(onSubmitResult);
   };
 
   return {
