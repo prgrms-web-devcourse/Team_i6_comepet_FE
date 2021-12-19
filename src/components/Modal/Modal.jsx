@@ -1,7 +1,8 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import useClickAway from '@/hooks/useClickAway';
+import useBlockScroll from '@/hooks/useBlockScroll';
 import ReactDOM from 'react-dom';
 
 const Modal = ({
@@ -19,21 +20,7 @@ const Modal = ({
   const [ref] = useClickAway(() => onClose && onClose());
   const el = useMemo(() => document.getElementById('root'), []);
 
-  useEffect(() => {
-    const preventModalOverlayScroll = () => {
-      document.body.style.overflow = 'hidden';
-    };
-
-    preventModalOverlayScroll();
-
-    return () => {
-      const allowModalOverlayScroll = () => {
-        document.body.style.overflow = 'visible';
-      };
-
-      allowModalOverlayScroll();
-    };
-  });
+  useBlockScroll(document.body);
 
   return ReactDOM.createPortal(
     <Background>

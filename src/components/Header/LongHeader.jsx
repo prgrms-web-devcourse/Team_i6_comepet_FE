@@ -51,6 +51,10 @@ const LongHeader = ({ isLoggedIn = false }) => {
     setIsNotificationModalVisible(!isNotificationModalVisible);
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <Wrapper>
       <BackgroundBox borderRadius="0 0 1.6rem 1.6rem" height="17rem">
@@ -58,7 +62,7 @@ const LongHeader = ({ isLoggedIn = false }) => {
           <StyledMenuIconButton onClick={handleSidebarModalClick}>
             <StyledMenuIcon />
           </StyledMenuIconButton>
-          <StyledHeader>Comepet</StyledHeader>
+          <StyledHeader onClick={scrollToTop}>ComePet</StyledHeader>
           {isLoggedIn ? (
             <IconWrapper>
               <StyledErrorOutlineIconButton onClick={handleInformationModalClick}>
@@ -70,46 +74,53 @@ const LongHeader = ({ isLoggedIn = false }) => {
               </StyledNotificationIconButton>
             </IconWrapper>
           ) : (
-            <Link to="/login">
-              <Button width="2.6rem" height="2.6rem">
-                <StyledAccountCircleIcon />
-              </Button>
-            </Link>
+            <StyledLink to="/login">
+              <StyledAccountCircleIcon />
+            </StyledLink>
           )}
         </TopWrapper>
         <MiddleWrapper>
           <BackgroundBox width="45%" boxShadow="0px 4px 16px rgba(0, 0, 0, 0.08)">
-            <Button bgColor="normalWhite" color="brand" fontWeight="bold" borderRadius="1.6rem">
-              <Image
-                src={getImageSrc('/images/finding.png')}
-                width="1.6rem"
-                height="1.6rem"
-                margin="0 0.5rem 0 0"
-              />
-              실종 및 보호
-            </Button>
+            <Link to="/">
+              <Button bgColor="normalWhite" color="brand" fontWeight="bold" borderRadius="1.6rem">
+                <Image
+                  src={getImageSrc('/images/finding.png')}
+                  width="1.6rem"
+                  height="1.6rem"
+                  margin="0 0.5rem 0 0"
+                />
+                실종 및 보호
+              </Button>
+            </Link>
           </BackgroundBox>
           <BackgroundBox width="45%" boxShadow="0px 4px 16px rgba(0, 0, 0, 0.08)">
-            <Button bgColor="normalWhite" color="brand" fontWeight="bold" borderRadius="1.6rem">
-              <Image
-                src={getImageSrc('/images/home.png')}
-                width="1.6rem"
-                height="1.6rem"
-                margin="0 0.5rem 0 0"
-              />
-              보호소 동물
-            </Button>
+            <Link to="/shelter">
+              <Button bgColor="normalWhite" color="brand" fontWeight="bold" borderRadius="1.6rem">
+                <Image
+                  src={getImageSrc('/images/home.png')}
+                  width="1.6rem"
+                  height="1.6rem"
+                  margin="0 0.5rem 0 0"
+                />
+                보호소 동물
+              </Button>
+            </Link>
           </BackgroundBox>
         </MiddleWrapper>
         <BottomWrapper>
-          <Input placeholder="세부 검색을 위해 클릭해주세요" borderRadius="1.6rem" />
+          <Input
+            placeholder="세부 검색을 위해 클릭해주세요"
+            borderRadius="1.6rem"
+            cursor="pointer"
+            disabled
+          />
           <StyledSearchIconButton>
             <StyledSearchIcon />
           </StyledSearchIconButton>
         </BottomWrapper>
       </BackgroundBox>
       <InformationModal isVisible={isInformationModalVisible} top="5rem" right="3rem" />
-      <NotificationModal isVisible={isNotificationModalVisible} top="5rem" right="3rem" />
+      <NotificationModal isVisible={isNotificationModalVisible} top="5rem" right="3%" />
       <SidebarModal isVisible={isSidebarModalVisible} top="5rem" left="2rem" />
     </Wrapper>
   );
@@ -147,9 +158,11 @@ const StyledMenuIcon = styled(MenuIcon)`
 const StyledHeader = styled.h1`
   position: absolute;
   left: 50%;
-  transform: translateX(-50%);
-  font-size: 2.5rem;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2.4rem;
   color: ${({ theme }) => theme.colors.brand};
+  margin: 0.2rem 0 0 0;
   cursor: pointer;
 `;
 
@@ -187,8 +200,14 @@ const StyledErrorOutlineIcon = styled(ErrorOutlineIcon)`
   color: ${({ theme }) => theme.colors.brand};
 `;
 
+const StyledLink = styled(Link)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const StyledAccountCircleIcon = styled(AccountCircleIcon)`
-  font-size: 2.6rem;
+  font-size: 3.2rem;
   color: ${({ theme }) => theme.colors.normalGray};
 `;
 

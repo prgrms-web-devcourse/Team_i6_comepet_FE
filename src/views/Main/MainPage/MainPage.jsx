@@ -1,38 +1,67 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
+import useSWRInfinite from 'swr/infinite';
+import { useInView } from 'react-intersection-observer';
 import { LongHeader } from '@/components/Header';
-import { PostCard } from '@/components/PostCard';
-import { postsData } from '@/assets/data.js';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { SortHeader } from '@/views/Main/SortHeader';
+import { PostCard } from '@/components/PostCard';
+import { Button } from '@/components/Button';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { GET } from '@/apis/axios';
+import { DEV_ERROR } from '@/utils/constants';
 
 const MainPage = () => {
-  const { posts } = postsData; // useSwr
-  const postLength = posts.length;
-  // temp
-  const city = '서울특별시';
-  const town = '도봉구';
+  const [target, isTargetInView] = useInView();
+  const { data, error, size, setSize } = useSWRInfinite(
+    (index) => `/missing-posts?page=${index + 1}&size=6`,
+    GET
+  );
+
+  error && alert(DEV_ERROR.LOAD_FAILED);
+
+  const posts = data?.reduce((prevData, nextData) => {
+    return { missingPosts: [...prevData.missingPosts, ...nextData.missingPosts] };
+  }).missingPosts;
+
+  const isReachingEnd = data && data[data?.length - 1]?.last;
+  const city = posts && posts[0]?.city; // temp
+  const town = posts && posts[0]?.town; // temp
+  const postLength = posts?.length || 0;
+
+  useEffect(() => {
+    isTargetInView && setSize(size + 1);
+  }, [isTargetInView]);
 
   return (
     <Wrapper>
       <LongHeader />
       <ContentWrapper>
-        <SortHeader city={city} town={town} postLength={postLength} />
-        {postLength ? (
+        <SortHeader city={city || '전체'} town={town || ''} postLength={postLength} />
+        {(postLength && (
           <PostCardList>
             {posts.map(({ id, ...props }) => (
               <PostCardWrapper key={id}>
-                <PostCard {...props} />
+                <Link to={`/post/${id}`}>
+                  <PostCard postId={id} {...props} />
+                </Link>
               </PostCardWrapper>
             ))}
           </PostCardList>
-        ) : (
-          <NoResultText>검색 결과가 없습니다.</NoResultText>
-        )}
+        )) || <NoResultText>검색 결과가 없습니다.</NoResultText>}
+        <Button
+          width="50%"
+          margin="6rem auto"
+          bgColor="brand"
+          disabled={isReachingEnd}
+          onClick={() => setSize(size + 1)}>
+          {(isReachingEnd && '마지막') || '더보기'}
+        </Button>
       </ContentWrapper>
-      <Link>
+      <StyledLink to="/post/create">
         <StyledAddCircleIcon />
-      </Link>
+      </StyledLink>
+      <div ref={target} />
     </Wrapper>
   );
 };
@@ -64,11 +93,11 @@ const NoResultText = styled.div`
   color: ${({ theme }) => theme.colors.normalGray};
 `;
 
-// react-router Link로 교체 필요
-const Link = styled.button`
+const StyledLink = styled(Link)`
   position: fixed;
   right: 0;
   bottom: 0;
+  z-index: 2;
   transform: translateX(-50%);
   display: flex;
   justify-content: center;

@@ -23,6 +23,9 @@ const ScrapCounter = ({ children, size, isBookmark, onClick }) => {
 };
 
 const Wrapper = styled.div`
+  position: absolute;
+  right: 0;
+  bottom: 0.3rem;
   display: flex;
   justify-content: space-around;
   align-items: center;
