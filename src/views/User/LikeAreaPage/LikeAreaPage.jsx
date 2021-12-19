@@ -9,15 +9,16 @@ import { Seperator } from '@/components/Seperator';
 import { Button } from '@/components/Button';
 import LikeAreaModal from './LikeAreaModal';
 import { GET, PUT, DELETE } from '@/apis/axios';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 import LikeAreaButton from './LikeAreaButton';
+import { AUTH_ERROR } from '@/utils/constants';
 
 const LikeAreaPage = () => {
   const { data: user } = useSWR('/me/areas', GET);
   const { data: placeData } = useSWR('/cities', GET);
   const [initialInterestAreas, setInitialInterestAreas] = useState([]);
   const [isToggled, setIsToggled] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [isDefaultArea, setIsDefaultArea] = useState(true);
 
   useEffect(() => {
@@ -28,13 +29,19 @@ const LikeAreaPage = () => {
 
   const handleOnClick = () => {
     initialInterestAreas?.length > 0 && setIsDefaultArea(false);
-    setIsVisible(true);
+    setIsModalVisible(true);
   };
 
-  const handleOnDelete = async (e) => {
-    const deleteId = e.target.dataset.id;
+  const handleOnDelete = async ({ target }) => {
+    const deleteId = target.closest('button').dataset.id;
+
+    if (!deleteId) {
+      return;
+    }
+
     await DELETE(`/me/areas/${deleteId}`);
     alert('관심지역이 삭제되었습니다');
+    mutate('/me/areas');
   };
 
   const getSelectedTown = async (selectedTown) => {
@@ -49,12 +56,35 @@ const LikeAreaPage = () => {
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    const selectedAreas = initialInterestAreas?.map(({ townId, defaultArea }) => {
-      return { townId, defaultArea };
-    });
-    const save = { areas: selectedAreas, notification: isToggled };
-    await PUT('/me/areas', save);
-    alert('관심지역이 등록되었습니다');
+    try {
+      const selectedAreas = initialInterestAreas?.map(({ townId, defaultArea }) => {
+        return { townId, defaultArea };
+      });
+      const save = { areas: selectedAreas, notification: isToggled };
+      if (isNotChanged(user, save)) {
+        alert('저장할 내용이 없습니다.');
+        return;
+      }
+      await PUT('/me/areas', save);
+      mutate('/me/areas');
+      alert('저장되었습니다');
+    } catch (error) {
+      const detailCode = error.response.data.code;
+      if (detailCode === 804) {
+        alert('동일한 관심지역을 중복해서 설정할 수 없습니다.');
+        return;
+      }
+      alert(AUTH_ERROR.TRY_AGAIN);
+    }
+  };
+
+  const isNotChanged = (loadData, saveData) => {
+    if (loadData.checked !== saveData.notification) {
+      return false;
+    } else if (JSON.stringify(loadData.areas) !== JSON.stringify(saveData.areas)) {
+      return false;
+    }
+    return true;
   };
 
   return (
@@ -82,14 +112,16 @@ const LikeAreaPage = () => {
             </Button>
           </SwitchWrapper>
           <SelectedAreaWrapper>
-            {initialInterestAreas?.length === 0 ? (
+            {initialInterestAreas?.length === 0 && (
               <LikeAreaButton onClick={handleOnClick}>
                 <StyledAddIcon />
               </LikeAreaButton>
-            ) : initialInterestAreas?.length === 1 ? (
-              initialInterestAreas?.map(({ id, townName, defaultArea }, index) => {
+            )}
+
+            {initialInterestAreas?.length === 1 &&
+              initialInterestAreas?.map(({ id, townName, defaultArea }) => {
                 return (
-                  <React.Fragment key={index}>
+                  <LikeAreaButtonWrapper key={id}>
                     <LikeAreaButton
                       dataNo={id}
                       isDefaultArea={defaultArea}
@@ -100,14 +132,15 @@ const LikeAreaPage = () => {
                     <LikeAreaButton onClick={handleOnClick}>
                       <StyledAddIcon />
                     </LikeAreaButton>
-                  </React.Fragment>
+                  </LikeAreaButtonWrapper>
                 );
-              })
-            ) : (
-              initialInterestAreas?.map(({ id, townName, defaultArea }, index) => {
+              })}
+
+            {initialInterestAreas?.length === 2 &&
+              initialInterestAreas?.map(({ id, townName, defaultArea }) => {
                 return (
                   <LikeAreaButton
-                    key={index}
+                    key={id}
                     dataNo={id}
                     isDefaultArea={defaultArea}
                     initialInterestAreas={initialInterestAreas}
@@ -115,17 +148,16 @@ const LikeAreaPage = () => {
                     {townName}
                   </LikeAreaButton>
                 );
-              })
-            )}
+              })}
           </SelectedAreaWrapper>
           <Button type="submit" width="60%" height="4rem" bgColor="normalOrange" margin="auto">
             저장하기
           </Button>
-          {isVisible && (
+          {isModalVisible && (
             <LikeAreaModal
               placeData={placeData}
               checkOut={getSelectedTown}
-              onClose={() => setIsVisible(false)}
+              onClose={() => setIsModalVisible(false)}
               isDefaultArea={isDefaultArea}
             />
           )}
@@ -136,6 +168,12 @@ const LikeAreaPage = () => {
 };
 
 export default LikeAreaPage;
+
+const LikeAreaButtonWrapper = styled.div`
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -151,8 +189,7 @@ const LikeAreaWrapper = styled.div`
   flex-grow: 1;
 `;
 const LabelWrapper = styled.div`
-  margin-top: 2rem;
-  padding: 0 2.4rem;
+  margin: 2rem 2.4rem 0 2.4rem;
   display: flex;
   justify-content: center;
   align-items: center;

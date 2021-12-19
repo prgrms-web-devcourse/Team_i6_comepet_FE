@@ -15,18 +15,26 @@ const LikeAreaButton = ({ children, dataNo, isDefaultArea, onClick, onDelete }) 
         {children}
       </Button>
       {dataNo && (
-        <Button width="2rem" height="2rem" position="absolute" top="0" right="0" onClick={onDelete}>
-          <StyledCloseRoundedIcon onClick={onDelete} data-id={dataNo} />
-        </Button>
+        <StyledButton type="button" data-id={dataNo} onClick={onDelete}>
+          <StyledCloseRoundedIcon />
+        </StyledButton>
       )}
     </BackgroundBox>
   );
 };
 
 const StyledCloseRoundedIcon = styled(CloseRoundedIcon)`
+  width: 1.8rem;
+  height: 1.8rem;
+  color: ${({ theme }) => theme.colors.errorBg500};
+`;
+
+const StyledButton = styled.button`
   width: 2rem;
   height: 2rem;
-  color: ${({ theme }) => theme.colors.errorBg500};
+  position: absolute;
+  top: 0;
+  right: 0.4rem;
 `;
 
 LikeAreaButton.propTypes = {
