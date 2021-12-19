@@ -27,9 +27,7 @@ const PostCreatePage = () => {
 
       const { images, ...param } = values; // eslint-disable-line no-unused-vars
       formData.append('param', new Blob([JSON.stringify(param)], { type: 'application/json' }));
-      console.log(param);
       const res = await POST('/missing-posts', formData, { 'Content-type': 'multipart/form-data' });
-      console.log(res);
       return res;
     },
     onSubmit: () => {},
