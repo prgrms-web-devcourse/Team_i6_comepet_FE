@@ -6,7 +6,6 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { Button } from '@/components/Button';
 import { Avatar } from '@/components/Avatar';
 import { BackgroundBox } from '@/components/BackgroundBox';
-import { Text } from '@/components/Text';
 import { Seperator } from '@/components/Seperator';
 
 const dummyData = [
@@ -108,6 +107,15 @@ const TopContainer = styled.div`
 `;
 
 const StyledButton = styled.button``;
+
+const Text = styled.span`
+  display: inline-block;
+  margin: ${({ margin }) => margin};
+  font-size: ${({ fontSize }) => fontSize};
+  font-weight: ${({ fontWeight }) => fontWeight};
+  color: ${({ theme, color }) => theme.colors[color] || color};
+  cursor: ${({ cursor }) => cursor};
+`;
 
 const TextWrapper = styled.span`
   display: inline-block;
