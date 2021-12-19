@@ -18,22 +18,21 @@ const PetPhoto = ({ margin, onChange }) => {
     if (isTheNumberOfPhotosUnderThree(e) && areFileSizesUnder5MB(e)) {
       const nextFiles = [...e.target.files];
       setFiles(nextFiles);
-      setIsErrorOccurred(!isErrorOccurred);
+      setIsErrorOccurred(false);
       onChange({ target: { name: 'images', value: nextFiles } });
       return;
     }
 
     setFiles([]);
-    setIsErrorOccurred(!isErrorOccurred);
+    setIsErrorOccurred(true);
   };
 
   return (
     <Wrapper margin={margin}>
       <Slider imageList={files} size="large" />
       <Input onChange={handleFileChange} ref={inputRef} type="file" accept="image/*" multiple />
-      <Caution isErrorOccurred={isErrorOccurred}>
-        ※ 이미지는 3개까지 등록 가능하며, 한 장당 5MB 이하여야 합니다.
-      </Caution>
+      <Caution isErrorOccurred={isErrorOccurred}>※ 이미지 3개를 동시에 선택해주세요</Caution>
+      <Caution isErrorOccurred={isErrorOccurred}>한 장당 5MB 이하여야만 합니다.</Caution>
       <Button
         onClick={handleChooseFile}
         width="60%"
@@ -52,7 +51,7 @@ const Wrapper = styled.div`
 
 const Caution = styled.div`
   color: ${({ isErrorOccurred, theme }) => isErrorOccurred && theme.colors.normalRed};
-  font-size: 1rem;
+  font-size: 1.3rem;
   font-weight: ${({ isErrorOccurred }) => isErrorOccurred && 'bold'};
 `;
 
