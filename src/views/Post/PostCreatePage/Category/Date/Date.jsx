@@ -103,8 +103,8 @@ export default Date;
 
 const getRangeOfYear = () => {
   const thisYear = new window.Date().getFullYear();
-  const differenceBetween1970AndThisYear = thisYear - 1970 + 1;
-  const res = new Array(differenceBetween1970AndThisYear).fill(0).map((_, i) => i + 1970);
+  const TenYearsAgo = thisYear - 10;
+  const res = new Array(thisYear - TenYearsAgo + 1).fill(0).map((_, i) => i + TenYearsAgo);
   return res;
 };
 
