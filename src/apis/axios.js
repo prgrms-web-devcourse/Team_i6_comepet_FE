@@ -21,7 +21,7 @@ export const GET = async (url) => {
 };
 
 export const POST = async (url, body, headers) => {
-  if (!(url && body)) {
+  if (!url) {
     console.error(DEV_ERROR.INVALID_ARGS);
     return;
   }
@@ -62,7 +62,7 @@ export const PUT = async (url, body) => {
 };
 
 export const DELETE = async (url, body) => {
-  if (!(url && body)) {
+  if (!url) {
     console.error(DEV_ERROR.INVALID_ARGS);
     return;
   }
