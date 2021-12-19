@@ -14,10 +14,9 @@ export const AuthProvider = ({ children }) => {
     const userToken = getCookie('token');
 
     const getAuthStatus = async () => {
-      const userAuthData = await GET('/auth-user');
-      const userAuthId = userAuthData?.id;
-      userAuthId && setIsLoggedIn(true);
-      setUserId(userAuthId);
+      const userIdData = await GET('/auth-user');
+      userIdData && setIsLoggedIn(true);
+      setUserId(userIdData?.id);
     };
 
     userToken && getAuthStatus();

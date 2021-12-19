@@ -21,6 +21,7 @@ const CommentList = ({
   const [input, setInput] = useState('');
 
   const { userId } = useAuth();
+  console.log(userId);
 
   const handleInput = async (e) => {
     const textWithTags = e.target.innerHTML;

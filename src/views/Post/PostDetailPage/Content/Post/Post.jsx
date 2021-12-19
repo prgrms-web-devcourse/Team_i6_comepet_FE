@@ -87,5 +87,6 @@ Post.propTypes = {
 const TextContentWrapper = styled.div`
   padding: 1.2rem;
 `;
+4;
 
 export default Post;

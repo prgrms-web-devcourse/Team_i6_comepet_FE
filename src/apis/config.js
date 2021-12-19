@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getCookie } from '@/utils/cookie';
+import { getCookie, removeCookie } from '@/utils/cookie';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const CONTENT_TYPE = 'application/json';
@@ -24,6 +24,15 @@ axios.interceptors.response.use(
     return response;
   },
   (error) => {
+    const detailCode = error.response.data.code;
+    const isExpiredToken = detailCode === 903;
+
+    if (isExpiredToken) {
+      axios.defaults.headers.common['Authorization'] = '';
+      removeCookie('token');
+      return;
+    }
+
     return Promise.reject(error);
   }
 );

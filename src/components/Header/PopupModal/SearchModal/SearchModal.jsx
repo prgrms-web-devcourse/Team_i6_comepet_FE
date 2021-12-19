@@ -8,7 +8,7 @@ import useForm from '@/hooks/useForm';
 
 const SearchModal = ({ isVisible, left, top, right, bottom, translate }) => {
   const [isErrorExist, setIsErrorExist] = useState(false);
-  const { values, errors, isLoading, handleChange, handleSubmit } = useForm({
+  const { handleChange } = useForm({
     initialValues: {
       status: null,
       city: null,
@@ -31,9 +31,6 @@ const SearchModal = ({ isVisible, left, top, right, bottom, translate }) => {
       return errors;
     }
   });
-
-  // Eslint Error 방지용 콘솔
-  console.log(values, errors, isLoading, handleChange, handleSubmit);
 
   return (
     <Wrapper
