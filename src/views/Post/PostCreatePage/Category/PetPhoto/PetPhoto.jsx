@@ -78,5 +78,3 @@ const areFileSizesUnder5MB = (e) => {
 };
 
 const isTheNumberOfPhotosUnderThree = (e) => e.target.files.length <= 3;
-
-//
