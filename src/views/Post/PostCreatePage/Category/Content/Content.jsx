@@ -5,9 +5,13 @@ import { Label } from '@/components/Label';
 
 const Content = ({ margin, onChange }) => {
   const handleInput = (e) => {
+    const pureText = e.target.textContent;
     const textWithTags = e.target.innerHTML;
-
-    onChange({ target: { name: 'content', value: textWithTags } });
+    if (pureText.length !== 0) {
+      onChange({ target: { name: 'content', value: textWithTags } });
+    } else if (pureText.length === 0) {
+      onChange({ target: { name: 'content', value: null } });
+    }
   };
 
   const handleKeyDown = (e) => {

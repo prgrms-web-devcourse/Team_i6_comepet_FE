@@ -7,12 +7,13 @@ import { Button } from '@/components/Button';
 import { FormError } from '@/components/FormError';
 import { USER_ERROR, REGEX, AUTH_ERROR, NOTICE } from '@/utils/constants';
 import { isValidInput } from '@/utils/helpers';
-import { POST } from '@/apis/axios';
+import { PATCH } from '@/apis/axios';
 
 const AuthEmailForm = ({ setStateAfterSendEmail }) => {
   const handleSubmit = async ({ email }, { setSubmitting }) => {
     try {
-      await POST('/send-email', { email }); // Temp URL
+      const headers = { Authorization: '' };
+      await PATCH('/send-password', { email }, headers);
       alert(NOTICE.SENT_EMAIL);
       setStateAfterSendEmail(email);
     } catch (error) {

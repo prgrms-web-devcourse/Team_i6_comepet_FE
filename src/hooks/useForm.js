@@ -1,13 +1,23 @@
 import { useState } from 'react';
 
-const useForm = ({ initialValues, onSubmit, validate }) => {
+const useForm = ({ initialValues, onSubmit, validate, handleNavigate }) => {
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = ({ target }) => {
-    const { name, value } = target;
-    setValues({ ...values, [name]: value });
+    let nextValues = { ...values };
+    const inputValue = target;
+
+    if (Array.isArray(inputValue)) {
+      for (let i = 0; i < inputValue.length; i++) {
+        const { name, value } = inputValue[i];
+        nextValues = { ...nextValues, [name]: value };
+      }
+      setValues(nextValues);
+    } else {
+      setValues({ ...values, [inputValue.name]: inputValue.value });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -15,13 +25,15 @@ const useForm = ({ initialValues, onSubmit, validate }) => {
     e.preventDefault();
 
     const newErrors = (validate && validate(values)) || {};
+    let onSubmitResult = null;
 
     if (Object.keys(newErrors).length === 0) {
-      await onSubmit();
+      onSubmitResult = await onSubmit();
     }
 
     setErrors(newErrors);
     setIsLoading(false);
+    onSubmitResult && handleNavigate(onSubmitResult);
   };
 
   return {
@@ -30,7 +42,8 @@ const useForm = ({ initialValues, onSubmit, validate }) => {
     isLoading,
     setIsLoading,
     handleChange,
-    handleSubmit
+    handleSubmit,
+    handleNavigate
   };
 };
 
