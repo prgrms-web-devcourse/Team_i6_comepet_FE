@@ -6,6 +6,7 @@ import { AuthProvider } from '@/contexts/AuthProvider';
 import {
   LoginPage,
   SignupPage,
+  OAuthRedirectPage,
   MainPage,
   ShelterPostPage,
   NotFoundPage,
@@ -29,6 +30,7 @@ const App = function () {
         <Route path="/post/:id" element={<PostDetailPage />} />
         <Route path="/shelter" element={<ShelterPostPage />} />
         <Route path="/shelter/:id" element={<ShelterPostDetailPage />} />
+        <Route path="/oauth/redirect" element={<OAuthRedirectPage />} />
         <Route element={<RestrictUser />}>
           <Route path="/sign-up" element={<SignupPage />} />
           <Route path="/login" element={<LoginPage />} />
