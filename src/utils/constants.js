@@ -10,7 +10,8 @@ export const AUTH_ERROR = {
   NO_CODE: '이메일 인증을 완료해주세요.',
   NO_EMAIL: '가입되지 않은 이메일입니다.',
   INVALID_PASSWORD: '비밀번호가 일치하지 않습니다.',
-  REQUESTING: '요청을 처리 중입니다. 잠시만 기다려주세요.'
+  REQUESTING: '요청을 처리 중입니다. 잠시만 기다려주세요.',
+  EXPIRED_TOKEN: '로그인이 만료되었습니다. 다시 로그인해주세요.'
 };
 
 export const DEV_ERROR = Object.freeze({

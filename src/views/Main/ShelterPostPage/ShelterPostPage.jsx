@@ -1,19 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
+import useSWRInfinite from 'swr/infinite';
+import { useInView } from 'react-intersection-observer';
 import { LongHeader } from '@/components/Header';
 import { SortHeader } from '@/views/Main/SortHeader';
 import { PostCard } from '@/components/PostCard';
-import { shelterData } from '@/assets/data.js';
+import { Button } from '@/components/Button';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { Modal } from '@/components/Modal';
+import { GET } from '@/apis/axios';
 
 const ShelterPostPage = () => {
   const [modalVisible, setModalVisible] = useState(false);
-  const { shelters: posts } = shelterData; // useSwr
-  const postLength = posts.length;
-  // temp
-  const city = '서울특별시';
-  const town = '도봉구';
+  const [target, isTargetInView] = useInView();
+  const { data, size, setSize } = useSWRInfinite(
+    (index) => `/shelter-posts?page=${index + 1}&size=6`,
+    GET
+  );
+
+  const posts = data?.reduce((prevData, nextData) => {
+    return { shelters: [...prevData.shelters, ...nextData.shelters] };
+  }).shelters;
+
+  const isReachingEnd = data && data[data?.length - 1]?.last;
+  const city = ''; // temp
+  const town = ''; // temp
+  const postLength = posts?.length || 0;
+
+  useEffect(() => {
+    isTargetInView && setSize(size + 1);
+  }, [isTargetInView]);
 
   return (
     <Wrapper>
@@ -26,12 +43,10 @@ const ShelterPostPage = () => {
             </StyledErrorOutlineIconButton>
             <NoticeBoldText>
               <NoticeButton onClick={() => setModalVisible(true)}>여기</NoticeButton>를 클릭해 관련
-              동물 보호법을 숙지해 주세요
+              동물 보호법을 숙지해 주세요.
             </NoticeBoldText>
           </NoticeDetails>
-          <NoticeText>
-            공고 중인 동물의 주인께서는 해당 시군구나 보호센터에 문의해 주세요
-          </NoticeText>
+          <NoticeText>공고 중인 동물은 해당 시군구나 보호센터에 문의해 주세요.</NoticeText>
           {modalVisible && (
             <Modal width="80%" padding="5%" onClose={() => setModalVisible(false)}>
               <ModalContent>
@@ -54,19 +69,28 @@ const ShelterPostPage = () => {
             </Modal>
           )}
         </Notice>
-        <SortHeader city={city} town={town} postLength={postLength} />
-        {postLength ? (
+        <SortHeader city={city || '전체'} town={town || ''} postLength={postLength} />
+        {(postLength && (
           <PostCardList>
             {posts.map(({ id, ...props }) => (
               <PostCardWrapper key={id}>
-                <PostCard {...props} height="18.5rem" />
+                <Link to={`/shelter/${id}`}>
+                  <PostCard postId={id} {...props} height="19rem" />
+                </Link>
               </PostCardWrapper>
             ))}
           </PostCardList>
-        ) : (
-          <NoResultText>검색 결과가 없습니다.</NoResultText>
-        )}
+        )) || <NoResultText>검색 결과가 없습니다.</NoResultText>}
+        <Button
+          width="50%"
+          margin="6rem auto"
+          bgColor="brand"
+          disabled={isReachingEnd}
+          onClick={() => setSize(size + 1)}>
+          {(isReachingEnd && '마지막') || '더보기'}
+        </Button>
       </ContentWrapper>
+      <div ref={target} />
     </Wrapper>
   );
 };
@@ -116,6 +140,7 @@ const NoticeButton = styled.button`
 
 const NoticeText = styled.div`
   font-size: 1.2rem;
+  word-break: keep-all;
   color: ${({ theme }) => theme.colors.brand};
 `;
 
