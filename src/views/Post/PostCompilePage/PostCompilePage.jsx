@@ -19,12 +19,8 @@ import useForm from '@/hooks/useForm';
 import useSWR from 'swr';
 import { GET, POST } from '@/apis/axios';
 
-const PostCreatePage = () => {
-  const { id } = useParams();
-  const { data: postData } = useSWR(`/missing-posts/${id}`, GET);
-  const { data: commentData } = useSWR(`/missing-posts/${id}/comments`, GET);
-
-  if (!postData || !commentData) return <div></div>;
+const PostCompilePage = () => {
+  const { id: postId } = useParams();
 
   const [isErrorExist, setIsErrorExist] = useState(false);
   const navigate = useNavigate();
@@ -44,16 +40,17 @@ const PostCreatePage = () => {
       chipNumber: null,
       tags: [],
       content: null,
-      images: null
+      images: []
     },
     onSubmit: async () => {
-      const formData = new FormData();
-      formData.append('images', values.images);
+      const formData = makeFormDataAppendingImages(values.images);
 
-      const { images, ...param } = values; // eslint-disable-line no-unused-vars
+      values.images = [];
+
+      const param = values; // eslint-disable-line no-unused-vars
       formData.append('param', new Blob([JSON.stringify(param)], { type: 'application/json' }));
 
-      const res = await POST('/missing-posts', formData, { type: 'multipart/form-data' });
+      const res = await POST(`/missing-posts/${postId}`, formData, { type: 'multipart/form-data' });
       return res;
     },
     handleNavigate: (res) => {
@@ -90,13 +87,12 @@ const PostCreatePage = () => {
 
   const { data: placeData } = useSWR('/cities', GET);
   const { data: animalData } = useSWR('/animals', GET);
-
   if (!placeData || !animalData) return <div></div>;
 
   return (
     <Wrapper>
       <ShortHeader />
-      <Form onsumbit={handleSubmit} initialValue={postData.status}>
+      <Form onsumbit={handleSubmit}>
         <Status onChange={handleChange} />
         <Date margin="5rem 0 0 0" onChange={handleChange} />
         <Place margin="5rem 0 0 0" onChange={handleChange} placeData={placeData.cities} />
@@ -144,6 +140,18 @@ const ButtonWrapper = styled.div`
   margin: ${({ margin }) => margin};
 `;
 
-PostCreatePage.propTypes = {};
+PostCompilePage.propTypes = {};
 
-export default PostCreatePage;
+export default PostCompilePage;
+
+const makeFormDataAppendingImages = (images) => {
+  const formData = new FormData();
+
+  for (let i = 0; i < images?.length; i++) {
+    formData.append('images', images[i]);
+  }
+
+  if (images.length === 0) formData.append('images', []);
+
+  return formData;
+};
