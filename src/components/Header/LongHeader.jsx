@@ -4,20 +4,20 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { BackgroundBox } from '@/components/BackgroundBox';
 import { Button } from '@/components/Button';
-import { Input } from '@/components/Input';
 import { Image } from '@/components/Image';
 import { getImageSrc } from '@/utils/helpers';
-import { InformationModal, NotificationModal, SidebarModal } from './PopupModal';
+import { InformationModal, NotificationModal, SidebarModal, SearchModal } from './PopupModal';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-const LongHeader = ({ isLoggedIn = false }) => {
+const LongHeader = ({ isLoggedIn = false, onSearch }) => {
   const [isSidebarModalVisible, setIsSidebarModalVisible] = useState(false);
   const [isInformationModalVisible, setIsInformationModalVisible] = useState(false);
   const [isNotificationModalVisible, setIsNotificationModalVisible] = useState(false);
+  const [isSearchModalVisible, setIsSearchModalVisible] = useState(false);
 
   const closeAllModalsExceptFor = (targetModal) => {
     if (isSidebarModalVisible && !targetModal) {
@@ -32,6 +32,11 @@ const LongHeader = ({ isLoggedIn = false }) => {
 
     if (isNotificationModalVisible && !targetModal) {
       setIsNotificationModalVisible(!isNotificationModalVisible);
+      return;
+    }
+
+    if (isSearchModalVisible && !targetModal) {
+      setIsSearchModalVisible(!isSearchModalVisible);
       return;
     }
   };
@@ -49,6 +54,11 @@ const LongHeader = ({ isLoggedIn = false }) => {
   const handleNotificationModalClick = () => {
     closeAllModalsExceptFor(isNotificationModalVisible);
     setIsNotificationModalVisible(!isNotificationModalVisible);
+  };
+
+  const handleSearchModalClick = () => {
+    closeAllModalsExceptFor(isSearchModalVisible);
+    setIsSearchModalVisible(!isSearchModalVisible);
   };
 
   const scrollToTop = () => {
@@ -108,12 +118,9 @@ const LongHeader = ({ isLoggedIn = false }) => {
           </BackgroundBox>
         </MiddleWrapper>
         <BottomWrapper>
-          <Input
-            placeholder="세부 검색을 위해 클릭해주세요"
-            borderRadius="1.6rem"
-            cursor="pointer"
-            disabled
-          />
+          <SearchButton onClick={handleSearchModalClick}>
+            세부 검색을 위해 클릭해주세요
+          </SearchButton>
           <StyledSearchIconButton>
             <StyledSearchIcon />
           </StyledSearchIconButton>
@@ -122,6 +129,16 @@ const LongHeader = ({ isLoggedIn = false }) => {
       <InformationModal isVisible={isInformationModalVisible} top="5rem" right="3rem" />
       <NotificationModal isVisible={isNotificationModalVisible} top="5rem" right="3%" />
       <SidebarModal isVisible={isSidebarModalVisible} top="5rem" left="2rem" />
+      <SearchModal
+        isVisible={isSearchModalVisible}
+        left="50%"
+        top="110%"
+        translate="translate(-50%, 0%)"
+        onSearch={(filterConditions) => {
+          onSearch(filterConditions);
+          handleSearchModalClick();
+        }}
+      />
     </Wrapper>
   );
 };
@@ -226,6 +243,18 @@ const BottomWrapper = styled.div`
   margin: 1.6rem 2.4rem 0 2.4rem;
 `;
 
+const SearchButton = styled.button`
+  box-shadow: ${({ theme }) => theme.shadows.light};
+  width: 100%;
+  padding: 0 0 0 2rem;
+  height: 4rem;
+  border-radius: 1.6rem;
+  text-align: left;
+  color: ${({ theme }) => theme.colors.normalGray};
+  z-index: 1;
+  cursor: pointer;
+`;
+
 const StyledSearchIconButton = styled.button`
   position: absolute;
   right: 0;
@@ -248,7 +277,8 @@ const StyledSearchIcon = styled(SearchIcon)`
 `;
 
 LongHeader.propTypes = {
-  isLoggedIn: PropTypes.bool
+  isLoggedIn: PropTypes.bool,
+  onSearch: PropTypes.func
 };
 
 export default LongHeader;
