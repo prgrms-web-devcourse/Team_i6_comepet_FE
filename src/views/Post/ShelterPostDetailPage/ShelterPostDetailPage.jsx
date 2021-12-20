@@ -1,5 +1,4 @@
-import axios from 'axios';
-import { GET, DELETE } from '@/apis/axios';
+import { GET, DELETE, POST } from '@/apis/axios';
 import useSWR, { mutate } from 'swr';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -27,12 +26,19 @@ const ShelterPostDetailPage = () => {
     if (isBookmarkOn) {
       await DELETE(`shelter-posts/${id}/bookmark`);
     } else if (!isBookmarkOn) {
-      await axios.post(`shelter-posts/${id}/bookmark`).catch(function (error) {
-        console.log(error);
-      });
+      await POST(`shelter-posts/${id}/bookmark`);
     }
     mutate(`/shelter-posts/${id}`);
   };
+
+  if (!data) {
+    return (
+      <Wrapper>
+        <ShortHeader location="보호 정보" />
+        <BackgroundBox margin="6rem 0 2.4rem 0"></BackgroundBox>
+      </Wrapper>
+    );
+  }
 
   return (
     <Wrapper>
