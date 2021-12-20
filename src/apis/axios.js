@@ -21,7 +21,7 @@ export const GET = async (url, params) => {
   }
 };
 
-export const POST = async (url, body, headers) => {
+export const POST = async (url, body) => {
   if (!url) {
     console.error(DEV_ERROR.INVALID_ARGS);
     return;
@@ -31,8 +31,7 @@ export const POST = async (url, body, headers) => {
     const { data } = await axios({
       method: 'post',
       url,
-      data: body,
-      headers
+      data: body
     });
 
     return data.data;
