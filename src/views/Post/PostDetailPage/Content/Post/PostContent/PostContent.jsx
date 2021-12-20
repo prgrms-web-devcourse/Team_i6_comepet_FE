@@ -2,6 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import { Label } from '@/components/Label';
+import { STATUS } from '@/utils/constants';
 
 const PostContent = ({
   status,
@@ -19,7 +20,7 @@ const PostContent = ({
         <Label size="xsmall" bgColor="brand">
           상태
         </Label>
-        <OneLineText bgColor="brand">{status}</OneLineText>
+        <OneLineText bgColor="brand">{STATUS[status]}</OneLineText>
       </LabelWrapper>
       <LabelWrapper>
         <Label size="xsmall" bgColor="brand">
