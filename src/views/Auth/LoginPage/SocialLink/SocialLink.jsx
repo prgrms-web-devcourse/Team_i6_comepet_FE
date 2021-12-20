@@ -8,15 +8,15 @@ import { DEV_ERROR } from '@/utils/constants';
 const SocialLink = ({ type }) => {
   const imageSrc = getImageUrl(type);
   const bgColor = getBgColor(type);
+  const linkUrl = getLinkUrl(type);
 
   return (
-    <Link href="#" bgColor={bgColor} type={type}>
+    <Link href={linkUrl} bgColor={bgColor} type={type}>
       <Image src={imageSrc} alt={type} width="auto" height="1.8rem" />
     </Link>
   );
 };
 
-/* TODO: react-router의 Link로 교체 */
 const Link = styled.a`
   display: flex;
   justify-content: center;
@@ -73,4 +73,13 @@ const getBgColor = (type) => {
   }
 
   return getImageSrc(bgColor);
+};
+
+const getLinkUrl = (type) => {
+  switch (type) {
+    case 'google':
+      return process.env.REACT_APP_GOOGLE_URL;
+    case 'naver':
+      return process.env.REACT_APP_NAVER_URL;
+  }
 };
