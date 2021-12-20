@@ -14,7 +14,7 @@ import { GET, POST } from '@/apis/axios';
 import useSWR, { mutate } from 'swr';
 
 const ProfileUpdatePage = () => {
-  const { data: userData } = useSWR('me', GET);
+  const { data: userData } = useSWR('/me', GET);
   const fakePassword = 'fakepw1!';
   const [previewImgURL, setPreviewImgURL] = useState('');
 
@@ -35,11 +35,11 @@ const ProfileUpdatePage = () => {
       param.newPassword = newPassword;
       param.newPasswordCheck = newPasswordCheck;
     }
-    console.log(param);
+
     data.append('param', new Blob([JSON.stringify(param)], { type: 'application/json' }));
-    await POST('me', data);
+    await POST('/me', data);
     alert('저장되었습니다.');
-    mutate('me');
+    mutate('/me');
   };
 
   return (
