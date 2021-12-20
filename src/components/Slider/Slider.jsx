@@ -34,9 +34,9 @@ const Slider = ({ imageList, size, borderRadius }) => {
   return (
     <Wrapper size={size} borderRadius={borderRadius}>
       {(imageList.length !== 0 &&
-        imageList.map((image, index) => (
+        imageList.map(({ image }, index) => (
           <ImageWrapper key={index} opacity={(index === slideIndex && 1) || 0}>
-            <Image src={URL.createObjectURL(image)} width="100%" height="100%" />
+            <Image src={image} width="100%" height="100%" />
           </ImageWrapper>
         ))) || <Image src="" width="100%" height="100%" />}
       <DotContainer>
