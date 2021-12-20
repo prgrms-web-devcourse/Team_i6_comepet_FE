@@ -25,8 +25,9 @@ const Post = ({ data, postId }) => {
 
   const handleToggleBookmark = async () => {
     setIsBookmark(!isBookmark);
+    console.log(isBookmark);
     !isBookmark && (await POST(`/missing-posts/${postId}/bookmark`));
-    isBookmark && (await DELETE(`/missing-posts/${postId}/bookmark}`));
+    isBookmark && (await DELETE(`/missing-posts/${postId}/bookmark`));
   };
 
   const handleCountBookmark = () => {
