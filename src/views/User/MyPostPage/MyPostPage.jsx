@@ -1,21 +1,29 @@
 import React from 'react';
+import useSWR from 'swr';
+import { GET } from '@/apis/axios';
 import styled from '@emotion/styled';
 import { ShortHeader } from '@/components/Header';
 import { PostCard } from '@/components/PostCard';
-import { postsData } from '@/assets/data.js';
 
 const MyPostPage = () => {
-  const { posts } = postsData;
-  const postLength = posts.length;
+  const { data } = useSWR('/me/posts', GET);
+  console.log(data);
+  const postLength = data?.posts.length;
   return (
     <Wrapper>
       <ShortHeader location="내가 쓴 글" />
       <ContentWrapper>
         {postLength ? (
           <PostCardList>
-            {posts.map(({ id, ...props }) => (
+            {data?.posts.map(({ id, animalKind, date, postTags, ...props }) => (
               <PostCardWrapper key={id}>
-                <PostCard {...props} />
+                <PostCard
+                  postId={id}
+                  animalKindName={animalKind}
+                  createdAt={date}
+                  tags={postTags}
+                  {...props}
+                />
               </PostCardWrapper>
             ))}
           </PostCardList>
