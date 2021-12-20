@@ -1,8 +1,10 @@
 import axios from 'axios';
+import { getCookie, removeCookie } from '@/utils/cookie';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const CONTENT_TYPE = 'application/json';
-const AUTH_TOKEN = ''; // TODO
+const userToken = getCookie('token');
+const AUTH_TOKEN = (userToken && `Bearer ${userToken}`) || '';
 
 axios.defaults.baseURL = BASE_URL;
 axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
@@ -22,6 +24,15 @@ axios.interceptors.response.use(
     return response;
   },
   (error) => {
+    const detailCode = error.response.data.code;
+    const isExpiredToken = detailCode === 903;
+
+    if (isExpiredToken) {
+      axios.defaults.headers.common['Authorization'] = '';
+      removeCookie('token');
+      return;
+    }
+
     return Promise.reject(error);
   }
 );

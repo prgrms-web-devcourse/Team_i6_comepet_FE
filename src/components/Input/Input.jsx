@@ -22,7 +22,9 @@ const Input = ({
   margin,
   disabled,
   onChange,
-  onBlur
+  onBlur,
+  onKeyDown,
+  cursor
 }) => {
   return (
     <StyledInput
@@ -46,6 +48,8 @@ const Input = ({
       onChange={onChange}
       onBlur={onBlur}
       disabled={disabled}
+      onKeyDown={onKeyDown}
+      cursor={cursor}
     />
   );
 };
@@ -69,6 +73,7 @@ const StyledInput = styled.input`
   ::-moz-placeholder {
     color: ${({ required, theme }) => (required && theme.colors.normalPink) || 'auto'};
   }
+  cursor: ${({ cursor }) => cursor};
 `;
 
 Input.propTypes = {
@@ -91,7 +96,9 @@ Input.propTypes = {
   margin: PropTypes.string,
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
-  onBlur: PropTypes.func
+  onBlur: PropTypes.func,
+  onKeyDown: PropTypes.func,
+  cursor: PropTypes.string
 };
 
 export default Input;

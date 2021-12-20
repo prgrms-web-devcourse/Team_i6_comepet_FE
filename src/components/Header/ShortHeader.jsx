@@ -53,12 +53,7 @@ const ShortHeader = ({ isLoggedIn = true, location = 'Comepet' }) => {
               </StyledMenuIconButton>
             </IconWrapper>
           ) : (
-            <Button
-              bgColor="normalWhite"
-              type="button"
-              width="2.8rem"
-              height="2.8rem"
-              borderRadius="50%">
+            <Button bgColor="normalWhite" width="2.8rem" height="2.8rem" borderRadius="50%">
               <Image
                 src={getImageSrc('/images/profile-image-loggedout.svg')}
                 alt="로그인"

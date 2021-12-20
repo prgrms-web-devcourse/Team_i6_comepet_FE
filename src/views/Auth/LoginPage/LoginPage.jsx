@@ -1,22 +1,55 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Formik } from 'formik';
+import { ShortHeader } from '@/components/Header';
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
 import { FormError } from '@/components/FormError';
-import { ShortHeader } from '@/components/Header';
-import { CheckBox } from '@/components/CheckBox';
 import { Seperator } from '@/components/Seperator';
 import { Image } from '@/components/Image';
-import { EmailAuthForm } from '@/components/EmailAuthForm';
 import { Modal } from '@/components/Modal';
-import { USER_ERROR, REGEX } from '@/utils/constants';
+import { AuthEmailForm } from '@/views/Auth/LoginPage/AuthEmailForm';
+import { SocialLink } from '@/views/Auth/LoginPage/SocialLink';
+import { USER_ERROR, AUTH_ERROR, REGEX } from '@/utils/constants';
 import { getImageSrc, isValidInput } from '@/utils/helpers';
-import { SocialLink } from './SocialLink';
-import { Link } from 'react-router-dom';
+import { POST } from '@/apis/axios';
+import { setCookie } from '@/utils/cookie';
+import axios from 'axios';
 
 const LoginPage = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (values, { setSubmitting }) => {
+    try {
+      const headers = { Authorization: '' };
+      const { token } = await POST('/login', values, headers);
+
+      changeAxiosHeader(token);
+      setCookie('token', token);
+      navigate('/', { replace: true });
+    } catch (error) {
+      const statusCode = error.response.status;
+
+      switch (statusCode) {
+        case 404:
+          alert(AUTH_ERROR.NO_EMAIL);
+          break;
+        case 401:
+          alert(AUTH_ERROR.INVALID_PASSWORD);
+          break;
+        default:
+          alert(AUTH_ERROR.TRY_AGAIN);
+      }
+    }
+
+    setSubmitting(false);
+  };
+
+  const setStateAfterSendEmail = () => {
+    setIsModalVisible(false);
+  };
 
   return (
     <Wrapper>
@@ -54,7 +87,6 @@ const LoginPage = () => {
             />
             <FormError isVisible={errors.password && touched.password}>{errors.password}</FormError>
             <PasswordOptionWrapper>
-              <CheckBox id="save-password" text="비밀번호 기억하기" fontColor="normalGray" />
               <UnderlineTextButton type="button" onClick={() => setIsModalVisible(true)}>
                 비밀번호를 잊어버리셨나요?
               </UnderlineTextButton>
@@ -63,7 +95,7 @@ const LoginPage = () => {
               type="submit"
               bgColor="brand"
               width="60%"
-              margin="10% auto 8% auto"
+              margin="8% auto 8% auto"
               disabled={isSubmitting}>
               로그인
             </Button>
@@ -87,7 +119,7 @@ const LoginPage = () => {
       </Formik>
       {isModalVisible && (
         <Modal width="90%" onClose={() => setIsModalVisible(false)}>
-          <EmailAuthForm />
+          <AuthEmailForm setStateAfterSendEmail={setStateAfterSendEmail} />
         </Modal>
       )}
     </Wrapper>
@@ -102,20 +134,11 @@ const Wrapper = styled.div`
 const Form = styled.form``;
 
 const PasswordOptionWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 4% 0 0 0;
+  text-align: right;
 `;
 
 const LoginOptionWrapper = styled.div`
   margin: 8% 0;
-`;
-
-const NormalText = styled.span`
-  color: ${({ theme }) => theme.colors.lightGray};
-  margin: 0 0.5rem;
-  font-weight: bold;
 `;
 
 const UnderlineTextButton = styled.button`
@@ -128,6 +151,12 @@ const UnderlineTextButton = styled.button`
 const UnderlineText = styled.span`
   color: ${({ theme }) => theme.colors.normalGray};
   text-decoration: underline;
+`;
+
+const NormalText = styled.span`
+  color: ${({ theme }) => theme.colors.lightGray};
+  margin: 0 0.5rem;
+  font-weight: bold;
 `;
 
 const SocialLinkWrapper = styled.div`
@@ -154,21 +183,6 @@ const validate = ({ email, password }) => {
   return errors;
 };
 
-const handleSubmit = (values, { setSubmitting }) => {
-  setTimeout(() => {
-    // 테스트
-    alert(JSON.stringify(values, null, 2));
-
-    /* TODO : Post 요청 후 작업
-
-     * 일치하는 회원 정보가 있다면
-     * TOKEN & ID 저장
-     * MainPage Redirect
-    
-     * 일치하는 회원 정보가 없다면
-     * alert(USER_ERROR.NOT_MATCHED);
-     */
-
-    setSubmitting(false);
-  }, 400);
+const changeAxiosHeader = (token) => {
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 };

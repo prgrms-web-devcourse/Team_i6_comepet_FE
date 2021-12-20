@@ -134,7 +134,7 @@ const ProfileUpdatePage = () => {
 
 const validate = ({ nickname, password, passwordCheck }) => {
   const errors = {};
-  const { NO_NICKNAME, NO_PASSWORD, INVALID_NICKNAME, INVALID_PASSWORD, INVALID_PASSWORD2 } =
+  const { NO_NICKNAME, NO_PASSWORD, INVALID_NICKNAME, INVALID_PASSWORD, INVALID_PASSWORD_CHECK } =
     USER_ERROR;
 
   if (!nickname) {
@@ -148,7 +148,7 @@ const validate = ({ nickname, password, passwordCheck }) => {
   } else if (!isValidInput(REGEX.PASSWORD, password)) {
     errors.password = INVALID_PASSWORD;
   } else if (password !== passwordCheck) {
-    errors.passwordCheck = INVALID_PASSWORD2;
+    errors.passwordCheck = INVALID_PASSWORD_CHECK;
   }
 
   return errors;

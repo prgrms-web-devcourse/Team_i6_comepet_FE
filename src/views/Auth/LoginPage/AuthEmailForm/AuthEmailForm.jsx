@@ -1,18 +1,40 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { Formik } from 'formik';
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
 import { FormError } from '@/components/FormError';
-import { USER_ERROR, REGEX } from '@/utils/constants';
+import { USER_ERROR, REGEX, AUTH_ERROR, NOTICE } from '@/utils/constants';
 import { isValidInput } from '@/utils/helpers';
+import { PATCH } from '@/apis/axios';
 
-const EmailAuthForm = () => {
+const AuthEmailForm = ({ setStateAfterSendEmail }) => {
+  const handleSubmit = async ({ email }, { setSubmitting }) => {
+    try {
+      const headers = { Authorization: '' };
+      await PATCH('/send-password', { email }, headers);
+      alert(NOTICE.SENT_EMAIL);
+      setStateAfterSendEmail(email);
+    } catch (error) {
+      const detailCode = error.response.data.code;
+
+      if (detailCode === 601) {
+        alert(AUTH_ERROR.NO_EMAIL);
+        return;
+      }
+
+      alert(AUTH_ERROR.TRY_AGAIN);
+    }
+
+    setSubmitting(false);
+  };
+
   return (
     <Wrapper>
-      <Text>임시 비밀번호 발급을 위해 이메일을 입력해 주세요</Text>
+      <Text>임시 비밀번호 발급을 위해 이메일을 입력해 주세요.</Text>
       <Formik initialValues={{ email: '' }} validate={validate} onSubmit={handleSubmit}>
-        {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
+        {({ values, errors, touched, handleChange, handleSubmit, handleBlur, isSubmitting }) => (
           <Form onSubmit={handleSubmit}>
             <InputWrapper>
               <Input
@@ -46,8 +68,6 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100%;
   padding: 1rem 1rem 0 1rem;
   border-radius: 1rem;
   background-color: ${({ theme }) => theme.colors.lighterBlue};
@@ -59,9 +79,7 @@ const Text = styled.div`
   margin: 1rem 0;
 `;
 
-const Form = styled.form`
-  width: 100%;
-`;
+const Form = styled.form``;
 
 const InputWrapper = styled.div`
   display: flex;
@@ -69,9 +87,12 @@ const InputWrapper = styled.div`
   margin: 1rem 0 0 0;
 `;
 
-export default EmailAuthForm;
+AuthEmailForm.propTypes = {
+  setStateAfterSendEmail: PropTypes.func
+};
 
-// TODO: helpers에 인자 여부에 따른 리팩토링 필요
+export default AuthEmailForm;
+
 const validate = ({ email }) => {
   const errors = {};
   const { NO_EMAIL, INVALID_EMAIL } = USER_ERROR;
@@ -83,15 +104,4 @@ const validate = ({ email }) => {
   }
 
   return errors;
-};
-
-const handleSubmit = (values, { setSubmitting }) => {
-  setTimeout(() => {
-    // 테스트
-    alert(JSON.stringify(values, null, 2));
-
-    // TODO: 서버 요청
-
-    setSubmitting(false);
-  }, 400);
 };
