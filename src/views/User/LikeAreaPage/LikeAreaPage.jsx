@@ -164,8 +164,6 @@ const LikeAreaPage = () => {
   );
 };
 
-export default LikeAreaPage;
-
 const LikeAreaButtonWrapper = styled.div`
   display: flex;
   justify-content: space-around;
@@ -173,36 +171,39 @@ const LikeAreaButtonWrapper = styled.div`
 `;
 
 const Wrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
+  margin: 0 auto;
+  max-width: 76.8rem;
 `;
+
 const LikeAreaWrapper = styled.div`
-  margin: 5.2rem 2.4rem 0 2.4rem;
+  padding: 5.2rem 2.4rem 0 2.4rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   flex-grow: 1;
 `;
+
 const LabelWrapper = styled.div`
   margin: 2rem 2.4rem 0 2.4rem;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
+
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
   flex-grow: 1;
 `;
+
 const SwitchWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   height: 4rem;
 `;
+
 const NoticeText = styled.span`
   margin-left: 4rem;
   color: ${({ theme }) => theme.colors.brand};
@@ -211,19 +212,25 @@ const NoticeText = styled.span`
   flex-grow: 1;
   white-space: nowrap;
 `;
+
 const StyledToggleOffIcon = styled(ToggleOffIcon)`
   font-size: 4rem;
   color: ${({ theme }) => theme.colors.lightGray};
 `;
+
 const StyledToggleOnIcon = styled(ToggleOnIcon)`
   font-size: 4rem;
   color: ${({ theme }) => theme.colors.brand};
 `;
+
 const SelectedAreaWrapper = styled.div`
   display: flex;
-  margin: 3rem;
+  margin: 3rem 2.4rem 24rem 2.4rem;
   justify-content: space-around;
 `;
+
 const StyledAddIcon = styled(AddIcon)`
   color: ${({ theme }) => theme.colors.normalOrange};
 `;
+
+export default LikeAreaPage;

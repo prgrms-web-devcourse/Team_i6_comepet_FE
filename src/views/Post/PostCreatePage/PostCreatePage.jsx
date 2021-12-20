@@ -129,7 +129,9 @@ const PostCreatePage = () => {
 };
 
 const Wrapper = styled.div`
-  padding: 20% 1.7rem 1.7rem 1.7rem;
+  max-width: 76.8rem;
+  padding: 10rem 2.4rem 2.4rem 2.4rem;
+  margin: 0 auto;
 `;
 
 const Form = styled.form``;

@@ -8,7 +8,7 @@ import { Image } from '@/components/Image';
 import { getImageSrc } from '@/utils/helpers';
 import { InformationModal, NotificationModal, SidebarModal, SearchModal } from './PopupModal';
 import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -125,7 +125,7 @@ const LongHeader = ({ onSearch }) => {
             세부 검색을 위해 클릭해주세요
           </SearchButton>
           <StyledSearchIconButton>
-            <StyledSearchIcon />
+            <StyledSearchRoundedIcon />
           </StyledSearchIconButton>
         </BottomWrapper>
       </BackgroundBox>
@@ -149,8 +149,16 @@ const LongHeader = ({ onSearch }) => {
 const Wrapper = styled.div`
   position: fixed;
   width: 100%;
+  max-width: 612px;
+  left: 50%;
+  transform: translateX(-50%);
   top: 0;
   z-index: 1000;
+
+  @media screen and (min-width: 768px) {
+    width: 612px;
+    margin: 0 auto;
+  }
 `;
 
 const TopWrapper = styled.div`
@@ -260,10 +268,9 @@ const SearchButton = styled.button`
 
 const StyledSearchIconButton = styled.button`
   position: absolute;
-  right: 0;
   top: 50%;
+  right: 1rem;
   transform: translateY(-50%);
-  right: 2%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -274,7 +281,7 @@ const StyledSearchIconButton = styled.button`
   background-color: ${({ theme }) => theme.colors.brand};
 `;
 
-const StyledSearchIcon = styled(SearchIcon)`
+const StyledSearchRoundedIcon = styled(SearchRoundedIcon)`
   font-size: 2.4rem;
   color: ${({ theme }) => theme.colors.normalWhite};
 `;

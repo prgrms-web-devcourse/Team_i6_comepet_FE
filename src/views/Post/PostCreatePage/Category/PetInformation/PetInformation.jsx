@@ -193,7 +193,7 @@ const PetInformation = ({ margin, onChange, animalData }) => {
           <Input
             id="age-input"
             onChange={handleChange}
-            width="25%"
+            width="8rem"
             placeholder="나이"
             type="number"
             margin="1.8rem 0 0 0"

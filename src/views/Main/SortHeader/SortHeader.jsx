@@ -49,10 +49,16 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 1.4rem 0;
+  width: 100%;
+  max-width: 61.2rem;
+  margin: 1.4rem auto;
   font-size: 1.2rem;
   font-weight: bold;
   color: ${({ theme }) => theme.colors.brand};
+
+  @media screen and (min-width: 76.8rem) {
+    width: 76.8rem;
+  }
 `;
 
 SortHeader.propTypes = {

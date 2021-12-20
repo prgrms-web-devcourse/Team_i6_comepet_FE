@@ -143,7 +143,7 @@ const ProfileUpdatePage = () => {
             <Button
               type="submit"
               margin="0 auto"
-              width="26rem"
+              width="60%"
               height="4rem"
               bgColor="normalOrange"
               onSubmit={handleSubmit}
@@ -182,13 +182,15 @@ const validate = ({ nickname, newPassword, newPasswordCheck }) => {
 export default ProfileUpdatePage;
 
 const Wrapper = styled.div`
-  padding: 0 2.4rem 2.4rem 2.4rem;
+  max-width: 76.8rem;
+  margin: 0 auto;
 `;
+
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 5.2rem 0 0 0;
+  padding: 5.2rem 2.4rem 0 2.4rem;
 `;
 
 const ProfilePictureWrapper = styled.div`

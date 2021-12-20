@@ -69,11 +69,9 @@ const MyPostPage = () => {
   );
 };
 
-export default MyPostPage;
-
 const Wrapper = styled.div`
   margin: 0 auto;
-  padding-bottom: 2rem;
+  max-width: 76.8rem;
 `;
 
 const ContentWrapper = styled.div`
@@ -98,3 +96,5 @@ const NoResultText = styled.div`
   text-align: center;
   color: ${({ theme }) => theme.colors.normalGray};
 `;
+
+export default MyPostPage;

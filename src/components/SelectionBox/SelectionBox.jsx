@@ -80,7 +80,7 @@ const Wrapper = styled.div`
 const Select = styled.select`
   width: 100%;
   height: 100%;
-  padding-right: 2.5rem;
+  padding: 0.1rem 2rem 0 0.5rem;
   background: transparent;
   border: 0;
   outline: 0;

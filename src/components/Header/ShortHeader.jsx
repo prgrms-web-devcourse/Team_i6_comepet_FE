@@ -74,12 +74,20 @@ const ShortHeader = ({ location = 'Comepet' }) => {
 const Wrapper = styled.div`
   position: fixed;
   width: 100%;
+  max-width: 76.8rem;
   top: 0;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 1000;
+
+  @media screen and (min-width: 76.8rem) {
+    width: 76.8rem;
+    margin: 0 auto;
+  }
 `;
 
 const TopWrapper = styled.div`
+  height: 100%;
   position: relative;
   display: flex;
   justify-content: space-between;
@@ -93,9 +101,9 @@ const StyledHeader = styled.h1`
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  font-size: 2.4rem;
-  margin: 0.2rem 0 0 0;
+  font-size: 1.8rem;
   color: ${({ theme }) => theme.colors.brand};
+  margin: 0.2rem 0 0 0;
   cursor: pointer;
 `;
 
@@ -105,9 +113,7 @@ const StyledAccountCircleIcon = styled(AccountCircleIcon)`
 `;
 
 const StyledMenuIconButton = styled.button`
-  margin-left: 1rem;
-  width: 2.5rem;
-  height: 2.5rem;
+  margin: 0 0 0 1rem;
   padding: 0;
   cursor: pointer;
 `;
@@ -116,7 +122,7 @@ const StyledMenuIcon = styled(MenuIcon)`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   color: ${({ theme }) => theme.colors.brand};
 `;
 
