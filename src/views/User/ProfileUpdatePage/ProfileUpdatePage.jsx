@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { Avatar } from '@/components/Avatar';
+import { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { Avatar } from '@/components/Avatar';
 import { ShortHeader } from '@/components/Header';
 import { Button } from '@/components/Button';
 import { Label } from '@/components/Label';
@@ -10,28 +10,49 @@ import { Input } from '@/components/Input';
 import { FormError } from '@/components/FormError';
 import { USER_ERROR, REGEX } from '@/utils/constants';
 import { isValidInput } from '@/utils/helpers';
+import { GET, POST } from '@/apis/axios';
+import useSWR, { mutate } from 'swr';
 
 const ProfileUpdatePage = () => {
-  const [previewURL, setPreviewURL] = useState('');
+  const { data: userData } = useSWR('/me', GET);
+  const fakePassword = 'fakepw1!';
+  const [previewImgURL, setPreviewImgURL] = useState('');
 
-  const handleSubmit = async (values) => {
+  useEffect(() => {
+    setPreviewImgURL(userData?.image);
+  }, [userData]);
+
+  const handleSubmit = async ({ image, nickname, newPassword, newPasswordCheck }) => {
     const data = new FormData();
-    data.append('file', values.file);
-    data.append('nickname', values.nickname);
-    data.append('newPassword', values.password);
-    data.append('newPasswordCheck', values.passwordCheck);
+    const param = {};
+    if (previewImgURL !== image) {
+      data.append('image', image);
+    }
+    if (userData?.nickname !== nickname) {
+      param.nickname = nickname;
+    }
+    if (newPassword !== fakePassword) {
+      param.newPassword = newPassword;
+      param.newPasswordCheck = newPasswordCheck;
+    }
+
+    data.append('param', new Blob([JSON.stringify(param)], { type: 'application/json' }));
+    await POST('/me', data);
+    alert('저장되었습니다.');
+    mutate('/me');
   };
 
   return (
     <Wrapper>
       <ShortHeader location="개인정보수정" />
       <Formik
+        enableReinitialize={true}
         initialValues={{
-          file: '',
-          nickname: '',
-          email: '',
-          password: '',
-          passwordCheck: ''
+          image: userData?.image || '',
+          email: userData?.email || '',
+          nickname: userData?.nickname || '',
+          newPassword: fakePassword,
+          newPasswordCheck: fakePassword
         }}
         validate={validate}
         onSubmit={handleSubmit}>
@@ -48,7 +69,7 @@ const ProfileUpdatePage = () => {
           <Form onSubmit={handleSubmit}>
             <ProfilePictureWrapper>
               <AvatarWrapper>
-                <Avatar size="8rem" src={previewURL} />
+                <Avatar size="8rem" src={previewImgURL} />
                 <StyledSettingsIcon />
               </AvatarWrapper>
               <Label
@@ -62,15 +83,17 @@ const ProfileUpdatePage = () => {
                 프로필 이미지 변경
                 <input
                   type="file"
-                  name="file"
-                  accept=".png,.jpg,.jpeg"
-                  onChange={(event) => {
-                    const file = event.target.files[0];
-                    if (file.size > 1024 * 1024 * 5) {
+                  name="image"
+                  accept="image/*"
+                  onChange={({ target }) => {
+                    const image = target.files[0];
+                    if (image.size > 1024 * 1024 * 5) {
                       alert('5MB 이하의 사진만 업로드 가능합니다');
                     } else {
-                      if (file) setPreviewURL(URL.createObjectURL(file));
-                      setFieldValue('file', file);
+                      if (image) {
+                        setFieldValue('image', image);
+                        setPreviewImgURL(URL.createObjectURL(image));
+                      }
                     }
                   }}
                   hidden
@@ -97,23 +120,25 @@ const ProfileUpdatePage = () => {
             <FormError isVisible={errors.nickname && touched.nickname}>{errors.nickname}</FormError>
             <Input
               type="password"
-              name="password"
+              name="newPassword"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.password}
+              value={values.newPassword}
               placeholder="비밀번호"
             />
-            <FormError isVisible={errors.password && touched.password}>{errors.password}</FormError>
+            <FormError isVisible={errors.newPassword && touched.newPassword}>
+              {errors.newPassword}
+            </FormError>
             <Input
               type="password"
-              name="passwordCheck"
+              name="newPasswordCheck"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.passwordCheck}
+              value={values.newPasswordCheck}
               placeholder="비밀번호 확인"
             />
-            <FormError isVisible={errors.passwordCheck && touched.passwordCheck}>
-              {errors.passwordCheck}
+            <FormError isVisible={errors.newPasswordCheck && touched.newPasswordCheck}>
+              {errors.newPasswordCheck}
             </FormError>
             <Button
               type="submit"
@@ -132,7 +157,7 @@ const ProfileUpdatePage = () => {
   );
 };
 
-const validate = ({ nickname, password, passwordCheck }) => {
+const validate = ({ nickname, newPassword, newPasswordCheck }) => {
   const errors = {};
   const { NO_NICKNAME, NO_PASSWORD, INVALID_NICKNAME, INVALID_PASSWORD, INVALID_PASSWORD_CHECK } =
     USER_ERROR;
@@ -143,12 +168,12 @@ const validate = ({ nickname, password, passwordCheck }) => {
     errors.nickname = INVALID_NICKNAME;
   }
 
-  if (!password) {
-    errors.password = NO_PASSWORD;
-  } else if (!isValidInput(REGEX.PASSWORD, password)) {
-    errors.password = INVALID_PASSWORD;
-  } else if (password !== passwordCheck) {
-    errors.passwordCheck = INVALID_PASSWORD_CHECK;
+  if (!newPassword) {
+    errors.newPassword = NO_PASSWORD;
+  } else if (!isValidInput(REGEX.PASSWORD, newPassword)) {
+    errors.newPassword = INVALID_PASSWORD;
+  } else if (newPassword !== newPasswordCheck) {
+    errors.newPasswordCheck = INVALID_PASSWORD_CHECK;
   }
 
   return errors;
