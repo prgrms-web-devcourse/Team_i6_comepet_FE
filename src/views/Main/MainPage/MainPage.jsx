@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import useSWRInfinite from 'swr/infinite';
@@ -12,8 +12,9 @@ import { GET } from '@/apis/axios';
 
 const MainPage = () => {
   const [target, isTargetInView] = useInView();
+  const [sortingOrder, setSortingOrder] = useState('DESC');
   const { data, size, setSize } = useSWRInfinite(
-    (index) => `/missing-posts?page=${index + 1}&size=6`,
+    (index) => `/missing-posts?page=${index + 1}&size=6&sort=id%2C${sortingOrder}`,
     GET
   );
 
@@ -34,7 +35,12 @@ const MainPage = () => {
     <Wrapper>
       <LongHeader />
       <ContentWrapper>
-        <SortHeader city={city || '전체'} town={town || ''} postLength={postLength} />
+        <SortHeader
+          city={city || '전체'}
+          town={town || ''}
+          postLength={postLength}
+          setSortingOrder={setSortingOrder}
+        />
         {(postLength && (
           <PostCardList>
             {posts.map(({ id, ...props }) => (
