@@ -12,7 +12,7 @@ const STATUS = Object.freeze({
   완료: 'COMPLETION'
 });
 
-const Status = ({ onSelectOption }) => {
+const Status = ({ onSelectOption, display }) => {
   const handleChange = (e) => {
     if (!isDefalutOptionSelected(e)) {
       onSelectOption({ status: STATUS[e.target.value] });
@@ -22,7 +22,7 @@ const Status = ({ onSelectOption }) => {
   };
 
   return (
-    <Wrapper>
+    <Wrapper display={display}>
       <Label forHtml="status" bgColor="brand" size="xsmall">
         상태 정보
       </Label>
@@ -39,11 +39,14 @@ const Status = ({ onSelectOption }) => {
   );
 };
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  display: ${({ display }) => display};
+`;
 
 Status.propTypes = {
   onSelectOption: PropTypes.func,
-  onSelectDefaultOption: PropTypes.func
+  onSelectDefaultOption: PropTypes.func,
+  display: PropTypes.string
 };
 
 export default Status;

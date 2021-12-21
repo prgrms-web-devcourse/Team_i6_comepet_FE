@@ -9,19 +9,24 @@ import { PostCard } from '@/components/PostCard';
 import { Button } from '@/components/Button';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { GET } from '@/apis/axios';
+import useSWR from 'swr';
 
 const MainPage = () => {
+  const { data: likeArea } = useSWR('/me/areas', GET);
+  console.log('likeArea', likeArea);
+
   const [filterConditions, setFilterConditions] = useState({});
   const [target, isTargetInView] = useInView();
   const [sortingOrder, setSortingOrder] = useState('DESC');
   const { data, size, setSize } = useSWRInfinite(
     (index) =>
-      `/missing-posts?page=${index + 1}&size=6&sort=id%2C${sortingOrder}` +
+      `/missing-posts?page=${index}&size=8&sort=id%2C${sortingOrder}` +
       makeFilterConditionUrl(filterConditions),
     GET
   );
 
   const handleSetFilterCondition = (filterConditionObject) => {
+    filterConditionObject.start && setSortingOrder('ASC');
     setFilterConditions(filterConditionObject);
   };
 
@@ -30,9 +35,7 @@ const MainPage = () => {
   }).missingPosts;
 
   const isReachingEnd = data && data[data?.length - 1]?.last;
-  const city = posts && posts[0]?.city; // temp
-  const town = posts && posts[0]?.town; // temp
-  const postLength = posts?.length || 0;
+  const postLength = (data && data[0]?.totalElements) || 0;
 
   useEffect(() => {
     isTargetInView && setSize(size + 1);
@@ -43,11 +46,10 @@ const MainPage = () => {
       <LongHeader onSearch={handleSetFilterCondition} />
       <ContentWrapper>
         <SortHeader
-          city={city || '전체'}
-          town={town || ''}
           postLength={postLength}
           setSortingOrder={setSortingOrder}
           filterConditions={filterConditions}
+          sortingOrder={sortingOrder}
         />
         {(postLength && (
           <PostCardList>
@@ -132,8 +134,17 @@ const makeFilterConditionUrl = (conditionObject) => {
   let res = '';
 
   for (const [key, value] of Object.entries(conditionObject)) {
-    if (value && key !== 'cityName' && key !== 'townName') res += `&${key}=${value}`;
+    if (
+      value &&
+      key !== 'cityName' &&
+      key !== 'townName' &&
+      key !== 'animalString' &&
+      key !== 'animalKindName'
+    )
+      res += `&${key}=${value}`;
   }
+
+  res += '&sort=id%2CASC';
 
   return res;
 };

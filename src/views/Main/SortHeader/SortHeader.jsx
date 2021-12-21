@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import { SelectionBox } from '@/components/SelectionBox';
@@ -10,7 +10,13 @@ const STATUS = Object.freeze({
   COMPLETION: '완료'
 });
 
-const SortHeader = ({ city, town, postLength, setSortingOrder, filterConditions }) => {
+const GENDER = Object.freeze({
+  MALE: '수컷',
+  FEMALE: '암컷',
+  UNKNOWN: '모르는 성별'
+});
+
+const SortHeader = ({ postLength, sortingOrder, setSortingOrder, filterConditions }) => {
   const handleChange = ({ target }) => {
     const { value } = target;
 
@@ -28,11 +34,31 @@ const SortHeader = ({ city, town, postLength, setSortingOrder, filterConditions 
     switchOrderBy(value);
   };
 
+  const selectionBoxRef = useRef(null);
+
+  useEffect(() => {
+    console.log('sortingOrder', sortingOrder);
+
+    if (sortingOrder === 'DESC') {
+      selectionBoxRef.current[0].selected = true;
+      return;
+    }
+    if (sortingOrder === 'ASC') {
+      selectionBoxRef.current[1].selected = true;
+      return;
+    }
+  }, [sortingOrder]);
+
   return (
     <Wrapper>
-      {(isFilterConditionApplied(filterConditions) &&
-        makeFilterConditionsString(filterConditions) + ` 검색 결과 ${postLength}건`) ||
-        `${city} ${town} 검색 결과 ${postLength}건`}
+      {isFilterConditionApplied(filterConditions) ? (
+        <span>
+          <HighLight>{makeFilterConditionsString(filterConditions)}</HighLight>
+          {` 동물 검색 결과 ${postLength}건`}
+        </span>
+      ) : (
+        <span>{`전체 게시글 검색 결과 ${postLength}건`}</span>
+      )}
       <SelectionBox
         options={['오래된순 정렬']}
         defaultOption="최신순 정렬"
@@ -40,6 +66,7 @@ const SortHeader = ({ city, town, postLength, setSortingOrder, filterConditions 
         fontColor="normalGray"
         usedAt="filter"
         onChange={handleChange}
+        propRef={selectionBoxRef}
       />
     </Wrapper>
   );
@@ -55,10 +82,13 @@ const Wrapper = styled.div`
   color: ${({ theme }) => theme.colors.brand};
 `;
 
+const HighLight = styled.span`
+  color: ${({ theme }) => theme.colors.normalGreen};
+`;
+
 SortHeader.propTypes = {
-  city: PropTypes.string,
-  town: PropTypes.string,
   postLength: PropTypes.number,
+  sortingOrder: PropTypes.string,
   setSortingOrder: PropTypes.func,
   filterConditions: PropTypes.object
 };
@@ -66,12 +96,22 @@ SortHeader.propTypes = {
 export default SortHeader;
 
 const isFilterConditionApplied = (filterConditionObject) =>
-  Object.keys(filterConditionObject).length;
+  filterConditionObject && Object.values(filterConditionObject).some((boolean) => boolean);
 
+// 장소, 날짜, 종류(분기), 성별(분기), 상태
 const makeFilterConditionsString = (filterConditionObject) => {
   let res = '';
   filterConditionObject['cityName'] && (res += filterConditionObject['cityName']);
   filterConditionObject['townName'] && (res += ' ' + filterConditionObject['townName']);
+  filterConditionObject['start'] && (res += ' ' + filterConditionObject['start']);
+  filterConditionObject['end'] && (res += ' ~ ' + filterConditionObject['end']);
+  filterConditionObject['animalString'] &&
+    (res +=
+      ' ' +
+      ((filterConditionObject['animalString'] === '개' && '강아지') ||
+        filterConditionObject['animalString']));
+  filterConditionObject['animalKindName'] && (res += ' ' + filterConditionObject['animalKindName']);
+  filterConditionObject['sex'] && (res += ' ' + GENDER[filterConditionObject['sex']]);
   filterConditionObject['status'] && (res += ' ' + STATUS[filterConditionObject['status']]);
   return res;
 };

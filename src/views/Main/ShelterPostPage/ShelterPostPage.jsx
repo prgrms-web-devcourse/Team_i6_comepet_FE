@@ -10,14 +10,20 @@ import { Button } from '@/components/Button';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { Modal } from '@/components/Modal';
 import { GET } from '@/apis/axios';
+import useSWR from 'swr';
 
 const ShelterPostPage = () => {
+  const [filterConditions, setFilterConditions] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
   const [target, isTargetInView] = useInView();
   const { data, size, setSize } = useSWRInfinite(
-    (index) => `/shelter-posts?page=${index + 1}&size=6`,
+    (index) => `/shelter-posts?page=${index}&size=8` + makeFilterConditionUrl(filterConditions),
     GET
   );
+
+  const handleSetFilterCondition = (filterConditionObject) => {
+    setFilterConditions(filterConditionObject);
+  };
 
   const posts = data?.reduce((prevData, nextData) => {
     return { shelters: [...prevData.shelters, ...nextData.shelters] };
@@ -32,9 +38,16 @@ const ShelterPostPage = () => {
     isTargetInView && setSize(size + 1);
   }, [isTargetInView]);
 
+  const { data: res } = useSWR(
+    '/shelter-posts?page=0&size=6' + makeFilterConditionUrl(filterConditions),
+    GET
+  );
+
+  if (!res) return <></>;
+
   return (
     <Wrapper>
-      <LongHeader />
+      <LongHeader onSearch={handleSetFilterCondition} usedAt="ShelterPostPage" />
       <ContentWrapper>
         <Notice>
           <NoticeDetails>
@@ -69,7 +82,12 @@ const ShelterPostPage = () => {
             </Modal>
           )}
         </Notice>
-        <SortHeader city={city || '전체'} town={town || ''} postLength={postLength} />
+        <SortHeader
+          city={city || '전체'}
+          town={town || ''}
+          postLength={postLength}
+          filterConditions={filterConditions}
+        />
         {(postLength && (
           <PostCardList>
             {posts.map(({ id, ...props }) => (
@@ -174,3 +192,20 @@ const NoResultText = styled.div`
 `;
 
 export default ShelterPostPage;
+
+const makeFilterConditionUrl = (conditionObject) => {
+  let res = '';
+
+  for (const [key, value] of Object.entries(conditionObject)) {
+    if (
+      value &&
+      key !== 'cityName' &&
+      key !== 'townName' &&
+      key !== 'animalString' &&
+      key !== 'animalKindName'
+    )
+      res += `&${key}=${value}`;
+  }
+
+  return res;
+};
