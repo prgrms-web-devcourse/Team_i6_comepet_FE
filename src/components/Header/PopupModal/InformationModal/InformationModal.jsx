@@ -3,23 +3,20 @@ import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import { BackgroundBox } from '@/components/BackgroundBox';
 import { STATUS } from '@/utils/constants';
-
-const responseData = {
-  missing: 31,
-  detection: 5,
-  protection: 11,
-  completion: 15,
-  date: '2021-11-05T16:55:37.436056'
-};
+import { GET } from '@/apis/axios';
+import useSWR from 'swr';
 
 const InformationModal = ({ isVisible, top, left, right, bottom }) => {
+  const { data } = useSWR('/statistics', GET);
+
   return (
     <Wrapper isVisible={isVisible} top={top} left={left} right={right} bottom={bottom}>
-      <BackgroundBox width="33rem" height="3rem">
+      <BackgroundBox width="28rem" height="6rem">
         <TextWrapper>
-          {STATUS['missing']} {responseData.missing} 건 중, {responseData.detection} 건{' '}
-          {STATUS['detection']} , {responseData.protection} 건 {STATUS['protection']},{' '}
-          {responseData.completion} 건 {STATUS['completion']} 되었습니다
+          {STATUS['MISSING']}
+          {' ' + data?.missing} 건 중 <br />
+          {data?.detection} 건 {STATUS['DETECTION']} / {data?.protection} 건 {STATUS['PROTECTION']}{' '}
+          /{' ' + data?.completion} 건 {STATUS['COMPLETION']}
         </TextWrapper>
       </BackgroundBox>
     </Wrapper>
@@ -40,9 +37,11 @@ const TextWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 0.2rem;
   width: 100%;
   height: 100%;
   font-size: 1.6rem;
+  line-height: 2rem;
 `;
 
 InformationModal.propTypes = {
