@@ -114,7 +114,6 @@ const LoginPage = () => {
             </LoginOptionWrapper>
             <SocialLinkWrapper>
               <SocialLink type="google" />
-              <SocialLink type="kakao" />
               <SocialLink type="naver" />
             </SocialLinkWrapper>
           </Form>
