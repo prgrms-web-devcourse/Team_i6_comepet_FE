@@ -23,8 +23,6 @@ const ShelterPostPage = () => {
       makeFilterConditionUrl(filterConditions),
     GET
   );
-  console.log('data', data);
-
   const handleSetFilterCondition = (filterConditionObject) => {
     filterConditionObject.start && setSortingOrder('ASC');
     setFilterConditions(filterConditionObject);
