@@ -9,7 +9,8 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const value = { isLoggedIn, setIsLoggedIn };
+  const [userId, setUserId] = useState(null);
+  const value = { isLoggedIn, setIsLoggedIn, userId };
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,6 +20,7 @@ export const AuthProvider = ({ children }) => {
       try {
         const userIdData = await GET('/auth-user');
         userIdData && setIsLoggedIn(true);
+        setUserId(userAuthId);
       } catch (error) {
         alert(AUTH_ERROR.EXPIRED_TOKEN);
         navigate('/login', { replace: true });
