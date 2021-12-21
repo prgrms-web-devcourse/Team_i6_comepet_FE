@@ -30,7 +30,7 @@ const Wrapper = styled.div`
 const ScrapCounterWrapper = styled.div`
   position: absolute;
   right: 0;
-  bottom: 0;
+  bottom: -0.3rem;
 `;
 
 const StatusTagWrapper = styled.div`
