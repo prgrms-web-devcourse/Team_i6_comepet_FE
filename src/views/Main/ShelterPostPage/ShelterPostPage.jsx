@@ -10,7 +10,6 @@ import { Button } from '@/components/Button';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { Modal } from '@/components/Modal';
 import { GET } from '@/apis/axios';
-import useSWR from 'swr';
 
 const ShelterPostPage = () => {
   const [filterConditions, setFilterConditions] = useState({});
@@ -42,13 +41,6 @@ const ShelterPostPage = () => {
       isTargetInView && setSize(size + 1);
     }
   }, [isTargetInView]);
-
-  const { data: res } = useSWR(
-    '/shelter-posts?page=0&size=6' + makeFilterConditionUrl(filterConditions),
-    GET
-  );
-
-  if (!res) return <></>;
 
   return (
     <Wrapper>

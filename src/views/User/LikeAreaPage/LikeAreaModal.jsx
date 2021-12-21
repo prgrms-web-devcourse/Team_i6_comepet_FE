@@ -48,6 +48,10 @@ const LikeAreaModal = ({ placeData, onClose, checkOut, isDefaultArea }) => {
   };
 
   const handleOnCheckOut = () => {
+    if (!selectedTown || !selectedTownId) {
+      alert('시/군/구을 선택해주세요');
+      return;
+    }
     checkOut({ townId: selectedTownId, townName: selectedTown, defaultArea: isDefaultArea });
     onClose();
   };

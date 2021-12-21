@@ -111,7 +111,6 @@ export default SortHeader;
 const isFilterConditionApplied = (filterConditionObject) =>
   filterConditionObject && Object.values(filterConditionObject).some((boolean) => boolean);
 
-// 장소, 날짜, 종류(분기), 성별(분기), 상태
 const makeFilterConditionsString = (filterConditionObject) => {
   let res = '';
   filterConditionObject['cityName'] && (res += filterConditionObject['cityName']);
