@@ -5,12 +5,12 @@ import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 
-const PostHeader = ({ animal, animalKind, sex, tags }) => {
+const PostHeader = ({ animal, animalKindName, sex, tags }) => {
   return (
     <Wrapper>
       <AnimalWrapper>
         <Animal>{animal}/</Animal>
-        <Kinds>{animalKind || '모름'}</Kinds>
+        <Kinds>{animalKindName || '모름'}</Kinds>
         {(sex === 'MALE' && <StyledMaleIcon />) ||
           (sex === 'FEMALE' && <StyledFemaleIcon />) ||
           (sex === 'UNKNOWN' && <StyledQuestionMarkIcon />)}
@@ -74,7 +74,7 @@ const HashTag = styled.span`
 
 PostHeader.propTypes = {
   animal: PropTypes.string,
-  animalKind: PropTypes.string,
+  animalKindName: PropTypes.string,
   sex: PropTypes.string,
   tags: PropTypes.array
 };
