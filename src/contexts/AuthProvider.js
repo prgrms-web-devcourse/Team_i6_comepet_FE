@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { getCookie, removeCookie } from '@/utils/cookie';
 import { AUTH_ERROR } from '@/utils/constants';
 import { GET } from '@/apis/axios';
+import axios from 'axios';
 
 export const AuthContext = createContext();
 
@@ -14,10 +15,15 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const userToken = getCookie('token');
+    const TOKEN = getCookie('token');
+
+    const setHeaderToken = (TOKEN) => {
+      axios.defaults.headers.common['Authorization'] = (TOKEN && `Bearer ${TOKEN}`) || '';
+    };
 
     const getAuthStatus = async () => {
       try {
+        await setHeaderToken(TOKEN);
         const userIdData = await GET('/auth-user');
         userIdData && setIsLoggedIn(true);
         setUserId(userIdData?.id);
@@ -28,8 +34,10 @@ export const AuthProvider = ({ children }) => {
       }
     };
 
-    userToken && getAuthStatus();
-  }, []);
+    if (TOKEN) {
+      getAuthStatus();
+    }
+  }, [isLoggedIn]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
