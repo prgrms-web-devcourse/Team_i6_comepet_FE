@@ -92,17 +92,22 @@ const Nickname = styled.div`
 `;
 
 const CompileWrapper = styled.div`
-  position: relative;
+  position: absolute;
+  right: 0;
+  top: 0.8rem;
 `;
 
 const StyledMoreVertIconButton = styled.button`
+  position: absolute;
+  right: 0;
   display: ${({ isNotCompileButtonShown }) => isNotCompileButtonShown && 'none'};
 `;
 
 const CompileMenuWrapper = styled.div`
-  display: ${({ isNotCompileMenuShown }) => (isNotCompileMenuShown && 'none') || 'flex'};
   position: absolute;
-  right: 0;
+  right: 3rem;
+  top: 0.2rem;
+  display: ${({ isNotCompileMenuShown }) => (isNotCompileMenuShown && 'none') || 'flex'};
 `;
 
 const StyledEditIconButton = styled.button`
