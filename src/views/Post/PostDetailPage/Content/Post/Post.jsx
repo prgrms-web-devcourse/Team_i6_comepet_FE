@@ -12,7 +12,11 @@ import PostContent from './PostContent/PostContent';
 const Post = ({ data }) => {
   return (
     <BackgroundBox>
-      <ImageSlider bookmarkCount={data.bookmarkCount} status={data.status} />
+      <ImageSlider
+        bookmarkCount={data.bookmarkCount}
+        status={data.status}
+        postImages={data.postImages}
+      />
       <TextContentWrapper>
         <UserProfile user={data.user} viewCount={data.viewCount} createdAt={data.createdAt} />
         <Seperator margin="1.6rem 0" type="horizon" />

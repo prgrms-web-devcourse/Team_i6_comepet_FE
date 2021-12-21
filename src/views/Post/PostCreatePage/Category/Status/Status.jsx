@@ -5,10 +5,17 @@ import LineBreakWrapper from '../Common/LineBreakWrapper';
 import { Label } from '@/components/Label';
 import { SelectionBox } from '@/components/SelectionBox';
 
+const STATUS = Object.freeze({
+  실종: 'MISSING',
+  목격: 'DETECTION',
+  보호: 'PROTECTION',
+  완료: 'COMPLETION'
+});
+
 const Status = ({ onChange }) => {
   const handleChange = (e) => {
     if (!isDefalutOptionSelected(e)) {
-      onChange({ target: { name: 'status', value: e.target.value } });
+      onChange({ target: { name: 'status', value: STATUS[e.target.value] } });
     } else {
       onChange({ target: { name: 'status', value: null } });
     }
@@ -23,7 +30,7 @@ const Status = ({ onChange }) => {
         <SelectionBox
           id="status"
           onChange={handleChange}
-          options={['실종', '목격', '발견', '완료']}
+          options={['실종', '목격', '보호', '완료']}
           defaultOption="상태 옵션"
           required
         />

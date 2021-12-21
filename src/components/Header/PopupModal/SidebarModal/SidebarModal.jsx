@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Avatar } from '@/components/Avatar';
 import { Seperator } from '@/components/Seperator';
 import { BackgroundBox } from '@/components/BackgroundBox';
-import { Text } from '@/components/Text';
 
 const SidebarModal = ({ src, nickname = '둘리가 귀여워', isVisible, left, top, right, bottom }) => {
   return (
@@ -20,6 +20,7 @@ const SidebarModal = ({ src, nickname = '둘리가 귀여워', isVisible, left, 
         </TopContainer>
         <Seperator type="horizon" />
         <MiddleContainer>
+<<<<<<< HEAD
           <Link to="/">
             <MenuItem>메인으로 가기</MenuItem>
           </Link>
@@ -35,6 +36,13 @@ const SidebarModal = ({ src, nickname = '둘리가 귀여워', isVisible, left, 
           <Link to="/user/scrap">
             <MenuItem>내가 저장한 글</MenuItem>
           </Link>
+=======
+          <MenuItem>메인으로 가기</MenuItem>
+          <MenuItem>개인 정보 수정</MenuItem>
+          <MenuItem>관심 지역 설정</MenuItem>
+          <MenuItem>내가 쓴 글</MenuItem>
+          <MenuItem>내가 저장한 글</MenuItem>
+>>>>>>> 86da341531bce2a60ec73a4c86559a6b38e9a822
           <Link to="/post/create">
             <MenuItem>글 작성</MenuItem>
           </Link>
@@ -76,6 +84,15 @@ const Nickname = styled.span`
   font-size: 1.6rem;
   font-weight: bold;
   color: ${({ theme }) => theme.colors.normalBlack};
+`;
+
+const Text = styled.span`
+  display: inline-block;
+  margin: ${({ margin }) => margin};
+  font-size: ${({ fontSize }) => fontSize};
+  font-weight: ${({ fontWeight }) => fontWeight};
+  color: ${({ theme, color }) => theme.colors[color] || color};
+  cursor: ${({ cursor }) => cursor};
 `;
 
 const MiddleContainer = styled.ul`
