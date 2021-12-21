@@ -1,3 +1,4 @@
+// import { useSWRConfig } from 'swr';
 import { useState } from 'react';
 import styled from '@emotion/styled';
 import { ShortHeader } from '@/components/Header';
@@ -5,14 +6,16 @@ import { Button } from '@/components/Button';
 import { MissingScrap, ShelterScrap } from './scraps';
 
 const MyScrapPage = () => {
+  // const { mutate } = useSWRConfig();
   const [isMissingActive, setIsMissingActive] = useState(true);
   const [isShelterActive, setIsShelterActive] = useState(false);
-
   const handleButton = ({ target }) => {
     if (target.id === 'missing') {
+      // mutate('/me/bookmarks?status=missing');
       setIsMissingActive(true);
       setIsShelterActive(false);
     } else if (target.id === 'shelter') {
+      // mutate('/me/bookmarks?status=shelter');
       setIsMissingActive(false);
       setIsShelterActive(true);
     }
