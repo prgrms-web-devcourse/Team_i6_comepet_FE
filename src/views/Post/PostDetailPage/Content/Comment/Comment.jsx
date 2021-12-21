@@ -89,10 +89,6 @@ const Comment = ({ data, postId }) => {
     setCommentCount(commentCount + 1);
   };
 
-  const handleDecreaseCommentCount = () => {
-    setCommentCount(commentCount - 1);
-  };
-
   return (
     <BackgroundBox>
       <CommentHeader commentCount={commentCount} />
@@ -103,7 +99,6 @@ const Comment = ({ data, postId }) => {
         compileEditorToggles={compileEditorToggles}
         onRemoveComment={(id) => {
           handleRemoveComment(id);
-          handleDecreaseCommentCount();
         }}
         onCompileComment={(input, index) => {
           handleCompileComment(input, index);
