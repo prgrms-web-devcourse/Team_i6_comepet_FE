@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import useSWRInfinite from 'swr/infinite';
@@ -11,11 +11,19 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { GET } from '@/apis/axios';
 
 const MainPage = () => {
+  const [filterConditions, setFilterConditions] = useState({});
   const [target, isTargetInView] = useInView();
+  const [sortingOrder, setSortingOrder] = useState('DESC');
   const { data, size, setSize } = useSWRInfinite(
-    (index) => `/missing-posts?page=${index + 1}&size=6`,
+    (index) =>
+      `/missing-posts?page=${index + 1}&size=6&sort=id%2C${sortingOrder}` +
+      makeFilterConditionUrl(filterConditions),
     GET
   );
+
+  const handleSetFilterCondition = (filterConditionObject) => {
+    setFilterConditions(filterConditionObject);
+  };
 
   const posts = data?.reduce((prevData, nextData) => {
     return { missingPosts: [...prevData.missingPosts, ...nextData.missingPosts] };
@@ -32,9 +40,15 @@ const MainPage = () => {
 
   return (
     <Wrapper>
-      <LongHeader />
+      <LongHeader onSearch={handleSetFilterCondition} />
       <ContentWrapper>
-        <SortHeader city={city || '전체'} town={town || ''} postLength={postLength} />
+        <SortHeader
+          city={city || '전체'}
+          town={town || ''}
+          postLength={postLength}
+          setSortingOrder={setSortingOrder}
+          filterConditions={filterConditions}
+        />
         {(postLength && (
           <PostCardList>
             {posts.map(({ id, ...props }) => (
@@ -113,3 +127,13 @@ const StyledAddCircleIcon = styled(AddCircleIcon)`
 `;
 
 export default MainPage;
+
+const makeFilterConditionUrl = (conditionObject) => {
+  let res = '';
+
+  for (const [key, value] of Object.entries(conditionObject)) {
+    if (value && key !== 'cityName' && key !== 'townName') res += `&${key}=${value}`;
+  }
+
+  return res;
+};

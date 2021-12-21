@@ -19,11 +19,21 @@ const SidebarModal = ({ src, nickname = '둘리가 귀여워', isVisible, left, 
         </TopContainer>
         <Seperator type="horizon" />
         <MiddleContainer>
-          <MenuItem>메인으로 가기</MenuItem>
-          <MenuItem>개인 정보 수정</MenuItem>
-          <MenuItem>관심 지역 설정</MenuItem>
-          <MenuItem>내가 쓴 글</MenuItem>
-          <MenuItem>내가 저장한 글</MenuItem>
+          <Link to="/">
+            <MenuItem>메인으로 가기</MenuItem>
+          </Link>
+          <Link to="/edit/profile">
+            <MenuItem>개인 정보 수정</MenuItem>
+          </Link>
+          <Link to="/edit/area">
+            <MenuItem>관심 지역 설정</MenuItem>
+          </Link>
+          <Link to="/user/post">
+            <MenuItem>내가 쓴 글</MenuItem>
+          </Link>
+          <Link to="/user/scrap">
+            <MenuItem>내가 저장한 글</MenuItem>
+          </Link>
           <Link to="/post/create">
             <MenuItem>글 작성</MenuItem>
           </Link>

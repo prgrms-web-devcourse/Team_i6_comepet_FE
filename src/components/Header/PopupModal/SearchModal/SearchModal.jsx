@@ -1,39 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import { BackgroundBox } from '@/components/BackgroundBox';
 import { Button } from '@/components/Button';
-import { PetInformation, Place, Status } from './Category';
-import useForm from '@/hooks/useForm';
+import { Place, Status } from './Category';
+import useParameter from '@/hooks/useParameter';
+import { GET } from '@/apis/axios';
+import useSWR from 'swr';
 
-const SearchModal = ({ isVisible, left, top, right, bottom, translate }) => {
-  const [isErrorExist, setIsErrorExist] = useState(false);
-  const { values, errors, isLoading, handleChange, handleSubmit } = useForm({
-    initialValues: {
-      status: null,
-      city: null,
-      town: null,
-      animal: null,
-      animalKindName: null,
-      sex: null,
-      start: null,
-      end: null,
-      page: null,
-      size: null,
-      sort: null
-    },
-    onSubmit: () => {},
-    validate: ({ status, city, town }) => {
-      const errors = {};
-      if (!status) errors.content = '내용을 작성해주세요';
-      if (!city || !town) errors.content = '장소를 입력해주세요';
-      Object.keys(errors).length !== 0 && setIsErrorExist(isErrorExist);
-      return errors;
-    }
-  });
+const SearchModal = ({ isVisible, left, top, right, bottom, translate, onSearch }) => {
+  const { parameterObject, handleAddParameters } = useParameter('');
 
-  // Eslint Error 방지용 콘솔
-  console.log(values, errors, isLoading, handleChange, handleSubmit);
+  const { data: placeData } = useSWR('/cities', GET);
+
+  if (!placeData) return <div></div>;
 
   return (
     <Wrapper
@@ -44,13 +24,16 @@ const SearchModal = ({ isVisible, left, top, right, bottom, translate }) => {
       bottom={bottom}
       translate={translate}>
       <BackgroundBox>
-        <Form width="31.2rem" height="45.2rem" padding="1.8rem">
+        <Form width="31.2rem" padding="1.8rem" onSubmit={() => onSearch(parameterObject)}>
           <CategoryWrapper>
-            <Status onChange={handleChange} />
-            <Place margin="1rem 0 0 0" onChange={handleChange} />
-            <PetInformation margin="1rem 0 0 0" />
+            <Status onSelectOption={handleAddParameters} />
+            <Place
+              margin="1rem 0 0 0"
+              onSelectOption={handleAddParameters}
+              placeData={placeData.cities}
+            />
           </CategoryWrapper>
-          <Button bgColor="brand" margin="1rem 0 0 0">
+          <Button bgColor="brand" margin="2.4rem 0 0 0" onClick={() => onSearch(parameterObject)}>
             검색
           </Button>
         </Form>
@@ -60,8 +43,8 @@ const SearchModal = ({ isVisible, left, top, right, bottom, translate }) => {
 };
 
 const Wrapper = styled.div`
-  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
   position: absolute;
+  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
   top: ${({ top }) => top};
   left: ${({ left }) => left};
   bottom: ${({ bottom }) => bottom};
@@ -89,7 +72,8 @@ SearchModal.propTypes = {
   left: PropTypes.string,
   right: PropTypes.string,
   bottom: PropTypes.string,
-  translate: PropTypes.string
+  translate: PropTypes.string,
+  onSearch: PropTypes.func
 };
 
 export default SearchModal;

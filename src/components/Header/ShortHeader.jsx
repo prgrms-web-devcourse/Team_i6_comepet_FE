@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 import { BackgroundBox } from '@/components/BackgroundBox';
 import { Button } from '@/components/Button';
-import { Image } from '@/components/Image';
 import { NotificationModal, SidebarModal } from './PopupModal';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import MenuIcon from '@mui/icons-material/Menu';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { getImageSrc } from '@/utils/helpers';
+import useAuth from '@/hooks/useAuth';
 
-const ShortHeader = ({ isLoggedIn = true, location = 'Comepet' }) => {
+const ShortHeader = ({ location = 'Comepet' }) => {
+  const { isLoggedIn } = useAuth();
+  const navigate = useNavigate();
+
   const [isNotificationModalVisible, setIsNotificationModalVisible] = useState(false);
   const [isSidebarModalVisible, setIsSidebarModalVisible] = useState(false);
 
@@ -40,7 +44,9 @@ const ShortHeader = ({ isLoggedIn = true, location = 'Comepet' }) => {
     <Wrapper>
       <BackgroundBox borderRadius="0 0 1.6rem 1.6rem" height="5.2rem">
         <TopWrapper>
-          <StyledArrowBackIosNewIcon />
+          <StyledArrowBackIosNewIconButton onClick={() => navigate(-1)}>
+            <StyledArrowBackIosNewIcon />
+          </StyledArrowBackIosNewIconButton>
           <StyledHeader>{location}</StyledHeader>
           {isLoggedIn ? (
             <IconWrapper>
@@ -53,15 +59,8 @@ const ShortHeader = ({ isLoggedIn = true, location = 'Comepet' }) => {
               </StyledMenuIconButton>
             </IconWrapper>
           ) : (
-            <Button bgColor="normalWhite" width="2.8rem" height="2.8rem" borderRadius="50%">
-              <Image
-                src={getImageSrc('/images/profile-image-loggedout.svg')}
-                alt="로그인"
-                width="2.8rem"
-                height="2.8rem"
-                type="profile"
-                margin="0.5rem 0 0 0 "
-              />
+            <Button width="2.6rem" height="2.6rem">
+              <StyledAccountCircleIcon />
             </Button>
           )}
         </TopWrapper>
@@ -86,15 +85,23 @@ const TopWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2.4rem;
+  height: 100%;
 `;
 
 const StyledHeader = styled.h1`
   position: absolute;
   left: 50%;
-  transform: translateX(-50%);
-  font-size: 2.5rem;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2.4rem;
+  margin: 0.2rem 0 0 0;
   color: ${({ theme }) => theme.colors.brand};
   cursor: pointer;
+`;
+
+const StyledAccountCircleIcon = styled(AccountCircleIcon)`
+  font-size: 2.6rem;
+  color: ${({ theme }) => theme.colors.normalGray};
 `;
 
 const StyledMenuIconButton = styled.button`
@@ -139,6 +146,10 @@ const StyledBadge = styled.div`
   border-radius: 50%;
 `;
 
+const StyledArrowBackIosNewIconButton = styled.button`
+  padding: 0;
+`;
+
 const StyledArrowBackIosNewIcon = styled(ArrowBackIosNewIcon)`
   font-size: 2rem;
   color: ${({ theme }) => theme.colors.brand};
@@ -146,7 +157,6 @@ const StyledArrowBackIosNewIcon = styled(ArrowBackIosNewIcon)`
 `;
 
 ShortHeader.propTypes = {
-  isLoggedIn: PropTypes.bool,
   location: PropTypes.string
 };
 

@@ -16,10 +16,12 @@ import { getImageSrc, isValidInput } from '@/utils/helpers';
 import { POST } from '@/apis/axios';
 import { setCookie } from '@/utils/cookie';
 import axios from 'axios';
+import useAuth from '@/hooks/useAuth';
 
 const LoginPage = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
+  const { setIsLoggedIn } = useAuth();
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
@@ -28,6 +30,7 @@ const LoginPage = () => {
 
       changeAxiosHeader(token);
       setCookie('token', token);
+      setIsLoggedIn(true);
       navigate('/', { replace: true });
     } catch (error) {
       const statusCode = error.response.status;

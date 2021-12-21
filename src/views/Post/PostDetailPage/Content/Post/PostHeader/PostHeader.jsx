@@ -5,18 +5,18 @@ import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 
-const PostHeader = ({ animal, animalKindName, sex, postTags }) => {
+const PostHeader = ({ animal, animalKindName, sex, tags }) => {
   return (
     <Wrapper>
       <AnimalWrapper>
         <Animal>{animal}/</Animal>
-        <Kinds>{animalKindName}</Kinds>
+        <Kinds>{animalKindName || '모름'}</Kinds>
         {(sex === 'MALE' && <StyledMaleIcon />) ||
           (sex === 'FEMALE' && <StyledFemaleIcon />) ||
           (sex === 'UNKNOWN' && <StyledQuestionMarkIcon />)}
       </AnimalWrapper>
       <HashTagWrapper>
-        {postTags.map(({ id, name }) => (
+        {tags.map(({ id, name }) => (
           <HashTag key={id}>#{name} </HashTag>
         ))}
       </HashTagWrapper>
@@ -76,7 +76,7 @@ PostHeader.propTypes = {
   animal: PropTypes.string,
   animalKindName: PropTypes.string,
   sex: PropTypes.string,
-  postTags: PropTypes.array
+  tags: PropTypes.array
 };
 
 export default PostHeader;

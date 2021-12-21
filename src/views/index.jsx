@@ -13,6 +13,7 @@ export { default as NotFoundPage } from './NotFound/NotFoundPage';
 export { default as PostCreatePage } from './Post/PostCreatePage/PostCreatePage';
 export { default as PostDetailPage } from './Post/PostDetailPage/PostDetailPage';
 export { default as ShelterPostDetailPage } from './Post/ShelterPostDetailPage/ShelterPostDetailPage';
+export { default as PostCompilePage } from './Post/PostCompilePage/PostCompilePage';
 
 /* User */
 export { default as LikeAreaPage } from './User/LikeAreaPage/LikeAreaPage';
