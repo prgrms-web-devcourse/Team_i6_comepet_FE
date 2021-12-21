@@ -14,8 +14,9 @@ import { GET } from '@/apis/axios';
 const ShelterPostPage = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [target, isTargetInView] = useInView();
+  const [sortingOrder, setSortingOrder] = useState('DESC');
   const { data, size, setSize } = useSWRInfinite(
-    (index) => `/shelter-posts?page=${index + 1}&size=6`,
+    (index) => `/shelter-posts?page=${index + 1}&size=8&sort=id%2C${sortingOrder}`,
     GET
   );
 
@@ -26,7 +27,7 @@ const ShelterPostPage = () => {
   const isReachingEnd = data && data[data?.length - 1]?.last;
   const city = ''; // temp
   const town = ''; // temp
-  const postLength = posts?.length || 0;
+  const postLength = (data && data[0]?.totalElements) || 0;
 
   useEffect(() => {
     if (!isReachingEnd && isTargetInView) {
@@ -71,7 +72,12 @@ const ShelterPostPage = () => {
             </Modal>
           )}
         </Notice>
-        <SortHeader city={city || '전체'} town={town || ''} postLength={postLength} />
+        <SortHeader
+          city={city || '전체'}
+          town={town || ''}
+          postLength={postLength}
+          setSortingOrder={setSortingOrder}
+        />
         {(postLength && (
           <PostCardList>
             {posts.map(({ id, ...props }) => (
