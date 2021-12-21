@@ -10,7 +10,6 @@ import { Image } from '@/components/Image';
 import { Label } from '@/components/Label';
 import { Seperator } from '@/components/Seperator';
 import { ScrapCounter } from '@/components/ScrapCounter';
-import { Button } from '@/components/Button';
 import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
 
@@ -54,18 +53,11 @@ const ShelterPostDetailPage = () => {
       <BackgroundBox margin="6rem 0 2.4rem 0">
         <ImageWrapper>
           <Image src={data?.image} width="100%" height="100%" />
-          <Button
-            position="absolute"
-            right="0"
-            bottom="-0.3rem"
-            bgColor="brand"
-            width="4.8rem"
-            height="2.1rem"
-            onClick={handleBookmarkClick}>
-            <ScrapCounter size="medium" isBookmark={isBookmarkOn}>
+          <ScrapCounterWrapper>
+            <ScrapCounter size="medium" isBookmark={isBookmarkOn} onClick={handleBookmarkClick}>
               {data?.bookmarkCount}
             </ScrapCounter>
-          </Button>
+          </ScrapCounterWrapper>
         </ImageWrapper>
         <TextContentWrapper>
           <AnimalProfileWrapper>
@@ -193,6 +185,14 @@ const ImageWrapper = styled.div`
   border-radius: 1.6rem 1.6rem 0 0;
   overflow: hidden;
   position: relative;
+`;
+
+const ScrapCounterWrapper = styled.div`
+  position: absolute;
+  right: 0;
+  bottom: -0.3rem;
+  width: 4.8rem;
+  height: 2.1rem;
 `;
 
 const TextContentWrapper = styled.div`
