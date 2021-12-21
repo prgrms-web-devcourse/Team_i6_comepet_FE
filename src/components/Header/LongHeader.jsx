@@ -14,9 +14,8 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import useAuth from '@/hooks/useAuth';
 
-const LongHeader = ({ onSearch }) => {
+const LongHeader = ({ onSearch, usedAt }) => {
   const { isLoggedIn } = useAuth();
-
   const [isSidebarModalVisible, setIsSidebarModalVisible] = useState(false);
   const [isInformationModalVisible, setIsInformationModalVisible] = useState(false);
   const [isNotificationModalVisible, setIsNotificationModalVisible] = useState(false);
@@ -135,12 +134,13 @@ const LongHeader = ({ onSearch }) => {
       <SearchModal
         isVisible={isSearchModalVisible}
         left="50%"
-        top="110%"
+        top="120%"
         translate="translate(-50%, 0%)"
         onSearch={(filterConditions) => {
           onSearch(filterConditions);
-          handleSearchModalClick();
         }}
+        onCloseModal={handleSearchModalClick}
+        usedAt={usedAt}
       />
     </Wrapper>
   );
@@ -282,7 +282,8 @@ const StyledSearchRoundedIcon = styled(SearchRoundedIcon)`
 `;
 
 LongHeader.propTypes = {
-  onSearch: PropTypes.func
+  onSearch: PropTypes.func,
+  usedAt: PropTypes.string
 };
 
 export default LongHeader;

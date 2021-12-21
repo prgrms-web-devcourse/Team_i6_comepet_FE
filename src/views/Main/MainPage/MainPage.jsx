@@ -9,19 +9,32 @@ import { PostCard } from '@/components/PostCard';
 import { Button } from '@/components/Button';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { GET } from '@/apis/axios';
+import useSWR from 'swr';
 
 const MainPage = () => {
   const [filterConditions, setFilterConditions] = useState({});
+  const { data: likeArea } = useSWR('/me/areas', GET);
+
+  const userLikeCity = likeArea && likeArea.areas.length > 0 && likeArea.areas[0].cityName;
+  const userLikeTown = likeArea && likeArea.areas.length > 0 && likeArea.areas[0].townName;
+
+  const userLikeArea =
+    (isNotFilterConditionApplied(filterConditions) && getUserLikeArea(likeArea)) || '';
+
   const [target, isTargetInView] = useInView();
+
   const [sortingOrder, setSortingOrder] = useState('DESC');
+
   const { data, size, setSize } = useSWRInfinite(
     (index) =>
-      `/missing-posts?page=${index + 1}&size=6&sort=id%2C${sortingOrder}` +
-      makeFilterConditionUrl(filterConditions),
+      `/missing-posts?page=${index}&size=8&sort=id%2C${sortingOrder}` +
+      makeFilterConditionUrl(filterConditions) +
+      userLikeArea,
     GET
   );
 
   const handleSetFilterCondition = (filterConditionObject) => {
+    filterConditionObject.start && setSortingOrder('ASC');
     setFilterConditions(filterConditionObject);
   };
 
@@ -30,9 +43,7 @@ const MainPage = () => {
   }).missingPosts;
 
   const isReachingEnd = data && data[data?.length - 1]?.last;
-  const city = posts && posts[0]?.city; // temp
-  const town = posts && posts[0]?.town; // temp
-  const postLength = posts?.length || 0;
+  const postLength = (data && data[0]?.totalElements) || 0;
 
   useEffect(() => {
     if (!isReachingEnd && isTargetInView) {
@@ -45,11 +56,12 @@ const MainPage = () => {
       <LongHeader onSearch={handleSetFilterCondition} />
       <ContentWrapper>
         <SortHeader
-          city={city || '전체'}
-          town={town || ''}
           postLength={postLength}
+          sortingOrder={sortingOrder}
           setSortingOrder={setSortingOrder}
           filterConditions={filterConditions}
+          userLikeCity={userLikeCity}
+          userLikeTown={userLikeTown}
         />
         {(postLength && (
           <PostCardList>
@@ -135,8 +147,25 @@ const makeFilterConditionUrl = (conditionObject) => {
   let res = '';
 
   for (const [key, value] of Object.entries(conditionObject)) {
-    if (value && key !== 'cityName' && key !== 'townName') res += `&${key}=${value}`;
+    if (
+      value &&
+      key !== 'cityName' &&
+      key !== 'townName' &&
+      key !== 'animalString' &&
+      key !== 'animalKindName'
+    )
+      res += `&${key}=${value}`;
   }
+
+  res += '&sort=id%2CASC';
 
   return res;
 };
+
+const isNotFilterConditionApplied = (filterConditionObject) =>
+  filterConditionObject && !Object.values(filterConditionObject).some((boolean) => boolean);
+
+const getUserLikeArea = (likeArea) =>
+  likeArea &&
+  likeArea.areas.length > 0 &&
+  `&city=${likeArea.areas[0].cityId}&town=${likeArea.areas[0].townId}`;

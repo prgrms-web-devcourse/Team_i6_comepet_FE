@@ -12,13 +12,20 @@ import { Modal } from '@/components/Modal';
 import { GET } from '@/apis/axios';
 
 const ShelterPostPage = () => {
+  const [filterConditions, setFilterConditions] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
   const [target, isTargetInView] = useInView();
   const [sortingOrder, setSortingOrder] = useState('DESC');
   const { data, size, setSize } = useSWRInfinite(
-    (index) => `/shelter-posts?page=${index + 1}&size=8&sort=id%2C${sortingOrder}`,
+    (index) =>
+      `/shelter-posts?page=${index}&size=8&sort=id%2C${sortingOrder}` +
+      makeFilterConditionUrl(filterConditions),
     GET
   );
+  const handleSetFilterCondition = (filterConditionObject) => {
+    filterConditionObject.start && setSortingOrder('ASC');
+    setFilterConditions(filterConditionObject);
+  };
 
   const posts = data?.reduce((prevData, nextData) => {
     return { shelters: [...prevData.shelters, ...nextData.shelters] };
@@ -37,7 +44,7 @@ const ShelterPostPage = () => {
 
   return (
     <Wrapper>
-      <LongHeader />
+      <LongHeader onSearch={handleSetFilterCondition} usedAt="ShelterPostPage" />
       <ContentWrapper>
         <Notice>
           <NoticeDetails>
@@ -76,6 +83,8 @@ const ShelterPostPage = () => {
           city={city || '전체'}
           town={town || ''}
           postLength={postLength}
+          filterConditions={filterConditions}
+          sortingOrder={sortingOrder}
           setSortingOrder={setSortingOrder}
         />
         {(postLength && (
@@ -199,3 +208,20 @@ const NoResultText = styled.div`
 `;
 
 export default ShelterPostPage;
+
+const makeFilterConditionUrl = (conditionObject) => {
+  let res = '';
+
+  for (const [key, value] of Object.entries(conditionObject)) {
+    if (
+      value &&
+      key !== 'cityName' &&
+      key !== 'townName' &&
+      key !== 'animalString' &&
+      key !== 'animalKindName'
+    )
+      res += `&${key}=${value}`;
+  }
+
+  return res;
+};

@@ -44,18 +44,23 @@ const LikeAreaPage = () => {
     mutate('/me/areas');
   };
 
-  const getSelectedTown = async (selectedTown) => {
-    setInitialInterestAreas((initialInterestAreas) => {
-      if (initialInterestAreas.length > 1) {
-        return initialInterestAreas;
-      } else {
-        if (initialInterestAreas[0].townName === selectedTown.townName) {
-          alert('동일한 관심지역을 중복해서 설정할 수 없습니다.');
-          return initialInterestAreas;
-        }
-        return [...initialInterestAreas, selectedTown];
+  const getSelectedTown = (selectedTown) => {
+    let nextState = null;
+
+    if (initialInterestAreas.length === 0) {
+      nextState = [selectedTown];
+      setInitialInterestAreas(nextState);
+      return;
+    }
+    if (initialInterestAreas.length === 1) {
+      if (initialInterestAreas[0].townName === selectedTown.townName) {
+        alert('동일한 관심지역을 중복해서 설정할 수 없습니다.');
+        return;
       }
-    });
+
+      nextState = [...initialInterestAreas, selectedTown];
+      setInitialInterestAreas(nextState);
+    }
   };
 
   const handleOnSubmit = async (e) => {
