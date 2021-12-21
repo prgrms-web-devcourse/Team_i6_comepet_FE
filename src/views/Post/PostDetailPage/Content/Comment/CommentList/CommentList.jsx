@@ -130,7 +130,7 @@ const CommentEditor = styled.div`
 const CompiledCommentSubmitButton = styled.button`
   position: absolute;
   z-index: 1;
-  right: 0.3rem;
+  right: 0.1rem;
   bottom: 0;
 `;
 
@@ -172,6 +172,7 @@ const CompileMenuWrapper = styled.div`
 const StyledEditIconButton = styled.button`
   display: flex;
   align-items: center;
+  background-color: ${({ theme }) => theme.colors.normalWhite};
   border: ${({ theme }) => `0.1rem solid ${theme.colors.lighterGray}`};
   border-radius: 0.8rem;
 `;
