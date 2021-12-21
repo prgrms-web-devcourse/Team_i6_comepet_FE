@@ -22,12 +22,10 @@ const InformationModal = ({ isVisible, top, left, right, bottom }) => {
 
   return (
     <Wrapper isVisible={isVisible} top={top} left={left} right={right} bottom={bottom}>
-      <BackgroundBox width="28rem" height="6rem">
+      <BackgroundBox width="36rem" height="6rem">
         <TextWrapper>
-          {STATUS['MISSING']}
-          {' ' + data?.missing} 건 중 <br />
-          {data?.detection} 건 {STATUS['DETECTION']} / {data?.protection} 건 {STATUS['PROTECTION']}{' '}
-          /{' ' + data?.completion} 건 {STATUS['COMPLETION']}
+          {STATUS['MISSING']} {data?.missing}건 / {STATUS['DETECTION']} {data?.detection}건 /{' '}
+          {STATUS['PROTECTION']} {data?.protection}건 / {STATUS['COMPLETION']} {data?.completion}건
         </TextWrapper>
       </BackgroundBox>
     </Wrapper>
