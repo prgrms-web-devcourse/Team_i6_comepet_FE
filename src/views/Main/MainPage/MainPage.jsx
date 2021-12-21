@@ -12,16 +12,24 @@ import { GET } from '@/apis/axios';
 import useSWR from 'swr';
 
 const MainPage = () => {
-  const { data: likeArea } = useSWR('/me/areas', GET);
-  console.log('likeArea', likeArea);
-
   const [filterConditions, setFilterConditions] = useState({});
+  const { data: likeArea } = useSWR('/me/areas', GET);
+
+  const userLikeCity = likeArea && likeArea.areas.length > 0 && likeArea.areas[0].cityName;
+  const userLikeTown = likeArea && likeArea.areas.length > 0 && likeArea.areas[0].townName;
+
+  const userLikeArea =
+    (isNotFilterConditionApplied(filterConditions) && getUserLikeArea(likeArea)) || '';
+
   const [target, isTargetInView] = useInView();
+
   const [sortingOrder, setSortingOrder] = useState('DESC');
+
   const { data, size, setSize } = useSWRInfinite(
     (index) =>
       `/missing-posts?page=${index}&size=8&sort=id%2C${sortingOrder}` +
-      makeFilterConditionUrl(filterConditions),
+      makeFilterConditionUrl(filterConditions) +
+      userLikeArea,
     GET
   );
 
@@ -38,7 +46,9 @@ const MainPage = () => {
   const postLength = (data && data[0]?.totalElements) || 0;
 
   useEffect(() => {
-    isTargetInView && setSize(size + 1);
+    if (!isReachingEnd && isTargetInView) {
+      isTargetInView && setSize(size + 1);
+    }
   }, [isTargetInView]);
 
   return (
@@ -47,9 +57,11 @@ const MainPage = () => {
       <ContentWrapper>
         <SortHeader
           postLength={postLength}
+          sortingOrder={sortingOrder}
           setSortingOrder={setSortingOrder}
           filterConditions={filterConditions}
-          sortingOrder={sortingOrder}
+          userLikeCity={userLikeCity}
+          userLikeTown={userLikeTown}
         />
         {(postLength && (
           <PostCardList>
@@ -88,6 +100,8 @@ const ContentWrapper = styled.div`
 `;
 
 const PostCardList = styled.ul`
+  max-width: 73.4rem;
+  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   gap: 1.2rem;
@@ -109,7 +123,7 @@ const NoResultText = styled.div`
 const StyledLink = styled(Link)`
   position: fixed;
   right: 0;
-  bottom: 0;
+  bottom: 1.6rem;
   z-index: 2;
   transform: translateX(-50%);
   display: flex;
@@ -117,14 +131,13 @@ const StyledLink = styled(Link)`
   align-items: center;
   width: 4rem;
   height: 4rem;
-  margin: 0 0 1.2rem 0;
   border-radius: 50%;
   background-color: ${({ theme }) => theme.colors.normalWhite};
 `;
 
 const StyledAddCircleIcon = styled(AddCircleIcon)`
-  width: 5rem;
-  height: 5rem;
+  width: 6rem;
+  height: 6rem;
   color: ${({ theme }) => theme.colors.normalOrange};
 `;
 
@@ -148,3 +161,11 @@ const makeFilterConditionUrl = (conditionObject) => {
 
   return res;
 };
+
+const isNotFilterConditionApplied = (filterConditionObject) =>
+  filterConditionObject && !Object.values(filterConditionObject).some((boolean) => boolean);
+
+const getUserLikeArea = (likeArea) =>
+  likeArea &&
+  likeArea.areas.length > 0 &&
+  `&city=${likeArea.areas[0].cityId}&town=${likeArea.areas[0].townId}`;

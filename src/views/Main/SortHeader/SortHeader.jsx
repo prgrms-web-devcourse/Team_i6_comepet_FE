@@ -16,7 +16,14 @@ const GENDER = Object.freeze({
   UNKNOWN: '모르는 성별'
 });
 
-const SortHeader = ({ postLength, sortingOrder, setSortingOrder, filterConditions }) => {
+const SortHeader = ({
+  postLength,
+  sortingOrder,
+  setSortingOrder,
+  filterConditions,
+  userLikeCity,
+  userLikeTown
+}) => {
   const handleChange = ({ target }) => {
     const { value } = target;
 
@@ -37,8 +44,6 @@ const SortHeader = ({ postLength, sortingOrder, setSortingOrder, filterCondition
   const selectionBoxRef = useRef(null);
 
   useEffect(() => {
-    console.log('sortingOrder', sortingOrder);
-
     if (sortingOrder === 'DESC') {
       selectionBoxRef.current[0].selected = true;
       return;
@@ -57,7 +62,7 @@ const SortHeader = ({ postLength, sortingOrder, setSortingOrder, filterCondition
           {` 동물 검색 결과 ${postLength}건`}
         </span>
       ) : (
-        <span>{`전체 게시글 검색 결과 ${postLength}건`}</span>
+        <span>{`${getString(userLikeCity, userLikeTown)} 검색 결과 ${postLength}건`}</span>
       )}
       <SelectionBox
         options={['오래된순 정렬']}
@@ -76,10 +81,16 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 1.4rem 0;
+  width: 100%;
+  max-width: 61.2rem;
+  margin: 1.4rem auto;
   font-size: 1.2rem;
   font-weight: bold;
   color: ${({ theme }) => theme.colors.brand};
+
+  @media screen and (min-width: 76.8rem) {
+    width: 76.8rem;
+  }
 `;
 
 const HighLight = styled.span`
@@ -90,7 +101,9 @@ SortHeader.propTypes = {
   postLength: PropTypes.number,
   sortingOrder: PropTypes.string,
   setSortingOrder: PropTypes.func,
-  filterConditions: PropTypes.object
+  filterConditions: PropTypes.object,
+  userLikeCity: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  userLikeTown: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
 };
 
 export default SortHeader;
@@ -114,4 +127,9 @@ const makeFilterConditionsString = (filterConditionObject) => {
   filterConditionObject['sex'] && (res += ' ' + GENDER[filterConditionObject['sex']]);
   filterConditionObject['status'] && (res += ' ' + STATUS[filterConditionObject['status']]);
   return res;
+};
+
+const getString = (userLikeCity, userLikeTown) => {
+  if (userLikeCity) return `${userLikeCity} ${userLikeTown}`;
+  return '전체 페이지';
 };
