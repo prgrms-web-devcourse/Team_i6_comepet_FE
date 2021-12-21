@@ -6,8 +6,14 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Avatar } from '@/components/Avatar';
 import { Seperator } from '@/components/Seperator';
 import { BackgroundBox } from '@/components/BackgroundBox';
+import { removeCookie } from '@/utils/cookie';
 
 const SidebarModal = ({ src, nickname = '둘리가 귀여워', isVisible, left, top, right, bottom }) => {
+  const handleLogoutClick = () => {
+    removeCookie('token');
+    window.location.reload();
+  };
+
   return (
     <Wrapper isVisible={isVisible} top={top} left={left} right={right} bottom={bottom}>
       <BackgroundBox width="30rem">
@@ -40,7 +46,7 @@ const SidebarModal = ({ src, nickname = '둘리가 귀여워', isVisible, left, 
         </MiddleContainer>
         <Seperator type="horizon" />
         <BottomContainer>
-          <LogoutWrapper>
+          <LogoutWrapper onClick={handleLogoutClick}>
             <StyledLogoutIcon />
             로그아웃
           </LogoutWrapper>
