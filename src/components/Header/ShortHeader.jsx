@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { BackgroundBox } from '@/components/BackgroundBox';
-import { Button } from '@/components/Button';
 import { NotificationModal, SidebarModal } from './PopupModal';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -40,11 +39,15 @@ const ShortHeader = ({ location = 'Comepet' }) => {
     setIsNotificationModalVisible(!isNotificationModalVisible);
   };
 
+  const handleGoBackButtonClick = () => {
+    navigate(-1);
+  };
+
   return (
     <Wrapper>
       <BackgroundBox borderRadius="0 0 1.6rem 1.6rem" height="5.2rem">
         <TopWrapper>
-          <StyledArrowBackIosNewIconButton onClick={() => navigate(-1)}>
+          <StyledArrowBackIosNewIconButton onClick={handleGoBackButtonClick}>
             <StyledArrowBackIosNewIcon />
           </StyledArrowBackIosNewIconButton>
           <StyledHeader>{location}</StyledHeader>
@@ -59,9 +62,9 @@ const ShortHeader = ({ location = 'Comepet' }) => {
               </StyledMenuIconButton>
             </IconWrapper>
           ) : (
-            <Button width="2.6rem" height="2.6rem">
+            <Link to="/login">
               <StyledAccountCircleIcon />
-            </Button>
+            </Link>
           )}
         </TopWrapper>
       </BackgroundBox>
@@ -108,7 +111,7 @@ const StyledHeader = styled.h1`
 `;
 
 const StyledAccountCircleIcon = styled(AccountCircleIcon)`
-  font-size: 2.6rem;
+  font-size: 3.2rem;
   color: ${({ theme }) => theme.colors.normalGray};
 `;
 
