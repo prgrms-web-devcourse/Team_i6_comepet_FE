@@ -5,12 +5,12 @@ import { Slider } from '@/components/Slider';
 import { ScrapCounter } from '@/components/ScrapCounter';
 import { StatusTag } from '@/components/StatusTag';
 
-const ImageSlider = ({ bookmarkCount, status, postImages }) => {
+const ImageSlider = ({ bookmarkCount, isBookmark, status, images, onClickBookmark }) => {
   return (
     <Wrapper>
-      <Slider imageList={postImages} borderRadius="1.6rem 1.6rem 0 0" />
+      <Slider imageList={images} borderRadius="1.6rem 1.6rem 0 0" />
       <ScrapCounterWrapper>
-        <ScrapCounter size="medium" isBookmark={false}>
+        <ScrapCounter size="medium" isBookmark={isBookmark} onClick={onClickBookmark}>
           {bookmarkCount}
         </ScrapCounter>
       </ScrapCounterWrapper>
@@ -42,7 +42,9 @@ const StatusTagWrapper = styled.div`
 ImageSlider.propTypes = {
   bookmarkCount: PropTypes.number,
   status: PropTypes.string,
-  postImages: PropTypes.array
+  images: PropTypes.array,
+  isBookmark: PropTypes.bool,
+  onClickBookmark: PropTypes.func
 };
 
 export default ImageSlider;

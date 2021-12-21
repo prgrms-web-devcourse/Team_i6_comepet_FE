@@ -19,7 +19,7 @@ const PetPhoto = ({ margin, onChange }) => {
       const nextFiles = [...e.target.files];
       setFiles(makeDataFormForSlider(nextFiles));
       setIsErrorOccurred(false);
-      onChange({ target: { name: 'images', value: e.target.files } });
+      onChange({ target: { name: 'images', value: nextFiles } });
       return;
     }
 
@@ -77,6 +77,7 @@ const areFileSizesUnder5MB = (e) => {
 };
 
 const isTheNumberOfPhotosUnderThree = (e) => e.target.files.length <= 3;
+
 const makeDataFormForSlider = (files) => {
   const res = [];
   for (let i = 0; i < files.length; i++) {

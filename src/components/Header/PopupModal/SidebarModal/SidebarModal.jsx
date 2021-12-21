@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -20,7 +19,6 @@ const SidebarModal = ({ src, nickname = '둘리가 귀여워', isVisible, left, 
         </TopContainer>
         <Seperator type="horizon" />
         <MiddleContainer>
-<<<<<<< HEAD
           <Link to="/">
             <MenuItem>메인으로 가기</MenuItem>
           </Link>
@@ -36,13 +34,6 @@ const SidebarModal = ({ src, nickname = '둘리가 귀여워', isVisible, left, 
           <Link to="/user/scrap">
             <MenuItem>내가 저장한 글</MenuItem>
           </Link>
-=======
-          <MenuItem>메인으로 가기</MenuItem>
-          <MenuItem>개인 정보 수정</MenuItem>
-          <MenuItem>관심 지역 설정</MenuItem>
-          <MenuItem>내가 쓴 글</MenuItem>
-          <MenuItem>내가 저장한 글</MenuItem>
->>>>>>> 86da341531bce2a60ec73a4c86559a6b38e9a822
           <Link to="/post/create">
             <MenuItem>글 작성</MenuItem>
           </Link>

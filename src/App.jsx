@@ -15,7 +15,8 @@ import {
   LikeAreaPage,
   MyPostPage,
   MyScrapPage,
-  ProfileUpdatePage
+  ProfileUpdatePage,
+  PostCompilePage
 } from '@/views';
 
 const App = function () {
@@ -34,7 +35,7 @@ const App = function () {
         </Route>
         <Route element={<RequireAuth />}>
           <Route path="/post/create" element={<PostCreatePage />} />
-          <Route path="/post/edit" element={<PostCreatePage />} />
+          <Route path="/post/edit/:id" element={<PostCompilePage />} />
           <Route path="/edit/profile" element={<ProfileUpdatePage />} />
           <Route path="/edit/area" element={<LikeAreaPage />} />
           <Route path="/user/post" element={<MyPostPage />} />

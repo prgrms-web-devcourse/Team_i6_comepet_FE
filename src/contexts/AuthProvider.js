@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
       try {
         const userIdData = await GET('/auth-user');
         userIdData && setIsLoggedIn(true);
-        setUserId(userAuthId);
+        setUserId(userIdData?.id);
       } catch (error) {
         alert(AUTH_ERROR.EXPIRED_TOKEN);
         navigate('/login', { replace: true });

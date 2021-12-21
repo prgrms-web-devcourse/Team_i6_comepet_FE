@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { BackgroundBox } from '@/components/BackgroundBox';
 import { Button } from '@/components/Button';
@@ -249,5 +248,7 @@ const StyledSearchIcon = styled(SearchIcon)`
   font-size: 2.4rem;
   color: ${({ theme }) => theme.colors.normalWhite};
 `;
+
+LongHeader.propTypes = {};
 
 export default LongHeader;
