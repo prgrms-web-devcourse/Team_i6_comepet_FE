@@ -9,20 +9,22 @@ import { GET } from '@/apis/axios';
 
 const PostDetailPage = () => {
   const { id } = useParams();
-  const { data: res } = useSWR(`/missing-posts/${id}`, GET);
-  if (!res) return <div></div>;
+  const { data: postData } = useSWR(`/missing-posts/${id}`, GET);
+  const { data: commentData } = useSWR(`/missing-posts/${id}/comments`, GET);
+
+  if (!postData || !commentData) return <div></div>;
 
   return (
     <Wrapper>
-      <ShortHeader location="글 작성" />
+      <ShortHeader location="게시글" />
       <TopWrapper>
         <BackgroundBox>
-          <Post data={res} />
+          <Post data={postData} postId={id} />
         </BackgroundBox>
       </TopWrapper>
       <BottomWrapper>
         <BackgroundBox>
-          <Comment data={res} />
+          <Comment data={commentData.comments} postId={id} />
         </BackgroundBox>
       </BottomWrapper>
     </Wrapper>
