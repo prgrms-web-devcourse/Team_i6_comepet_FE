@@ -1,7 +1,8 @@
 import { GET, DELETE, POST } from '@/apis/axios';
 import useSWR, { mutate } from 'swr';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import useAuth from '@/hooks/useAuth';
 import styled from '@emotion/styled';
 import { ShortHeader } from '@/components/Header';
 import { BackgroundBox } from '@/components/BackgroundBox';
@@ -17,12 +18,19 @@ const ShelterPostDetailPage = () => {
   const { id } = useParams();
   const { data } = useSWR(`/shelter-posts/${id}`, GET);
   const [isBookmarkOn, setIsBookmarkOn] = useState(null);
+  const { isLoggedIn } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsBookmarkOn(data?.isBookmark);
   }, [data]);
 
   const handleBookmarkClick = async () => {
+    if (!isLoggedIn) {
+      alert('로그인 후 이용해주세요');
+      navigate('/login');
+      return;
+    }
     if (isBookmarkOn) {
       await DELETE(`shelter-posts/${id}/bookmark`);
     } else if (!isBookmarkOn) {
