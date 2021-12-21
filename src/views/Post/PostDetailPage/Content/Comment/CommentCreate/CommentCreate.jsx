@@ -2,9 +2,13 @@ import React, { useState, useRef } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import { useNavigate } from 'react-router-dom';
+import useAuth from '@/hooks/useAuth';
 
 const CommentCreate = ({ onChange }) => {
   const [input, setInput] = useState('');
+  const { isLoggedIn } = useAuth();
+  const navigate = useNavigate();
 
   const contentEditorRef = useRef(null);
 
@@ -24,15 +28,23 @@ const CommentCreate = ({ onChange }) => {
     e.preventDefault();
   };
 
+  const handleNavigateToLoginPage = () => {
+    if (!isLoggedIn) {
+      navigate('/login');
+    }
+  };
+
   return (
-    <Wrapper>
+    <Wrapper onClickCapture={handleNavigateToLoginPage}>
       <ContentEditor
         margin="1.8rem 0 0 0"
         onKeyDown={handleKeyDown}
         onInput={handleInput}
-        contentEditable
+        contentEditable={isLoggedIn}
         onPaste={handlePaste}
-        placeholder="내용을 입력해주세요 (최대 255글자)"
+        placeholder={
+          (isLoggedIn && '내용을 입력해주세요 (최대 255글자)') || (!isLoggedIn && '로그인 해주세요')
+        }
         padding="1.5rem"
         ref={contentEditorRef}
       />

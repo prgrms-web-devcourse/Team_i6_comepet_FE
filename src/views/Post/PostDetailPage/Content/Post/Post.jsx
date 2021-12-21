@@ -9,11 +9,13 @@ import UserProfile from './UserProfile/UserProfile';
 import PostHeader from './PostHeader/PostHeader';
 import PostContent from './PostContent/PostContent';
 import { POST, DELETE } from '@/apis/axios';
+import useAuth from '@/hooks/useAuth';
 
 const Post = ({ data, postId }) => {
   const [compileMenuToggle, setCompileMenuToggle] = useState(true);
   const [bookmarkCount, setBookmarkCount] = useState(data.bookmarkCount);
   const [isBookmark, setIsBookmark] = useState(data.isBookmark);
+  const { isLoggedIn } = useAuth();
 
   const navigate = useNavigate();
 
@@ -25,7 +27,6 @@ const Post = ({ data, postId }) => {
 
   const handleToggleBookmark = async () => {
     setIsBookmark(!isBookmark);
-    console.log(isBookmark);
     !isBookmark && (await POST(`/missing-posts/${postId}/bookmark`));
     isBookmark && (await DELETE(`/missing-posts/${postId}/bookmark`));
   };
@@ -39,6 +40,10 @@ const Post = ({ data, postId }) => {
     <BackgroundBox>
       <ImageSlider
         onClickBookmark={() => {
+          if (!isLoggedIn) {
+            navigate('/login');
+            return;
+          }
           handleToggleBookmark();
           handleCountBookmark();
         }}
@@ -60,7 +65,7 @@ const Post = ({ data, postId }) => {
         <Seperator margin="1.6rem 0" type="horizon" />
         <PostHeader
           animal={data.animal}
-          animalKind={data.animalKind}
+          animalKindName={data.animalKindName}
           sex={data.sex}
           tags={data.tags}
         />
