@@ -98,10 +98,11 @@ const MyScrapPage = () => {
 
 const Wrapper = styled.div`
   margin: 0 auto;
+  height: 100%;
 `;
 
 const ContentWrapper = styled.div`
-  margin: 8rem 2.4rem 2.4rem 2.4rem;
+  margin: 0 2.4rem 2.4rem 2.4rem;
 `;
 
 const PostCardList = styled.ul`
