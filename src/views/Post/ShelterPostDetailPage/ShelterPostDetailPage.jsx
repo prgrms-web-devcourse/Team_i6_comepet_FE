@@ -32,9 +32,9 @@ const ShelterPostDetailPage = () => {
       return;
     }
     if (isBookmarkOn) {
-      await DELETE(`shelter-posts/${id}/bookmark`);
+      await DELETE(`/shelter-posts/${id}/bookmark`);
     } else if (!isBookmarkOn) {
-      await POST(`shelter-posts/${id}/bookmark`);
+      await POST(`/shelter-posts/${id}/bookmark`);
     }
     mutate(`/shelter-posts/${id}`);
   };
