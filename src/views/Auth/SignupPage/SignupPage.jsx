@@ -14,12 +14,14 @@ import { setCookie } from '@/utils/cookie';
 import { USER_ERROR, REGEX, AUTH_ERROR } from '@/utils/constants';
 import { getImageSrc } from '@/utils/helpers';
 import { isValidInput } from '@/utils/helpers';
+import useAuth from '@/hooks/useAuth';
 
 const SignupPage = () => {
   const [email, setEmail] = useState('');
   const [verifiedId, setVerifiedId] = useState(0);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
+  const { setIsLoggedIn } = useAuth();
 
   const handleSubmit = async ({ nickname, email, password, passwordCheck }, { setSubmitting }) => {
     if (!verifiedId) {
@@ -37,6 +39,7 @@ const SignupPage = () => {
       });
 
       setCookie('token', token);
+      setIsLoggedIn(true);
       navigate('/', { replace: true });
     } catch (error) {
       const detailCode = error.response.data.code;
