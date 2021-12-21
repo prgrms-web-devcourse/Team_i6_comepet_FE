@@ -129,7 +129,7 @@ const LongHeader = ({ onSearch }) => {
           </StyledSearchIconButton>
         </BottomWrapper>
       </BackgroundBox>
-      <InformationModal isVisible={isInformationModalVisible} top="5rem" right="3rem" />
+      <InformationModal isVisible={isInformationModalVisible} top="5rem" right="3%" />
       <NotificationModal isVisible={isNotificationModalVisible} top="5rem" right="3%" />
       <SidebarModal isVisible={isSidebarModalVisible} top="5rem" left="2rem" />
       <SearchModal
