@@ -77,7 +77,7 @@ const Wrapper = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-  margin: 0 2.4rem 2.4rem 2.4rem;
+  padding: 8rem 2.4rem 2.4rem 2.4rem;
 `;
 
 const PostCardList = styled.ul`
