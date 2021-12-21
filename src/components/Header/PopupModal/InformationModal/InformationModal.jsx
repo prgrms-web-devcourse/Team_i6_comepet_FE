@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import { BackgroundBox } from '@/components/BackgroundBox';
@@ -8,6 +8,17 @@ import useSWR from 'swr';
 
 const InformationModal = ({ isVisible, top, left, right, bottom }) => {
   const { data } = useSWR('/statistics', GET);
+
+  // TODO: useBlockScroll 사용하면 에러
+  useEffect(() => {
+    if (isVisible) {
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.body.style.overflow = 'visible';
+    };
+  });
 
   return (
     <Wrapper isVisible={isVisible} top={top} left={left} right={right} bottom={bottom}>

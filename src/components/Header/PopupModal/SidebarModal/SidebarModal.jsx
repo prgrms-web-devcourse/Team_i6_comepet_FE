@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -18,6 +18,17 @@ const SidebarModal = ({ src, isVisible, left, top, right, bottom }) => {
     removeCookie('token');
     window.location.reload();
   };
+
+  // TODO: useBlockScroll 사용하면 에러
+  useEffect(() => {
+    if (isVisible) {
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.body.style.overflow = 'visible';
+    };
+  });
 
   return (
     <Wrapper isVisible={isVisible} top={top} left={left} right={right} bottom={bottom}>
