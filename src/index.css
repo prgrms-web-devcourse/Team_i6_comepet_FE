@@ -20,6 +20,11 @@ body {
   height: 100%;
   margin: 0 auto;
 
+  font-family: 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: rotate(-0.03deg);
+
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
