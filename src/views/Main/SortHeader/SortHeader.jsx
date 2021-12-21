@@ -3,7 +3,14 @@ import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import { SelectionBox } from '@/components/SelectionBox';
 
-const SortHeader = ({ city, town, postLength, setSortingOrder }) => {
+const STATUS = Object.freeze({
+  MISSING: '실종',
+  DETECTION: '목격',
+  PROTECTION: '보호',
+  COMPLETION: '완료'
+});
+
+const SortHeader = ({ city, town, postLength, setSortingOrder, filterConditions }) => {
   const handleChange = ({ target }) => {
     const { value } = target;
 
@@ -23,7 +30,9 @@ const SortHeader = ({ city, town, postLength, setSortingOrder }) => {
 
   return (
     <Wrapper>
-      {`${city} ${town} 검색 결과 ${postLength}건`}
+      {(isFilterConditionApplied(filterConditions) &&
+        makeFilterConditionsString(filterConditions) + ` 검색 결과 ${postLength}건`) ||
+        `${city} ${town} 검색 결과 ${postLength}건`}
       <SelectionBox
         options={['오래된순 정렬']}
         defaultOption="최신순 정렬"
@@ -50,7 +59,19 @@ SortHeader.propTypes = {
   city: PropTypes.string,
   town: PropTypes.string,
   postLength: PropTypes.number,
-  setSortingOrder: PropTypes.func
+  setSortingOrder: PropTypes.func,
+  filterConditions: PropTypes.object
 };
 
 export default SortHeader;
+
+const isFilterConditionApplied = (filterConditionObject) =>
+  Object.keys(filterConditionObject).length;
+
+const makeFilterConditionsString = (filterConditionObject) => {
+  let res = '';
+  filterConditionObject['cityName'] && (res += filterConditionObject['cityName']);
+  filterConditionObject['townName'] && (res += ' ' + filterConditionObject['townName']);
+  filterConditionObject['status'] && (res += ' ' + STATUS[filterConditionObject['status']]);
+  return res;
+};

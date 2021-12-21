@@ -1,16 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import LineBreakWrapper from '../Common/LineBreakWrapper';
+import LineBreakWrapper from '../LineBreakWrapper/LineBreakWrapper';
 import { Label } from '@/components/Label';
 import { SelectionBox } from '@/components/SelectionBox';
 
-const Status = ({ onChange }) => {
+const STATUS = Object.freeze({
+  실종: 'MISSING',
+  목격: 'DETECTION',
+  보호: 'PROTECTION',
+  완료: 'COMPLETION'
+});
+
+const Status = ({ onSelectOption }) => {
   const handleChange = (e) => {
     if (!isDefalutOptionSelected(e)) {
-      onChange({ target: { name: 'status', value: e.target.value } });
+      onSelectOption({ status: STATUS[e.target.value] });
     } else {
-      onChange({ target: { name: 'status', value: null } });
+      onSelectOption({ status: null });
     }
   };
 
@@ -23,9 +30,8 @@ const Status = ({ onChange }) => {
         <SelectionBox
           id="status"
           onChange={handleChange}
-          options={['실종', '목격', '발견', '완료']}
+          options={['실종', '보호', '목격', '완료']}
           defaultOption="상태 옵션"
-          required
           fontSize="1.2rem"
         />
       </LineBreakWrapper>
@@ -36,7 +42,8 @@ const Status = ({ onChange }) => {
 const Wrapper = styled.div``;
 
 Status.propTypes = {
-  onChange: PropTypes.func
+  onSelectOption: PropTypes.func,
+  onSelectDefaultOption: PropTypes.func
 };
 
 export default Status;
