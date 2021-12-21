@@ -15,7 +15,8 @@ const Modal = ({
   transform,
   width,
   padding,
-  boxShadow
+  boxShadow,
+  maxWidth
 }) => {
   const [ref] = useClickAway(() => onClose && onClose());
   const el = useMemo(() => document.getElementById('root'), []);
@@ -33,7 +34,8 @@ const Modal = ({
         transform={transform}
         width={width}
         padding={padding}
-        boxShadow={boxShadow}>
+        boxShadow={boxShadow}
+        maxWidth={maxWidth}>
         {children}
       </ContentWrapper>
     </Background>,
@@ -58,7 +60,8 @@ const ContentWrapper = styled.div`
   right: ${({ right }) => right};
   transform: ${({ transform }) => transform || 'translate(-50%, -50%)'};
   z-index: 1000;
-  width: ${({ width }) => width};
+  width: ${({ width }) => width || '100%'};
+  max-width: ${({ maxWidth }) => maxWidth || '100%'};
   padding: ${({ padding }) => padding};
   border-radius: 1.6rem;
   background-color: ${({ theme }) => theme.colors.normalWhite};

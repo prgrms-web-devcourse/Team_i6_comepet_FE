@@ -75,7 +75,7 @@ const Wrapper = styled.div`
 
 const Text = styled.div`
   color: ${({ theme }) => theme.colors.normalGray};
-  margin: 1rem 0;
+  margin: 0 0 1rem 0;
 `;
 
 const Form = styled.form``;

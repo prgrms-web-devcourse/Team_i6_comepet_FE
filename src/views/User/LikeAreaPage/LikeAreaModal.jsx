@@ -53,7 +53,7 @@ const LikeAreaModal = ({ placeData, onClose, checkOut, isDefaultArea }) => {
   };
 
   return (
-    <Modal onClose={onClose}>
+    <Modal maxWidth="30rem" onClose={onClose}>
       <BackgroundBox width="30rem" height="40rem">
         <Wrapper>
           <Label forHtml="areas" bgColor="brand" fontSize="0.8rem">

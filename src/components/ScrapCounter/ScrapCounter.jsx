@@ -14,9 +14,9 @@ const ScrapCounter = ({ children, size, isBookmark, onClick }) => {
 
   return (
     <Wrapper size={size}>
-      <Button onClick={onClick}>
+      <StyledButton type="button" onClick={onClick}>
         {isBookmark ? <StyledStarIcon size={size} /> : <StyledStarBorderIcon size={size} />}
-      </Button>
+      </StyledButton>
       <Counter size={size}>{children}</Counter>
     </Wrapper>
   );
@@ -37,7 +37,7 @@ const Wrapper = styled.div`
   opacity: 90%;
 `;
 
-const Button = styled.button`
+const StyledButton = styled.button`
   display: flex;
   align-items: center;
   padding: 0;

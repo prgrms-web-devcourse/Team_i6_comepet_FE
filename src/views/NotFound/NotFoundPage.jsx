@@ -13,10 +13,10 @@ const NotFoundPage = () => {
 };
 
 const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
   height: 100%;
+  margin: 0 auto;
+  padding: 8rem 2.4rem 2.4rem 2.4rem;
+  text-align: center;
 `;
 
 const Img = styled.img`

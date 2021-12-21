@@ -48,7 +48,7 @@ const ShelterPostPage = () => {
           </NoticeDetails>
           <NoticeText>공고 중인 동물은 해당 시군구나 보호센터에 문의해 주세요.</NoticeText>
           {modalVisible && (
-            <Modal width="80%" padding="5%" onClose={() => setModalVisible(false)}>
+            <Modal maxWidth="30rem" padding="3rem" onClose={() => setModalVisible(false)}>
               <ModalContent>
                 <b>「동물보호법」 제17조, 시행령7조 및 동법 시행규칙 제20조</b>
                 <br />
@@ -100,7 +100,14 @@ const Wrapper = styled.div`
 `;
 
 const Notice = styled.div`
-  margin: 1.6rem 0;
+  width: 100%;
+  max-width: 61.2rem;
+  margin: 1.4rem auto;
+  font-size: 1.2rem;
+
+  @media screen and (min-width: 76.8rem) {
+    width: 76.8rem;
+  }
 `;
 
 const NoticeDetails = styled.div`
@@ -129,6 +136,9 @@ const NoticeBoldText = styled.span`
   font-weight: bold;
   font-size: 1.4rem;
   color: ${({ theme }) => theme.colors.brand};
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 `;
 
 const NoticeButton = styled.button`
@@ -142,12 +152,17 @@ const NoticeText = styled.div`
   font-size: 1.2rem;
   word-break: keep-all;
   color: ${({ theme }) => theme.colors.brand};
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 `;
 
 const ModalContent = styled.p`
   font-size: 1.6rem;
   margin: 0;
   word-break: keep-all;
+  line-height: 2.1rem;
+  text-align: center;
 `;
 
 const ContentWrapper = styled.div`
@@ -155,6 +170,8 @@ const ContentWrapper = styled.div`
 `;
 
 const PostCardList = styled.ul`
+  max-width: 73.4rem;
+  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   gap: 1.2rem;

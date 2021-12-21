@@ -86,6 +86,8 @@ const ContentWrapper = styled.div`
 `;
 
 const PostCardList = styled.ul`
+  max-width: 73.4rem;
+  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   gap: 1.2rem;
@@ -107,7 +109,7 @@ const NoResultText = styled.div`
 const StyledLink = styled(Link)`
   position: fixed;
   right: 0;
-  bottom: 0;
+  bottom: 1.6rem;
   z-index: 2;
   transform: translateX(-50%);
   display: flex;
@@ -115,14 +117,13 @@ const StyledLink = styled(Link)`
   align-items: center;
   width: 4rem;
   height: 4rem;
-  margin: 0 0 1.2rem 0;
   border-radius: 50%;
   background-color: ${({ theme }) => theme.colors.normalWhite};
 `;
 
 const StyledAddCircleIcon = styled(AddCircleIcon)`
-  width: 5rem;
-  height: 5rem;
+  width: 6rem;
+  height: 6rem;
   color: ${({ theme }) => theme.colors.normalOrange};
 `;
 
