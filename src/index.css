@@ -19,6 +19,13 @@ body {
   min-width: 32rem;
   height: 100%;
   margin: 0 auto;
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+body::-webkit-scrollbar {
+  display: none;
 }
 
 a {

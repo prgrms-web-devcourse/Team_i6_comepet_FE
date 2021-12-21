@@ -79,7 +79,9 @@ const NotificationModal = ({ isVisible, left, right, bottom, top }) => {
 
   // TODO: useBlockScroll 사용하면 에러
   useEffect(() => {
-    document.body.style.overflow = 'hidden';
+    if (isVisible) {
+      document.body.style.overflow = 'hidden';
+    }
 
     return () => {
       document.body.style.overflow = 'visible';
