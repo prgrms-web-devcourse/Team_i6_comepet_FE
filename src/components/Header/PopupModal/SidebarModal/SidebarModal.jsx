@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Avatar } from '@/components/Avatar';
 import { Seperator } from '@/components/Seperator';

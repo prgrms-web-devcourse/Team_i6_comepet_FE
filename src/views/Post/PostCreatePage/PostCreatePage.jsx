@@ -149,7 +149,7 @@ const makeFormDataAppendingImages = (images) => {
     formData.append('images', images[i]);
   }
 
-  if (images.length === 0) formData.append('images', []);
+  if (!images) formData.append('images', []);
 
   return formData;
 };
