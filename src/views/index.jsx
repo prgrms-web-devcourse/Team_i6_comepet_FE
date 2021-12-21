@@ -1,6 +1,7 @@
 /* Auth */
 export { default as LoginPage } from './Auth/LoginPage/LoginPage';
 export { default as SignupPage } from './Auth/SignupPage/SignupPage';
+export { default as OAuthRedirectPage } from './Auth/OAuthRedirectPage/OAuthRedirectPage';
 
 /* Main */
 export { default as MainPage } from './Main/MainPage/MainPage';

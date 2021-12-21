@@ -129,7 +129,7 @@ const PostCreatePage = () => {
 };
 
 const Wrapper = styled.div`
-  padding: 20% 1.7rem 1.7rem 1.7rem;
+  padding: 10rem 2.4rem 2.4rem 2.4rem;
 `;
 
 const Form = styled.form``;
@@ -137,8 +137,6 @@ const Form = styled.form``;
 const ButtonWrapper = styled.div`
   margin: ${({ margin }) => margin};
 `;
-
-PostCreatePage.propTypes = {};
 
 export default PostCreatePage;
 

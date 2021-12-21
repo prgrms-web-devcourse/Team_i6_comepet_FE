@@ -159,7 +159,7 @@ const SignupPage = () => {
         )}
       </Formik>
       {isModalVisible && (
-        <Modal width="90%" onClose={() => setIsModalVisible(false)}>
+        <Modal maxWidth="35rem" onClose={() => setIsModalVisible(false)}>
           <AuthCodeForm emailForSignUp={email} setStateAfterEmailAuth={setStateAfterEmailAuth} />
         </Modal>
       )}
@@ -168,8 +168,9 @@ const SignupPage = () => {
 };
 
 const Wrapper = styled.div`
-  padding: 20% 2.4rem 2.4rem 2.4rem;
+  padding: 8rem 2.4rem 2.4rem 2.4rem;
   text-align: center;
+  margin: 0 auto;
 `;
 
 const Form = styled.form``;

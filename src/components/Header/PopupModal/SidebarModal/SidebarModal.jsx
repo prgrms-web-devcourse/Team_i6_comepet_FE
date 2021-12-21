@@ -1,20 +1,52 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Avatar } from '@/components/Avatar';
 import { Seperator } from '@/components/Seperator';
 import { BackgroundBox } from '@/components/BackgroundBox';
+import { removeCookie } from '@/utils/cookie';
+import { GET } from '@/apis/axios';
+import useSWR from 'swr';
 
-const SidebarModal = ({ src, nickname = '둘리가 귀여워', isVisible, left, top, right, bottom }) => {
+const SidebarModal = ({ src, isVisible, left, top, right, bottom }) => {
+  const { data } = useSWR('/me', GET);
+  const nickname = data?.nickname || '';
+
+  const handleLogoutClick = () => {
+    removeCookie('token');
+    window.location.reload();
+  };
+
+  // TODO: useBlockScroll 사용하면 에러
+  useEffect(() => {
+    if (isVisible) {
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.body.style.overflow = 'visible';
+    };
+  });
+
   return (
     <Wrapper isVisible={isVisible} top={top} left={left} right={right} bottom={bottom}>
       <BackgroundBox width="30rem">
         <TopContainer>
-          <Avatar src={src} />
+          <Link to="/edit/profile">
+            <Avatar src={src} />
+          </Link>
           <Nickname>
-            <Text color="normalOrange">{nickname}</Text>님 어서오세요!
+            {(nickname && (
+              <Link to="/edit/profile">
+                <Text color="normalOrange">{nickname}</Text> 님 어서오세요!
+              </Link>
+            )) || (
+              <Link to="/login">
+                <Text color="normalOrange">로그인</Text>
+              </Link>
+            )}
           </Nickname>
         </TopContainer>
         <Seperator type="horizon" />
@@ -40,7 +72,7 @@ const SidebarModal = ({ src, nickname = '둘리가 귀여워', isVisible, left, 
         </MiddleContainer>
         <Seperator type="horizon" />
         <BottomContainer>
-          <LogoutWrapper>
+          <LogoutWrapper onClick={handleLogoutClick}>
             <StyledLogoutIcon />
             로그아웃
           </LogoutWrapper>
@@ -123,16 +155,15 @@ const LogoutWrapper = styled.div`
   font-size: 1.6rem;
   color: ${({ theme }) => theme.colors.normalBlack};
 `;
-
+``;
 const StyledLogoutIcon = styled(LogoutIcon)`
-  margin: 0 1rem 0 0;
+  margin: 0 1rem 0.5rem 0;
   font-size: 2rem;
   color: ${({ theme }) => theme.colors.brand};
 `;
 
 SidebarModal.propTypes = {
   src: PropTypes.string,
-  nickname: PropTypes.string,
   isVisible: PropTypes.bool,
   place: PropTypes.string,
   top: PropTypes.string,

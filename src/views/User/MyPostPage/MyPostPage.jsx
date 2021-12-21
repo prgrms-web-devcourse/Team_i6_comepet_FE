@@ -1,33 +1,75 @@
-import React from 'react';
+import useSWRInfinite from 'swr/infinite';
+import { GET } from '@/apis/axios';
+import { useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
+import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { ShortHeader } from '@/components/Header';
 import { PostCard } from '@/components/PostCard';
-import { postsData } from '@/assets/data.js';
+import { Button } from '@/components/Button';
 
 const MyPostPage = () => {
-  const { posts } = postsData;
-  const postLength = posts.length;
+  const [target, isTargetInView] = useInView();
+  const { data, size, setSize } = useSWRInfinite((index) => `/me/posts?page=${index}&size=6`, GET);
+
+  const posts = data?.reduce((prevData, nextData) => {
+    return { posts: [...prevData.posts, ...nextData.posts] };
+  }).posts;
+
+  const isReachingEnd = data && data[data?.length - 1]?.last;
+
+  const postLength = posts?.length || 0;
+
+  useEffect(() => {
+    if (!isReachingEnd && isTargetInView) {
+      isTargetInView && setSize(size + 1);
+    }
+  }, [isTargetInView]);
+
+  if (!data) {
+    return (
+      <Wrapper>
+        <ShortHeader location="내가 쓴 글" />
+      </Wrapper>
+    );
+  }
+
   return (
     <Wrapper>
       <ShortHeader location="내가 쓴 글" />
       <ContentWrapper>
         {postLength ? (
           <PostCardList>
-            {posts.map(({ id, ...props }) => (
+            {posts.map(({ id, animalKind, date, postTags, ...props }) => (
               <PostCardWrapper key={id}>
-                <PostCard {...props} />
+                <Link to={`/post/${id}`}>
+                  <PostCard
+                    postId={id}
+                    animalKindName={animalKind}
+                    createdAt={date}
+                    tags={postTags}
+                    {...props}
+                  />
+                </Link>
               </PostCardWrapper>
             ))}
           </PostCardList>
         ) : (
           <NoResultText>내가 쓴 글이 없습니다.</NoResultText>
         )}
+        <Button
+          width="50%"
+          margin="6rem auto"
+          bgColor="brand"
+          disabled={isReachingEnd}
+          onClick={() => setSize(size + 1)}>
+          {(isReachingEnd && '마지막') || '더보기'}
+        </Button>
+        <div ref={target} />
       </ContentWrapper>
     </Wrapper>
   );
 };
-
-export default MyPostPage;
 
 const Wrapper = styled.div`
   margin: 0 auto;
@@ -55,3 +97,5 @@ const NoResultText = styled.div`
   text-align: center;
   color: ${({ theme }) => theme.colors.normalGray};
 `;
+
+export default MyPostPage;

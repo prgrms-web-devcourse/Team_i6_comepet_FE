@@ -45,7 +45,6 @@ const Wrapper = styled.div`
 
 Status.propTypes = {
   onSelectOption: PropTypes.func,
-  onSelectDefaultOption: PropTypes.func,
   display: PropTypes.string
 };
 

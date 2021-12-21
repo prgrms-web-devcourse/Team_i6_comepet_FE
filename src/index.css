@@ -16,8 +16,16 @@ html {
 }
 
 body {
+  min-width: 32rem;
   height: 100%;
-  margin: 0;
+  margin: 0 auto;
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+body::-webkit-scrollbar {
+  display: none;
 }
 
 a {
@@ -63,4 +71,10 @@ ul {
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+@media screen and (min-width: 768px) {
+  body {
+    width: 76.8rem;
+  }
 }
