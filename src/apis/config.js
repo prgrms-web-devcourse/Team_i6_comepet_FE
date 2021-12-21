@@ -3,8 +3,8 @@ import { getCookie, removeCookie } from '@/utils/cookie';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const CONTENT_TYPE = 'application/json';
-const userToken = getCookie('token');
-const AUTH_TOKEN = (userToken && `Bearer ${userToken}`) || '';
+const TOKEN = getCookie('token');
+const AUTH_TOKEN = (TOKEN && `Bearer ${TOKEN}`) || '';
 
 axios.defaults.baseURL = BASE_URL;
 axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
