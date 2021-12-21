@@ -10,7 +10,7 @@ export const getImageSrc = (URL) => {
 export const formatDate = (date) => {
   const DateObject = new Date(date);
   const year = DateObject.getFullYear();
-  const month = DateObject.getMonth();
+  const month = DateObject.getMonth() + 1;
   const day = DateObject.getDate();
 
   return `${year}년 ${month}월 ${day}일`;
