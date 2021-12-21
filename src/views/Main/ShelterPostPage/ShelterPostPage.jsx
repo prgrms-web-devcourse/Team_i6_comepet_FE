@@ -29,7 +29,9 @@ const ShelterPostPage = () => {
   const postLength = posts?.length || 0;
 
   useEffect(() => {
-    isTargetInView && setSize(size + 1);
+    if (!isReachingEnd && isTargetInView) {
+      isTargetInView && setSize(size + 1);
+    }
   }, [isTargetInView]);
 
   return (
