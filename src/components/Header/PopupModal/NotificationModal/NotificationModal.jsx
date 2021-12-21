@@ -18,7 +18,7 @@ const NotificationModal = ({ isVisible, left, right, bottom, top }) => {
 
   const [isRequesting, setIsRequesting] = useState(false);
   const { data, size, setSize, mutate } = useSWRInfinite(
-    (index) => `/notices?page=${index + 1}&size=4`,
+    (index) => `/notices?page=${index}&size=4`,
     GET
   );
 
