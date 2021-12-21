@@ -52,7 +52,6 @@ const MyScrapPage = () => {
 };
 
 const Wrapper = styled.div`
-  max-width: 76.8rem;
   margin: 0 auto;
 `;
 

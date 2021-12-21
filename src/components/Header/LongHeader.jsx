@@ -149,16 +149,11 @@ const LongHeader = ({ onSearch }) => {
 const Wrapper = styled.div`
   position: fixed;
   width: 100%;
-  max-width: 612px;
+  max-width: 61.2rem;
   left: 50%;
   transform: translateX(-50%);
   top: 0;
   z-index: 1000;
-
-  @media screen and (min-width: 768px) {
-    width: 612px;
-    margin: 0 auto;
-  }
 `;
 
 const TopWrapper = styled.div`

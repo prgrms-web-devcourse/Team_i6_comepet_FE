@@ -129,9 +129,7 @@ const PostCreatePage = () => {
 };
 
 const Wrapper = styled.div`
-  max-width: 76.8rem;
   padding: 10rem 2.4rem 2.4rem 2.4rem;
-  margin: 0 auto;
 `;
 
 const Form = styled.form``;
@@ -139,8 +137,6 @@ const Form = styled.form``;
 const ButtonWrapper = styled.div`
   margin: ${({ margin }) => margin};
 `;
-
-PostCreatePage.propTypes = {};
 
 export default PostCreatePage;
 

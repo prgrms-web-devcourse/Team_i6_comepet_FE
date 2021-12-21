@@ -96,7 +96,6 @@ const ShelterPostPage = () => {
 };
 
 const Wrapper = styled.div`
-  max-width: 72rem;
   margin: 0 auto;
 `;
 

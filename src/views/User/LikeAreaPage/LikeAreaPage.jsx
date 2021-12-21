@@ -172,7 +172,6 @@ const LikeAreaButtonWrapper = styled.div`
 
 const Wrapper = styled.div`
   margin: 0 auto;
-  max-width: 76.8rem;
 `;
 
 const LikeAreaWrapper = styled.div`

@@ -13,7 +13,6 @@ const NotFoundPage = () => {
 };
 
 const Wrapper = styled.div`
-  max-width: 76.8rem;
   height: 100%;
   margin: 0 auto;
   padding: 8rem 2.4rem 2.4rem 2.4rem;

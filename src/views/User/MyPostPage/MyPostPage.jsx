@@ -71,7 +71,6 @@ const MyPostPage = () => {
 
 const Wrapper = styled.div`
   margin: 0 auto;
-  max-width: 76.8rem;
 `;
 
 const ContentWrapper = styled.div`

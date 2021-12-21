@@ -72,7 +72,7 @@ SortHeader.propTypes = {
 export default SortHeader;
 
 const isFilterConditionApplied = (filterConditionObject) =>
-  Object.keys(filterConditionObject).length;
+  filterConditionObject && Object.keys(filterConditionObject).length;
 
 const makeFilterConditionsString = (filterConditionObject) => {
   let res = '';

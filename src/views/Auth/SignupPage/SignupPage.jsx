@@ -168,7 +168,6 @@ const SignupPage = () => {
 };
 
 const Wrapper = styled.div`
-  max-width: 76.8rem;
   padding: 8rem 2.4rem 2.4rem 2.4rem;
   text-align: center;
   margin: 0 auto;
