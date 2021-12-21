@@ -57,10 +57,10 @@ const SortHeader = ({
   return (
     <Wrapper>
       {isFilterConditionApplied(filterConditions) ? (
-        <span>
+        <FilterConditionText>
           <HighLight>{makeFilterConditionsString(filterConditions)}</HighLight>
           {` 동물 검색 결과 ${postLength}건`}
-        </span>
+        </FilterConditionText>
       ) : (
         <span>{`${getString(userLikeCity, userLikeTown)} 검색 결과 ${postLength}건`}</span>
       )}
@@ -91,6 +91,11 @@ const Wrapper = styled.div`
   @media screen and (min-width: 76.8rem) {
     width: 76.8rem;
   }
+`;
+
+const FilterConditionText = styled.div`
+  word-break: keep-all;
+  width: 100%;
 `;
 
 const HighLight = styled.span`
