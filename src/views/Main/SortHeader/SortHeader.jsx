@@ -5,7 +5,7 @@ import { SelectionBox } from '@/components/SelectionBox';
 
 const STATUS = Object.freeze({
   MISSING: '실종',
-  DETCTION: '목격',
+  DETECTION: '목격',
   PROTECTION: '보호',
   COMPLETION: '완료'
 });
@@ -71,7 +71,7 @@ const isFilterConditionApplied = (filterConditionObject) =>
 const makeFilterConditionsString = (filterConditionObject) => {
   let res = '';
   filterConditionObject['cityName'] && (res += filterConditionObject['cityName']);
-  filterConditionObject['townName'] && (res += filterConditionObject['townName']);
-  filterConditionObject['status'] && (res += STATUS[filterConditionObject['status']]);
+  filterConditionObject['townName'] && (res += ' ' + filterConditionObject['townName']);
+  filterConditionObject['status'] && (res += ' ' + STATUS[filterConditionObject['status']]);
   return res;
 };
