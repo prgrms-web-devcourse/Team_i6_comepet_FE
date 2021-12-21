@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import { useNavigate } from 'react-router-dom';
+import useAuth from '@/hooks/useAuth';
 
-const CommentCreate = () => {
-  const handleInput = (e) => {
-    const onlyText = e.target.textContent;
+const CommentCreate = ({ onChange }) => {
+  const [input, setInput] = useState('');
+  const { isLoggedIn } = useAuth();
+  const navigate = useNavigate();
+
+  const contentEditorRef = useRef(null);
+
+  const handleInput = async (e) => {
     const textWithTags = e.target.innerHTML;
-    console.log(onlyText, textWithTags);
-    // onChange({ target: { name: 'content', value: textWithTags } });
+    setInput(textWithTags);
   };
 
   const handleKeyDown = (e) => {
@@ -21,20 +28,32 @@ const CommentCreate = () => {
     e.preventDefault();
   };
 
-  // TODO: 댓글 입력창 contentEditable로 변경
+  const handleNavigateToLoginPage = () => {
+    if (!isLoggedIn) {
+      navigate('/login');
+    }
+  };
+
   return (
-    <Wrapper>
-      {/* <Input placeholder="댓글을 입력해주세요" /> */}
+    <Wrapper onClickCapture={handleNavigateToLoginPage}>
       <ContentEditor
         margin="1.8rem 0 0 0"
         onKeyDown={handleKeyDown}
         onInput={handleInput}
-        contentEditable
+        contentEditable={isLoggedIn}
         onPaste={handlePaste}
-        placeholder="내용을 입력해주세요"
+        placeholder={
+          (isLoggedIn && '내용을 입력해주세요 (최대 255글자)') || (!isLoggedIn && '로그인 해주세요')
+        }
         padding="1.5rem"
+        ref={contentEditorRef}
       />
-      <Button>
+      <Button
+        onClick={() => {
+          onChange(input);
+          setInput('');
+          contentEditorRef.current.textContent = '';
+        }}>
         <StyledArrowCircleRightIcon />
       </Button>
     </Wrapper>
@@ -74,6 +93,8 @@ const Button = styled.button`
   bottom: 0;
 `;
 
-CommentCreate.propTypes = {};
+CommentCreate.propTypes = {
+  onChange: PropTypes.func
+};
 
 export default CommentCreate;

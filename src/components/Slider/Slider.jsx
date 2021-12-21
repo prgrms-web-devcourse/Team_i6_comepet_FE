@@ -7,6 +7,7 @@ import { Image } from '@/components/Image';
 
 const Slider = ({ imageList, size, borderRadius }) => {
   const [slideIndex, setSlideIndex] = useState(0);
+
   const prevSlide = () => {
     if (slideIndex !== 0) {
       setSlideIndex(slideIndex - 1);
@@ -34,9 +35,9 @@ const Slider = ({ imageList, size, borderRadius }) => {
   return (
     <Wrapper size={size} borderRadius={borderRadius}>
       {(imageList.length !== 0 &&
-        imageList.map((image, index) => (
+        imageList.map(({ image, name }, index) => (
           <ImageWrapper key={index} opacity={(index === slideIndex && 1) || 0}>
-            <Image src={URL.createObjectURL(image)} width="100%" height="100%" />
+            <Image src={image || name} width="100%" height="100%" />
           </ImageWrapper>
         ))) || <Image src="" width="100%" height="100%" />}
       <DotContainer>

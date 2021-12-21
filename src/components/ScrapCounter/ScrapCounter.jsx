@@ -6,7 +6,7 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { isValidProp } from '@/utils/helpers';
 import { DEV_ERROR } from '@/utils/constants';
 
-const ScrapCounter = ({ children, size, isBookmark }) => {
+const ScrapCounter = ({ children, size, isBookmark, onClick }) => {
   if (!isValidProp(size, ['small', 'medium'])) {
     console.error(DEV_ERROR.INVALID_PROP);
     return;
@@ -14,7 +14,9 @@ const ScrapCounter = ({ children, size, isBookmark }) => {
 
   return (
     <Wrapper size={size}>
-      {isBookmark ? <StyledStarIcon size={size} /> : <StyledStarBorderIcon size={size} />}
+      <Button onClick={onClick}>
+        {isBookmark ? <StyledStarIcon size={size} /> : <StyledStarBorderIcon size={size} />}
+      </Button>
       <Counter size={size}>{children}</Counter>
     </Wrapper>
   );
@@ -33,6 +35,12 @@ const Wrapper = styled.div`
   padding: 0 0.4rem 0 0.2rem;
   background-color: ${({ theme }) => theme.colors.normalBlack};
   opacity: 90%;
+`;
+
+const Button = styled.button`
+  display: flex;
+  align-items: center;
+  padding: 0;
 `;
 
 const StyledStarIcon = styled(StarIcon)`
@@ -61,7 +69,8 @@ const Counter = styled.div`
 ScrapCounter.propTypes = {
   children: PropTypes.number.isRequired,
   size: PropTypes.string.isRequired,
-  isBookmark: PropTypes.bool
+  isBookmark: PropTypes.bool,
+  onClick: PropTypes.func
 };
 
 export default ScrapCounter;
