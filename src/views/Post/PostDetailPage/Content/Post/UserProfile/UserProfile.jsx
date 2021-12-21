@@ -23,7 +23,9 @@ const PostHeader = ({
 
   return (
     <Wrapper>
-      <Avatar src={account.image} margin="0" size="5rem" />
+      <AvatarWrapper>
+        <Avatar src={account.image} margin="0" size="5rem" />
+      </AvatarWrapper>
       <InnerWrapper>
         <NicknameAndCompileIconWrapper>
           <Nickname>{account.nickname}</Nickname>
@@ -43,12 +45,12 @@ const PostHeader = ({
             </CompileMenuWrapper>
           </CompileWrapper>
         </NicknameAndCompileIconWrapper>
-        <PostDateWrapper>
-          <PostDate>
-            {changeTimeFormation(createdAt)} / 조회수 {viewCount}
-          </PostDate>
-        </PostDateWrapper>
       </InnerWrapper>
+      <PostDateWrapper>
+        <PostDate>
+          {changeTimeFormation(createdAt)} / 조회수 {viewCount}
+        </PostDate>
+      </PostDateWrapper>
     </Wrapper>
   );
 };
@@ -56,12 +58,16 @@ const PostHeader = ({
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: flex-start;
   margin-top: 1rem;
+  position: relative;
+`;
+
+const AvatarWrapper = styled.div`
+  width: 5rem;
+  height: 5rem;
 `;
 
 const InnerWrapper = styled.div`
-  flex-grow: 1;
   margin-left: 1.6rem;
 `;
 
@@ -72,14 +78,17 @@ const NicknameAndCompileIconWrapper = styled.div`
 `;
 
 const PostDateWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
+  position: absolute;
+  right: 1rem;
+  bottom: 0;
 `;
 
 const Nickname = styled.div`
-  flex-grow: 1;
   font-size: 1.8rem;
   font-weight: bold;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 const CompileWrapper = styled.div`
