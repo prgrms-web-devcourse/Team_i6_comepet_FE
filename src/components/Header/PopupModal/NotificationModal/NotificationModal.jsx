@@ -42,11 +42,9 @@ const NotificationModal = ({ isVisible, left, right, bottom, top }) => {
     setIsRequesting(false);
   };
 
-  const handleItemClick = async ({ target }) => {
-    const { id: noticeId } = target.closest('div');
-
+  const handleItemClick = async (id) => {
     try {
-      await PATCH(`/notices/${noticeId}`, {
+      await PATCH(`/notices/${id}`, {
         checked: true
       });
     } catch (error) {
@@ -90,7 +88,7 @@ const NotificationModal = ({ isVisible, left, right, bottom, top }) => {
 
   return (
     <Wrapper isVisible={isVisible} top={top} left={left} right={right} bottom={bottom}>
-      <BackgroundBox width="30rem">
+      <BackgroundBox width="33rem">
         <TopWrapper>
           <DeleteAllButton onClick={handleDeleteAllClick}>모든 알림 지우기</DeleteAllButton>
         </TopWrapper>
@@ -101,9 +99,9 @@ const NotificationModal = ({ isVisible, left, right, bottom, top }) => {
               notificationList?.map(
                 ({ id, animalKindName, image, nickname, postId, status, town, checked }) => (
                   <NotificationItemWrapper key={postId}>
-                    <Link to={`post/${postId}`} id={id} onClick={handleItemClick}>
+                    <Link to={`post/${postId}`} id={id}>
                       <Seperator type="horizon" />
-                      <NotificationItem checked={checked}>
+                      <NotificationItem checked={checked} onClick={handleItemClick(id)}>
                         <Avatar src={image} margin="0 0 0 1.5rem"></Avatar>
                         <TextWrapper>
                           <ColoredText>{town}</ColoredText>에서
