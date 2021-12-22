@@ -70,7 +70,7 @@ const MyScrapPage = () => {
         {postLength ? (
           <PostCardList>
             {posts.map(({ id, animalKind, sexType, ...props }) => (
-              <Link to={`/post/${id}`} key={id}>
+              <Link to={status === 'missing' ? `/post/${id}` : `/shelter/${id}`} key={id}>
                 <PostCardWrapper>
                   <PostCard animalKindName={animalKind} sex={sexType} {...props} />
                 </PostCardWrapper>
