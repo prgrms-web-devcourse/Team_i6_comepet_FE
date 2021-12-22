@@ -175,7 +175,7 @@ const ShelterPostDetailPage = () => {
 
 export default ShelterPostDetailPage;
 
-const Wrapper = styled.form`
+const Wrapper = styled.div`
   padding: 2.4rem;
 `;
 

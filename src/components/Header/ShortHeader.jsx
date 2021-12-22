@@ -47,17 +47,17 @@ const ShortHeader = ({ location = 'Comepet' }) => {
     <Wrapper>
       <BackgroundBox borderRadius="0 0 1.6rem 1.6rem" height="5.2rem">
         <TopWrapper>
-          <StyledArrowBackIosNewIconButton onClick={handleGoBackButtonClick}>
+          <StyledArrowBackIosNewIconButton type="button" onClick={handleGoBackButtonClick}>
             <StyledArrowBackIosNewIcon />
           </StyledArrowBackIosNewIconButton>
           <StyledHeader>{location}</StyledHeader>
           {isLoggedIn ? (
             <IconWrapper>
-              <StyledNotificationIconButton onClick={handleNotificationModalClick}>
+              <StyledNotificationIconButton type="button" onClick={handleNotificationModalClick}>
                 <StyledNotificationsIcon />
                 <StyledBadge />
               </StyledNotificationIconButton>
-              <StyledMenuIconButton onClick={handleSidebarModalClick}>
+              <StyledMenuIconButton type="button" onClick={handleSidebarModalClick}>
                 <StyledMenuIcon />
               </StyledMenuIconButton>
             </IconWrapper>
