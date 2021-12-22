@@ -63,17 +63,23 @@ const MainPage = () => {
           userLikeCity={userLikeCity}
           userLikeTown={userLikeTown}
         />
-        {(postLength && (
-          <PostCardList>
-            {posts.map(({ id, ...props }) => (
-              <PostCardWrapper key={id}>
-                <Link to={`/post/${id}`}>
-                  <PostCard postId={id} {...props} />
-                </Link>
-              </PostCardWrapper>
-            ))}
-          </PostCardList>
-        )) || <NoResultText>검색 결과가 없습니다.</NoResultText>}
+        <PostCardListWrapper>
+          {(postLength && (
+            <PostCardList>
+              {posts.map(({ id, ...props }) => (
+                <PostCardWrapper key={id}>
+                  <Link to={`/post/${id}`}>
+                    <PostCard postId={id} {...props} />
+                  </Link>
+                </PostCardWrapper>
+              ))}
+            </PostCardList>
+          )) || <NoResultText>검색 결과가 없습니다.</NoResultText>}
+          <StyledLink to="/post/create">
+            <StyledAddCircleIcon />
+          </StyledLink>
+        </PostCardListWrapper>
+
         <Button
           width="50%"
           margin="6rem auto"
@@ -83,9 +89,6 @@ const MainPage = () => {
           {(isReachingEnd && '마지막') || '더보기'}
         </Button>
       </ContentWrapper>
-      <StyledLink to="/post/create">
-        <StyledAddCircleIcon />
-      </StyledLink>
       <div ref={target} />
     </Wrapper>
   );
@@ -97,6 +100,10 @@ const Wrapper = styled.div`
 
 const ContentWrapper = styled.div`
   padding: 17rem 2.4rem 2.4rem 2.4rem;
+`;
+
+const PostCardListWrapper = styled.div`
+  position: relative;
 `;
 
 const PostCardList = styled.ul`
@@ -121,9 +128,9 @@ const NoResultText = styled.div`
 `;
 
 const StyledLink = styled(Link)`
-  position: fixed;
-  right: 0;
-  bottom: 1.6rem;
+  position: absolute;
+  left: 50%;
+  bottom: -2rem;
   z-index: 2;
   transform: translateX(-50%);
   display: flex;

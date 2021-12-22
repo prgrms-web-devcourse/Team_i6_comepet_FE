@@ -72,7 +72,9 @@ const OneLineText = styled.span`
 
 const DividedLineText = styled.div`
   margin-top: 1rem;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
+  line-height: 2rem;
+  word-break: keep-all;
 `;
 
 PostContent.propTypes = {
