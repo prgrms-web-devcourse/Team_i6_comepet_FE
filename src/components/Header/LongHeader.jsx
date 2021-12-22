@@ -71,16 +71,16 @@ const LongHeader = ({ onSearch, usedAt }) => {
     <Wrapper>
       <BackgroundBox borderRadius="0 0 1.6rem 1.6rem" height="17rem">
         <TopWrapper>
-          <StyledMenuIconButton onClick={handleSidebarModalClick}>
+          <StyledMenuIconButton type="button" onClick={handleSidebarModalClick}>
             <StyledMenuIcon />
           </StyledMenuIconButton>
           <StyledHeader onClick={scrollToTop}>ComePet</StyledHeader>
           {isLoggedIn ? (
             <IconWrapper>
-              <StyledErrorOutlineIconButton onClick={handleInformationModalClick}>
+              <StyledErrorOutlineIconButton type="button" onClick={handleInformationModalClick}>
                 <StyledErrorOutlineIcon />
               </StyledErrorOutlineIconButton>
-              <StyledNotificationIconButton onClick={handleNotificationModalClick}>
+              <StyledNotificationIconButton type="button" onClick={handleNotificationModalClick}>
                 <StyledNotificationsIcon />
                 <StyledBadge />
               </StyledNotificationIconButton>
@@ -120,10 +120,10 @@ const LongHeader = ({ onSearch, usedAt }) => {
           </BackgroundBox>
         </MiddleWrapper>
         <BottomWrapper>
-          <SearchButton onClick={handleSearchModalClick}>
+          <SearchButton type="button" onClick={handleSearchModalClick}>
             세부 검색을 위해 클릭해주세요
           </SearchButton>
-          <StyledSearchIconButton>
+          <StyledSearchIconButton type="button">
             <StyledSearchRoundedIcon />
           </StyledSearchIconButton>
         </BottomWrapper>

@@ -12,6 +12,7 @@ axios.defaults.headers.post['Content-Type'] = CONTENT_TYPE;
 
 axios.interceptors.request.use(
   (config) => {
+    console.log(config);
     return config;
   },
   (error) => {
