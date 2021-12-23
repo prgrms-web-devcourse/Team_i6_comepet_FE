@@ -79,6 +79,9 @@ const PostCreatePage = () => {
       if (!content) errors.content = '내용을 작성해주세요';
       Object.keys(errors).length !== 0 && setIsErrorExist(isErrorExist);
       return errors;
+    },
+    handleErrors: () => {
+      alert('필수 입력란을 전부 작성해 주세요!');
     }
   });
 
