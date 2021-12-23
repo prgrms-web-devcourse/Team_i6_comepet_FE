@@ -8,17 +8,23 @@ import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 const HashTag = ({ margin, onChange }) => {
   const [tags, setTags] = useState([]);
   const [error, setErrors] = useState('');
+  const [inputValue, setInputValue] = useState('');
+
+  const handleInput = (e) => {
+    setInputValue(e.target.value);
+  };
 
   const handleEnter = (e) => {
     if (
       e.key === 'Enter' &&
-      e.target.value.length !== 0 &&
-      e.target.value.length <= 5 &&
+      inputValue.length !== 0 &&
+      inputValue.length <= 5 &&
       tags.length <= 5
     ) {
       setErrors('');
-      handleAppendTag(e.target.value);
-      e.target.value = '';
+      handleAppendTag(inputValue);
+
+      setInputValue('');
     }
 
     if (e.key === 'Enter' && (e.target.value.length > 5 || tags.length >= 6)) {
@@ -50,7 +56,9 @@ const HashTag = ({ margin, onChange }) => {
       <Input
         placeholder="해쉬태그 입력 후 엔터를 눌러주세요"
         margin="1.8rem 0 1.8rem 0"
-        onKeyDown={handleEnter}
+        onChange={handleInput}
+        onKeyPress={handleEnter}
+        value={inputValue}
       />
       <Error error={error}>{error}</Error>
       <HashTagWrapper>
