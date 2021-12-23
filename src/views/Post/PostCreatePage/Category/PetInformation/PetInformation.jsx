@@ -180,13 +180,6 @@ const PetInformation = ({ margin, onChange, animalData }) => {
                 disabled={isAnimalUnknown}
                 propRef={kindsSelectionBoxRef}
               />
-              <CheckBox
-                id="kinds-checkbox"
-                propRef={kindsCheckBoxRef}
-                onChange={handleUnknownChecked}
-                margin="0 0 0 1.6rem"
-                fontSize="1.4rem"
-              />
             </LineBreakWrapper>
           )}
         <LineBreakWrapper>
