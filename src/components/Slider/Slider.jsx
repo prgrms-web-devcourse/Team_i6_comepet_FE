@@ -80,6 +80,7 @@ const Wrapper = styled.div`
 `;
 
 const ImageWrapper = styled.div`
+  height: 100%;
   position: absolute;
   transition: opacity ease-in-out 0.2s;
   opacity: ${({ opacity }) => opacity};
