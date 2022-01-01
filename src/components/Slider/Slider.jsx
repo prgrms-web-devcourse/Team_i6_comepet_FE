@@ -5,49 +5,64 @@ import Dots from './Dots';
 import SliderButton from './SliderButton';
 import { Image } from '@/components/Image';
 
-const Slider = ({ imageList, size, borderRadius }) => {
+const Slider = ({ imageList, borderRadius }) => {
   const [slideIndex, setSlideIndex] = useState(0);
+  const imageLength = imageList?.length || 0;
 
-  const prevSlide = () => {
-    if (slideIndex !== 0) {
-      setSlideIndex(slideIndex - 1);
+  const switchImageBy = (index) => {
+    const isCurrentImage = index === slideIndex;
+
+    if (isCurrentImage) {
+      return 1;
     }
 
-    if (slideIndex === 0) {
-      setSlideIndex(imageList.length - 1);
+    return 0;
+  };
+
+  const handleDotClick = ({ target }) => {
+    const dotId = Number(target.id);
+    setSlideIndex(dotId);
+  };
+
+  const handlePrevSlide = () => {
+    setSlideIndex(slideIndex - 1);
+
+    const endIndex = 0;
+    const isReachingEnd = slideIndex === endIndex;
+    const imageEndIndex = imageLength - 1;
+
+    if (isReachingEnd) {
+      setSlideIndex(imageEndIndex);
     }
   };
 
-  const nextSlide = () => {
-    if (slideIndex !== imageList.length) {
-      setSlideIndex(slideIndex + 1);
-    }
+  const handleNextSlide = () => {
+    setSlideIndex(slideIndex + 1);
 
-    if (slideIndex === imageList.length - 1) {
-      setSlideIndex(0);
-    }
-  };
+    const endIndex = imageLength - 1;
+    const isReachingEnd = slideIndex === endIndex;
+    const ImageBeginIndex = 0;
 
-  const handleClick = ({ target }) => {
-    setSlideIndex(Number(target.id));
+    if (isReachingEnd) {
+      setSlideIndex(ImageBeginIndex);
+    }
   };
 
   return (
-    <Wrapper size={size} borderRadius={borderRadius}>
-      {(imageList.length !== 0 &&
+    <Wrapper borderRadius={borderRadius}>
+      {(imageLength > 0 &&
         imageList.map(({ image, name }, index) => (
-          <ImageWrapper key={index} opacity={(index === slideIndex && 1) || 0}>
+          <ImageWrapper key={index} opacity={switchImageBy(index)}>
             <Image src={image || name} width="100%" height="100%" />
           </ImageWrapper>
-        ))) || <Image src="" width="100%" height="100%" />}
+        ))) || <Image width="100%" height="100%" />}
       <DotContainer>
-        <Dots length={imageList?.length} targetIndex={slideIndex} handleClick={handleClick} />
+        <Dots length={imageLength} targetIndex={slideIndex} handleClick={handleDotClick} />
       </DotContainer>
-
-      {imageList?.length > 1 && (
+      {imageLength > 1 && (
         <>
-          <SliderButton direction="left" handleSlide={prevSlide} />
-          <SliderButton direction="right" handleSlide={nextSlide} />
+          <SliderButton direction="left" handleSlide={handlePrevSlide} />
+          <SliderButton direction="right" handleSlide={handleNextSlide} />
         </>
       )}
     </Wrapper>
@@ -65,11 +80,9 @@ const Wrapper = styled.div`
 `;
 
 const ImageWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  opacity: ${({ opacity }) => opacity};
-  transition: opacity ease-in-out 0.4s;
   position: absolute;
+  transition: opacity ease-in-out 0.2s;
+  opacity: ${({ opacity }) => opacity};
 `;
 
 const DotContainer = styled.div`
@@ -82,7 +95,6 @@ const DotContainer = styled.div`
 
 Slider.propTypes = {
   imageList: PropTypes.array.isRequired,
-  size: PropTypes.string,
   borderRadius: PropTypes.string
 };
 

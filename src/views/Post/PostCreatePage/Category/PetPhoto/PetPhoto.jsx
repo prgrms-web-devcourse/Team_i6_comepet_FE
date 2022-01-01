@@ -30,7 +30,7 @@ const PetPhoto = ({ margin, onChange }) => {
   return (
     <Wrapper margin={margin}>
       <SliderWrapper>
-        <Slider imageList={files} size="large" />
+        <Slider imageList={files} />
       </SliderWrapper>
       <Input onChange={handleFileChange} ref={inputRef} type="file" accept="image/*" multiple />
       <Caution>여러 이미지는 한 번에 업로드해 주세요.</Caution>

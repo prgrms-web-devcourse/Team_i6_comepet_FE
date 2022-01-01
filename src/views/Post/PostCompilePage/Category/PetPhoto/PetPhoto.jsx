@@ -29,7 +29,7 @@ const PetPhoto = ({ margin, onChange }) => {
 
   return (
     <Wrapper margin={margin}>
-      <Slider imageList={files} size="large" />
+      <Slider imageList={files} />
       <Input onChange={handleFileChange} ref={inputRef} type="file" accept="image/*" multiple />
       <Caution isErrorOccurred={isErrorOccurred}>※ 이미지 3개를 동시에 선택해주세요</Caution>
       <Caution isErrorOccurred={isErrorOccurred}>한 장당 5MB 이하여야만 합니다.</Caution>
