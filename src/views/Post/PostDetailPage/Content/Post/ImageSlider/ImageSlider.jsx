@@ -24,7 +24,7 @@ const ImageSlider = ({ bookmarkCount, isBookmark, status, images, onClickBookmar
 const Wrapper = styled.div`
   position: relative;
   width: 100%;
-  height: 20.4rem;
+  padding-top: 100%;
 `;
 
 const ScrapCounterWrapper = styled.div`

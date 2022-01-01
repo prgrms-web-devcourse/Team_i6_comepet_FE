@@ -55,11 +55,13 @@ const Slider = ({ imageList, size, borderRadius }) => {
 };
 
 const Wrapper = styled.div`
-  width: 100%;
-  height: ${({ theme, size }) => theme.sizes.slider.wrapper[size]?.height || '100%'};
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   border-radius: ${({ borderRadius }) => borderRadius};
   overflow: hidden;
-  position: relative;
 `;
 
 const ImageWrapper = styled.div`
