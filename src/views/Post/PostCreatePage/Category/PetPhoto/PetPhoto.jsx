@@ -29,14 +29,18 @@ const PetPhoto = ({ margin, onChange }) => {
 
   return (
     <Wrapper margin={margin}>
-      <Slider imageList={files} size="large" />
+      <SliderWrapper>
+        <Slider imageList={files} />
+      </SliderWrapper>
       <Input onChange={handleFileChange} ref={inputRef} type="file" accept="image/*" multiple />
-      <Caution isErrorOccurred={isErrorOccurred}>※ 이미지 3개를 동시에 선택해주세요</Caution>
-      <Caution isErrorOccurred={isErrorOccurred}>한 장당 5MB 이하여야만 합니다.</Caution>
+      <Caution>여러 이미지는 한 번에 업로드해 주세요.</Caution>
+      <Caution isErrorOccurred={isErrorOccurred}>
+        최대 3개의 이미지, 각 5MB 이하의 이미지 파일만 업로드 가능합니다.
+      </Caution>
       <Button
         onClick={handleChooseFile}
         width="60%"
-        margin="5% auto 0 auto"
+        margin="1rem auto 0 auto"
         bgColor="normalOrange"
         type="button">
         반려동물 사진 등록
@@ -47,9 +51,20 @@ const PetPhoto = ({ margin, onChange }) => {
 
 const Wrapper = styled.div`
   margin: ${({ margin }) => margin};
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const SliderWrapper = styled.div`
+  position: relative;
+  width: 50%;
+  padding-top: 50%;
 `;
 
 const Caution = styled.div`
+  margin-top: 1rem;
   color: ${({ isErrorOccurred, theme }) => isErrorOccurred && theme.colors.normalRed};
   font-size: 1.3rem;
   font-weight: ${({ isErrorOccurred }) => isErrorOccurred && 'bold'};

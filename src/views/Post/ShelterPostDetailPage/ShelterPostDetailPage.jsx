@@ -51,14 +51,16 @@ const ShelterPostDetailPage = () => {
     <Wrapper>
       <ShortHeader location="보호 정보" />
       <BackgroundBox margin="6rem 0 2.4rem 0">
-        <ImageWrapper>
-          <Image src={data?.image} width="100%" height="100%" />
-          <ScrapCounterWrapper>
-            <ScrapCounter size="medium" isBookmark={isBookmarkOn} onClick={handleBookmarkClick}>
-              {data?.bookmarkCount}
-            </ScrapCounter>
-          </ScrapCounterWrapper>
-        </ImageWrapper>
+        <ImageOuterWrapper>
+          <ImageInnerWrapper>
+            <Image src={data?.image} width="100%" height="100%" />
+            <ScrapCounterWrapper>
+              <ScrapCounter size="medium" isBookmark={isBookmarkOn} onClick={handleBookmarkClick}>
+                {data?.bookmarkCount}
+              </ScrapCounter>
+            </ScrapCounterWrapper>
+          </ImageInnerWrapper>
+        </ImageOuterWrapper>
         <TextContentWrapper>
           <AnimalProfileWrapper>
             <Animal>{data?.animal}/</Animal>
@@ -179,18 +181,26 @@ const Wrapper = styled.div`
   padding: 2.4rem;
 `;
 
-const ImageWrapper = styled.div`
-  width: 100%;
-  height: 20.4rem;
-  border-radius: 1.6rem 1.6rem 0 0;
-  overflow: hidden;
+const ImageOuterWrapper = styled.div`
   position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding-top: 100%;
+  border-radius: 1.6rem 1.6rem 0 0;
+`;
+
+const ImageInnerWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 `;
 
 const ScrapCounterWrapper = styled.div`
   position: absolute;
   right: 0;
-  bottom: -0.3rem;
+  bottom: -0.2rem;
   width: 4.8rem;
   height: 2.1rem;
 `;
