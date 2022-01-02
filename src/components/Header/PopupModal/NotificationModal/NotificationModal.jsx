@@ -37,7 +37,10 @@ const NotificationModal = ({ isVisible, left, right, bottom, top }) => {
 
   const isUnreadItem = checkIsUnreadItem();
   const { setIsUnreadNotification } = useAuth();
-  setIsUnreadNotification(isUnreadItem);
+
+  useEffect(() => {
+    setIsUnreadNotification(isUnreadItem);
+  }, [isUnreadItem]);
 
   const handleDeleteAllClick = async () => {
     if (isRequesting) {
