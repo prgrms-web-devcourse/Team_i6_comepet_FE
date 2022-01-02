@@ -116,7 +116,7 @@ const NotificationModal = ({ isVisible, left, right, bottom, top }) => {
               notificationList?.map(
                 ({ id, animalKindName, image, nickname, postId, status, town, checked }) => (
                   <NotificationItemWrapper key={postId}>
-                    <Link to={`post/${postId}`} id={id}>
+                    <Link to={`/post/${postId}`} id={id}>
                       <Seperator type="horizon" />
                       <NotificationItem id={id} checked={checked} onClick={handleItemClick}>
                         <Avatar src={image} margin="0 0 0 1.5rem"></Avatar>
