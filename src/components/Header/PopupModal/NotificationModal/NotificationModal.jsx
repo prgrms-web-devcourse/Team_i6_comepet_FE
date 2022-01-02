@@ -42,9 +42,11 @@ const NotificationModal = ({ isVisible, left, right, bottom, top }) => {
     setIsRequesting(false);
   };
 
-  const handleItemClick = async (id) => {
+  const handleItemClick = async ({ target }) => {
+    const { id: noticeId } = target.closest('a');
+
     try {
-      await PATCH(`/notices/${id}`, {
+      await PATCH(`/notices/${noticeId}`, {
         checked: true
       });
     } catch (error) {
@@ -101,7 +103,7 @@ const NotificationModal = ({ isVisible, left, right, bottom, top }) => {
                   <NotificationItemWrapper key={postId}>
                     <Link to={`post/${postId}`} id={id}>
                       <Seperator type="horizon" />
-                      <NotificationItem checked={checked} onClick={handleItemClick(id)}>
+                      <NotificationItem id={id} checked={checked} onClick={handleItemClick}>
                         <Avatar src={image} margin="0 0 0 1.5rem"></Avatar>
                         <TextWrapper>
                           <ColoredText>{town}</ColoredText>에서
