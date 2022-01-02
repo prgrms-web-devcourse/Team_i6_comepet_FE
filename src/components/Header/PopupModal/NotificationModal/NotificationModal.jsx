@@ -11,6 +11,7 @@ import { Seperator } from '@/components/Seperator';
 import { GET, DELETE, PATCH } from '@/apis/axios';
 import { STATUS } from '@/utils/constants';
 import { AUTH_ERROR } from '@/utils/constants';
+import useAuth from '@/hooks/useAuth';
 
 const NotificationModal = ({ isVisible, left, right, bottom, top }) => {
   const [isRequesting, setIsRequesting] = useState(false);
@@ -24,6 +25,19 @@ const NotificationModal = ({ isVisible, left, right, bottom, top }) => {
     return { notifications: [...prevData.notifications, ...nextData.notifications] };
   })?.notifications;
   const notificationLength = notificationList?.length;
+
+  const checkIsUnreadItem = () => {
+    if (!notificationLength) {
+      return false;
+    }
+
+    const isUnread = (notificaitonItem) => notificaitonItem.checked === false;
+    return notificationList?.some(isUnread);
+  };
+
+  const isUnreadItem = checkIsUnreadItem();
+  const { setIsUnreadNotification } = useAuth();
+  setIsUnreadNotification(isUnreadItem);
 
   const handleDeleteAllClick = async () => {
     if (isRequesting) {
@@ -49,6 +63,7 @@ const NotificationModal = ({ isVisible, left, right, bottom, top }) => {
       await PATCH(`/notices/${noticeId}`, {
         checked: true
       });
+      mutate();
     } catch (error) {
       alert(AUTH_ERROR.TRY_AGAIN);
     }

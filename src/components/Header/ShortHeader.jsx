@@ -16,6 +16,7 @@ const ShortHeader = ({ location = 'Comepet' }) => {
 
   const [isNotificationModalVisible, setIsNotificationModalVisible] = useState(false);
   const [isSidebarModalVisible, setIsSidebarModalVisible] = useState(false);
+  const { isUnreadNotification } = useAuth();
 
   const closeAllModalsExceptFor = (targetModal) => {
     if (isSidebarModalVisible && !targetModal) {
@@ -55,7 +56,7 @@ const ShortHeader = ({ location = 'Comepet' }) => {
             <IconWrapper>
               <StyledNotificationIconButton type="button" onClick={handleNotificationModalClick}>
                 <StyledNotificationsIcon />
-                <StyledBadge />
+                {isUnreadNotification && <StyledBadge />}
               </StyledNotificationIconButton>
               <StyledMenuIconButton type="button" onClick={handleSidebarModalClick}>
                 <StyledMenuIcon />

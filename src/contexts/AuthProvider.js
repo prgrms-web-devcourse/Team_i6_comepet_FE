@@ -11,7 +11,15 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState(null);
-  const value = { isLoggedIn, setIsLoggedIn, userId };
+  const [isUnreadNotification, setIsUnreadNotification] = useState(false);
+  const value = {
+    isLoggedIn,
+    setIsLoggedIn,
+    userId,
+    setUserId,
+    isUnreadNotification,
+    setIsUnreadNotification
+  };
   const navigate = useNavigate();
 
   useEffect(() => {
