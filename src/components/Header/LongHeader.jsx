@@ -20,6 +20,7 @@ const LongHeader = ({ onSearch, usedAt }) => {
   const [isInformationModalVisible, setIsInformationModalVisible] = useState(false);
   const [isNotificationModalVisible, setIsNotificationModalVisible] = useState(false);
   const [isSearchModalVisible, setIsSearchModalVisible] = useState(false);
+  const { isUnreadNotification } = useAuth();
 
   const closeAllModalsExceptFor = (targetModal) => {
     if (isSidebarModalVisible && !targetModal) {
@@ -82,7 +83,7 @@ const LongHeader = ({ onSearch, usedAt }) => {
               </StyledErrorOutlineIconButton>
               <StyledNotificationIconButton type="button" onClick={handleNotificationModalClick}>
                 <StyledNotificationsIcon />
-                <StyledBadge />
+                {isUnreadNotification && <StyledBadge />}
               </StyledNotificationIconButton>
             </IconWrapper>
           ) : (
