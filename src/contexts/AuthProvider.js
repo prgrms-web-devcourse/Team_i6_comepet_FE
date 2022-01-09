@@ -11,14 +11,11 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState(null);
-  const [isUnreadNotification, setIsUnreadNotification] = useState(false);
   const value = {
     isLoggedIn,
     setIsLoggedIn,
     userId,
-    setUserId,
-    isUnreadNotification,
-    setIsUnreadNotification
+    setUserId
   };
   const navigate = useNavigate();
 

@@ -9,6 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import useAuth from '@/hooks/useAuth';
+import useAlarm from '@/hooks/useAlarm';
 
 const ShortHeader = ({ location = 'Comepet' }) => {
   const { isLoggedIn } = useAuth();
@@ -16,7 +17,7 @@ const ShortHeader = ({ location = 'Comepet' }) => {
 
   const [isNotificationModalVisible, setIsNotificationModalVisible] = useState(false);
   const [isSidebarModalVisible, setIsSidebarModalVisible] = useState(false);
-  const { isUnreadNotification } = useAuth();
+  const { isUnreadNotification } = useAlarm();
 
   const closeAllModalsExceptFor = (targetModal) => {
     if (isSidebarModalVisible && !targetModal) {
