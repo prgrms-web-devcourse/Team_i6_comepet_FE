@@ -11,14 +11,13 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState(null);
-  const [isUnreadNotification, setIsUnreadNotification] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
+
   const value = {
     isLoggedIn,
     setIsLoggedIn,
     userId,
-    setUserId,
-    isUnreadNotification,
-    setIsUnreadNotification
+    setUserId
   };
   const navigate = useNavigate();
 
@@ -35,6 +34,7 @@ export const AuthProvider = ({ children }) => {
         const userIdData = await GET('/auth-user');
         userIdData && setIsLoggedIn(true);
         setUserId(userIdData?.id);
+        setIsInitialized(true);
       } catch (error) {
         alert(AUTH_ERROR.EXPIRED_TOKEN);
         navigate('/login', { replace: true });
@@ -44,9 +44,12 @@ export const AuthProvider = ({ children }) => {
 
     if (TOKEN) {
       getAuthStatus();
+    } else {
+      setIsInitialized(true);
     }
   }, [isLoggedIn]);
 
+  if (!isInitialized) return <></>;
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 

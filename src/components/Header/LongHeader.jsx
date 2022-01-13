@@ -13,6 +13,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import useAuth from '@/hooks/useAuth';
+import useAlarm from '@/hooks/useAlarm';
 
 const LongHeader = ({ onSearch, usedAt }) => {
   const { isLoggedIn } = useAuth();
@@ -20,7 +21,7 @@ const LongHeader = ({ onSearch, usedAt }) => {
   const [isInformationModalVisible, setIsInformationModalVisible] = useState(false);
   const [isNotificationModalVisible, setIsNotificationModalVisible] = useState(false);
   const [isSearchModalVisible, setIsSearchModalVisible] = useState(false);
-  const { isUnreadNotification } = useAuth();
+  const { isUnreadNotification } = useAlarm();
 
   const closeAllModalsExceptFor = (targetModal) => {
     if (isSidebarModalVisible && !targetModal) {

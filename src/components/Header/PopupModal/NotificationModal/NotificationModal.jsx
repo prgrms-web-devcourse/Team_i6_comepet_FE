@@ -11,7 +11,7 @@ import { Seperator } from '@/components/Seperator';
 import { GET, DELETE, PATCH } from '@/apis/axios';
 import { STATUS } from '@/utils/constants';
 import { AUTH_ERROR } from '@/utils/constants';
-import useAuth from '@/hooks/useAuth';
+import useAlarm from '@/hooks/useAlarm';
 
 const NotificationModal = ({ isVisible, left, right, bottom, top }) => {
   const [isRequesting, setIsRequesting] = useState(false);
@@ -36,7 +36,7 @@ const NotificationModal = ({ isVisible, left, right, bottom, top }) => {
   };
 
   const isUnreadItem = checkIsUnreadItem();
-  const { setIsUnreadNotification } = useAuth();
+  const { setIsUnreadNotification } = useAlarm();
 
   useEffect(() => {
     setIsUnreadNotification(isUnreadItem);
