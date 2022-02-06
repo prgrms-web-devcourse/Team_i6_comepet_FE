@@ -2,6 +2,7 @@
 
 #root {
   height: 100%;
+  background-color: #ffffff;
 }
 
 *,
@@ -19,6 +20,7 @@ body {
   min-width: 32rem;
   height: 100%;
   margin: 0 auto;
+  background-color: #f6f8fa;
 
   font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
