@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
+import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { BackgroundBox } from '@/components/BackgroundBox';
-import { Button } from '@/components/Button';
 import { Image } from '@/components/Image';
 import { getImageSrc } from '@/utils/helpers';
 import { InformationModal, NotificationModal, SidebarModal, SearchModal } from './PopupModal';
@@ -71,73 +70,56 @@ const LongHeader = ({ onSearch, usedAt }) => {
 
   return (
     <Wrapper>
-      <BackgroundBox borderRadius="0 0 1.6rem 1.6rem" height="17rem">
+      <_Background>
         <TopWrapper>
-          <StyledMenuIconButton type="button" onClick={handleSidebarModalClick}>
-            <StyledMenuIcon />
-          </StyledMenuIconButton>
-          <StyledHeader onClick={scrollToTop}>ComePet</StyledHeader>
-          {isLoggedIn ? (
-            <IconWrapper>
-              <StyledErrorOutlineIconButton type="button" onClick={handleInformationModalClick}>
-                <StyledErrorOutlineIcon />
-              </StyledErrorOutlineIconButton>
-              <StyledNotificationIconButton type="button" onClick={handleNotificationModalClick}>
-                <StyledNotificationsIcon />
-                {isUnreadNotification && <StyledBadge />}
-              </StyledNotificationIconButton>
-            </IconWrapper>
-          ) : (
-            <StyledLink to="/login">
-              <StyledAccountCircleIcon />
-            </StyledLink>
+          <SidebarButton type="button" onClick={handleSidebarModalClick}>
+            <_MenuIcon />
+          </SidebarButton>
+          <Title onClick={scrollToTop}>ComePet</Title>
+          {(isLoggedIn && (
+            <ButtonWrapper>
+              <InformationButton type="button" onClick={handleInformationModalClick}>
+                <_ErrorOutlineIcon />
+              </InformationButton>
+              <NotificationButton type="button" onClick={handleNotificationModalClick}>
+                <_NotificationsIcon />
+                {isUnreadNotification && <_Badge />}
+              </NotificationButton>
+            </ButtonWrapper>
+          )) || (
+            <_Link to="/login">
+              <_AccountCircleIcon />
+            </_Link>
           )}
         </TopWrapper>
         <MiddleWrapper>
-          <BackgroundBox width="45%" boxShadow="0px 4px 16px rgba(0, 0, 0, 0.08)">
-            <Link to="/">
-              <Button bgColor="normalWhite" color="brand" fontWeight="bold" borderRadius="1.6rem">
-                <Image
-                  src={getImageSrc('/images/finding.png')}
-                  width="1.6rem"
-                  height="1.6rem"
-                  margin="0 0.5rem 0 0"
-                />
-                실종 및 보호
-              </Button>
-            </Link>
-          </BackgroundBox>
-          <BackgroundBox width="45%" boxShadow="0px 4px 16px rgba(0, 0, 0, 0.08)">
-            <Link to="/shelter">
-              <Button bgColor="normalWhite" color="brand" fontWeight="bold" borderRadius="1.6rem">
-                <Image
-                  src={getImageSrc('/images/home.png')}
-                  width="1.6rem"
-                  height="1.6rem"
-                  margin="0 0.5rem 0 0"
-                />
-                보호소 동물
-              </Button>
-            </Link>
-          </BackgroundBox>
+          <_FilterMenuBackground>
+            <_FilterMenu to="/">
+              <_Image src={getImageSrc('/images/finding.png')} />
+              실종 및 보호
+            </_FilterMenu>
+          </_FilterMenuBackground>
+          <_FilterMenuBackground>
+            <_FilterMenu to="/shelter">
+              <_Image src={getImageSrc('/images/home.png')} />
+              보호소 동물
+            </_FilterMenu>
+          </_FilterMenuBackground>
         </MiddleWrapper>
         <BottomWrapper>
           <SearchButton type="button" onClick={handleSearchModalClick}>
             세부 검색을 위해 클릭해주세요
           </SearchButton>
-          <StyledSearchIconButton type="button">
-            <StyledSearchRoundedIcon />
-          </StyledSearchIconButton>
+          <SearchIconButton type="button">
+            <_SearchRoundedIcon />
+          </SearchIconButton>
         </BottomWrapper>
-      </BackgroundBox>
-      <InformationModal isVisible={isInformationModalVisible} top="5rem" right="3%" />
-      <NotificationModal isVisible={isNotificationModalVisible} top="5rem" right="3%" />
-      <SidebarModal isVisible={isSidebarModalVisible} top="5rem" left="2rem" />
-      <SearchModal
+      </_Background>
+      <_InformationModal isVisible={isInformationModalVisible} />
+      <_NotificationModal isVisible={isNotificationModalVisible} />
+      <_SidebarModal isVisible={isSidebarModalVisible} />
+      <_SearchModal
         isVisible={isSearchModalVisible}
-        left="50%"
-        top="120%"
-        translate="translate(-50%, 0%)"
         onSearch={(filterConditions) => {
           onSearch(filterConditions);
         }}
@@ -150,12 +132,16 @@ const LongHeader = ({ onSearch, usedAt }) => {
 
 const Wrapper = styled.div`
   position: fixed;
-  width: 100%;
-  max-width: 61.2rem;
+  top: 0;
   left: 50%;
   transform: translateX(-50%);
-  top: 0;
   z-index: 1000;
+  width: 100%;
+  max-width: 76.8rem;
+`;
+
+const _Background = styled(BackgroundBox)`
+  height: 17rem;
 `;
 
 const TopWrapper = styled.div`
@@ -166,13 +152,12 @@ const TopWrapper = styled.div`
   padding: 1rem 2.4rem;
 `;
 
-const StyledMenuIconButton = styled.button`
-  padding: 0;
+const SidebarButton = styled.button`
   font-size: 1.5rem;
   cursor: pointer;
 `;
 
-const StyledMenuIcon = styled(MenuIcon)`
+const _MenuIcon = styled(MenuIcon)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -180,36 +165,50 @@ const StyledMenuIcon = styled(MenuIcon)`
   color: ${({ theme }) => theme.colors.brand};
 `;
 
-const StyledHeader = styled.h1`
+const Title = styled.h1`
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   font-size: 2.4rem;
-  color: ${({ theme }) => theme.colors.brand};
   margin: 0.2rem 0 0 0;
+  color: ${({ theme }) => theme.colors.brand};
   cursor: pointer;
 `;
 
-const IconWrapper = styled.div`
+const ButtonWrapper = styled.div`
   display: flex;
 `;
 
-const StyledErrorOutlineIconButton = styled.button`
-  padding: 0;
+const _Link = styled(Link)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
-const StyledNotificationIconButton = styled.button`
-  padding: 0;
+const _AccountCircleIcon = styled(AccountCircleIcon)`
+  font-size: 3.2rem;
+  color: ${({ theme }) => theme.colors.normalGray};
+`;
+
+const InformationButton = styled.button``;
+
+const _ErrorOutlineIcon = styled(ErrorOutlineIcon)`
+  font-size: 2.8rem;
+  margin-right: 0.8rem;
+  color: ${({ theme }) => theme.colors.brand};
+`;
+
+const NotificationButton = styled.button`
   position: relative;
 `;
 
-const StyledNotificationsIcon = styled(NotificationsIcon)`
+const _NotificationsIcon = styled(NotificationsIcon)`
   font-size: 2.8rem;
   color: ${({ theme }) => theme.colors.brand};
 `;
 
-const StyledBadge = styled.div`
+const _Badge = styled.div`
   position: absolute;
   right: 0.3rem;
   top: 0.3rem;
@@ -219,29 +218,42 @@ const StyledBadge = styled.div`
   border-radius: 50%;
 `;
 
-const StyledErrorOutlineIcon = styled(ErrorOutlineIcon)`
-  font-size: 2.8rem;
-  margin-right: 0.8rem;
-  color: ${({ theme }) => theme.colors.brand};
-`;
-
-const StyledLink = styled(Link)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const StyledAccountCircleIcon = styled(AccountCircleIcon)`
-  font-size: 3.2rem;
-  color: ${({ theme }) => theme.colors.normalGray};
-`;
-
 const MiddleWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 0.8rem;
   padding: 0 2.4rem;
+`;
+
+const _FilterMenuBackground = styled(BackgroundBox)`
+  width: 45%;
+  height: 4rem;
+  boxshadow: 0px 4px 16px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  :hover {
+    background-color: ${({ theme }) => theme.colors.lighterBlue};
+  }
+`;
+
+const _FilterMenu = styled(Link)`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: ${({ theme }) => theme.colors.brand};
+`;
+
+const _Image = styled(Image)`
+  width: 1.6rem;
+  height: 1.6rem;
+  margin: 0 0.5rem 0 0;
 `;
 
 const BottomWrapper = styled.div`
@@ -263,7 +275,7 @@ const SearchButton = styled.button`
   cursor: pointer;
 `;
 
-const StyledSearchIconButton = styled.button`
+const SearchIconButton = styled.button`
   position: absolute;
   top: 50%;
   right: 1rem;
@@ -278,9 +290,30 @@ const StyledSearchIconButton = styled.button`
   background-color: ${({ theme }) => theme.colors.brand};
 `;
 
-const StyledSearchRoundedIcon = styled(SearchRoundedIcon)`
+const _SearchRoundedIcon = styled(SearchRoundedIcon)`
   font-size: 2.4rem;
   color: ${({ theme }) => theme.colors.normalWhite};
+`;
+
+const _InformationModal = styled(InformationModal)`
+  top: 5rem;
+  right: 3%;
+`;
+
+const _NotificationModal = styled(NotificationModal)`
+  top: 5rem;
+  right: 3%;
+`;
+
+const _SidebarModal = styled(SidebarModal)`
+  top: 5rem;
+  left: 2rem;
+`;
+
+const _SearchModal = styled(SearchModal)`
+  top: 120%;
+  left: 50%;
+  translate: translate(-50%, 0%);
 `;
 
 LongHeader.propTypes = {
