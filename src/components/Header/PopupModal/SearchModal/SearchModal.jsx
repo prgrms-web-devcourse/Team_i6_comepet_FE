@@ -10,6 +10,7 @@ import useSWR from 'swr';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 const SearchModal = ({
+  className,
   isVisible,
   left,
   top,
@@ -29,6 +30,7 @@ const SearchModal = ({
 
   return (
     <Wrapper
+      className={className}
       isVisible={isVisible}
       top={top}
       left={left}
@@ -117,6 +119,7 @@ const StyledCloseRoundedIcon = styled(CloseRoundedIcon)`
 `;
 
 SearchModal.propTypes = {
+  className: PropTypes.string,
   isVisible: PropTypes.bool,
   place: PropTypes.string,
   top: PropTypes.string,

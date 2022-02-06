@@ -6,7 +6,7 @@ import { STATUS } from '@/utils/constants';
 import { GET } from '@/apis/axios';
 import useSWR from 'swr';
 
-const InformationModal = ({ isVisible, top, left, right, bottom }) => {
+const InformationModal = ({ className, isVisible, top, left, right, bottom }) => {
   const { data } = useSWR('/statistics', GET);
 
   // TODO: useBlockScroll 사용하면 에러
@@ -21,7 +21,13 @@ const InformationModal = ({ isVisible, top, left, right, bottom }) => {
   });
 
   return (
-    <Wrapper isVisible={isVisible} top={top} left={left} right={right} bottom={bottom}>
+    <Wrapper
+      className={className}
+      isVisible={isVisible}
+      top={top}
+      left={left}
+      right={right}
+      bottom={bottom}>
       <BackgroundBox width="36rem" height="6rem">
         <TextWrapper>
           {STATUS['MISSING']} {data?.missing}건 / {STATUS['DETECTION']} {data?.detection}건 /{' '}
@@ -54,6 +60,7 @@ const TextWrapper = styled.div`
 `;
 
 InformationModal.propTypes = {
+  className: PropTypes.string,
   src: PropTypes.string,
   nickname: PropTypes.string,
   isVisible: PropTypes.bool,
