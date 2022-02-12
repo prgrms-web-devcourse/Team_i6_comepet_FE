@@ -1,18 +1,23 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
-import { BackgroundBox } from '@/components/BackgroundBox';
-import { Image } from '@/components/Image';
-import { getImageSrc } from '@/utils/helpers';
-import { InformationModal, NotificationModal, SidebarModal, SearchModal } from './PopupModal';
-import MenuIcon from '@mui/icons-material/Menu';
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import {
+  InformationModal as _InformationModal,
+  NotificationModal as _NotificationModal,
+  SidebarModal as _SidebarModal,
+  SearchModal as _SearchModal
+} from './PopupModal';
+import { Link as _Link } from 'react-router-dom';
+import { BackgroundBox as _BackgroundBox } from '@/components/BackgroundBox';
+import { Image as _Image } from '@/components/Image';
+import _MenuIcon from '@mui/icons-material/Menu';
+import _SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import _NotificationsIcon from '@mui/icons-material/Notifications';
+import _ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import _AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import useAuth from '@/hooks/useAuth';
 import useAlarm from '@/hooks/useAlarm';
+import { getImageSrc } from '@/utils/helpers';
 
 const LongHeader = ({ onSearch, usedAt }) => {
   const { isLoggedIn } = useAuth();
@@ -70,55 +75,55 @@ const LongHeader = ({ onSearch, usedAt }) => {
 
   return (
     <Wrapper>
-      <_Background>
+      <BackgroundBox>
         <TopWrapper>
           <SidebarButton type="button" onClick={handleSidebarModalClick}>
-            <_MenuIcon />
+            <MenuIcon />
           </SidebarButton>
           <Title onClick={scrollToTop}>ComePet</Title>
           {(isLoggedIn && (
             <ButtonWrapper>
               <InformationButton type="button" onClick={handleInformationModalClick}>
-                <_ErrorOutlineIcon />
+                <ErrorOutlineIcon />
               </InformationButton>
               <NotificationButton type="button" onClick={handleNotificationModalClick}>
-                <_NotificationsIcon />
-                {isUnreadNotification && <_Badge />}
+                <NotificationsIcon />
+                {isUnreadNotification && <Badge />}
               </NotificationButton>
             </ButtonWrapper>
           )) || (
-            <_Link to="/login">
-              <_AccountCircleIcon />
-            </_Link>
+            <Link to="/login">
+              <AccountCircleIcon />
+            </Link>
           )}
         </TopWrapper>
         <MiddleWrapper>
-          <_FilterMenuBackground>
-            <_FilterMenu to="/">
-              <_Image src={getImageSrc('/images/finding.png')} />
+          <FilterMenuBackground>
+            <FilterMenu to="/">
+              <Image src={getImageSrc('/images/finding.png')} />
               실종 및 보호
-            </_FilterMenu>
-          </_FilterMenuBackground>
-          <_FilterMenuBackground>
-            <_FilterMenu to="/shelter">
-              <_Image src={getImageSrc('/images/home.png')} />
+            </FilterMenu>
+          </FilterMenuBackground>
+          <FilterMenuBackground>
+            <FilterMenu to="/shelter">
+              <Image src={getImageSrc('/images/home.png')} />
               보호소 동물
-            </_FilterMenu>
-          </_FilterMenuBackground>
+            </FilterMenu>
+          </FilterMenuBackground>
         </MiddleWrapper>
         <BottomWrapper>
           <SearchButton type="button" onClick={handleSearchModalClick}>
             세부 검색을 위해 클릭해주세요
           </SearchButton>
           <SearchIconButton type="button">
-            <_SearchRoundedIcon />
+            <SearchRoundedIcon />
           </SearchIconButton>
         </BottomWrapper>
-      </_Background>
-      <_InformationModal isVisible={isInformationModalVisible} />
-      <_NotificationModal isVisible={isNotificationModalVisible} />
-      <_SidebarModal isVisible={isSidebarModalVisible} />
-      <_SearchModal
+      </BackgroundBox>
+      <InformationModal isVisible={isInformationModalVisible} />
+      <NotificationModal isVisible={isNotificationModalVisible} />
+      <SidebarModal isVisible={isSidebarModalVisible} />
+      <SearchModal
         isVisible={isSearchModalVisible}
         onSearch={(filterConditions) => {
           onSearch(filterConditions);
@@ -140,7 +145,7 @@ const Wrapper = styled.div`
   max-width: 76.8rem;
 `;
 
-const _Background = styled(BackgroundBox)`
+const BackgroundBox = styled(_BackgroundBox)`
   height: 17rem;
 `;
 
@@ -157,7 +162,7 @@ const SidebarButton = styled.button`
   cursor: pointer;
 `;
 
-const _MenuIcon = styled(MenuIcon)`
+const MenuIcon = styled(_MenuIcon)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -180,20 +185,20 @@ const ButtonWrapper = styled.div`
   display: flex;
 `;
 
-const _Link = styled(Link)`
+const Link = styled(_Link)`
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
-const _AccountCircleIcon = styled(AccountCircleIcon)`
+const AccountCircleIcon = styled(_AccountCircleIcon)`
   font-size: 3.2rem;
   color: ${({ theme }) => theme.colors.normalGray};
 `;
 
 const InformationButton = styled.button``;
 
-const _ErrorOutlineIcon = styled(ErrorOutlineIcon)`
+const ErrorOutlineIcon = styled(_ErrorOutlineIcon)`
   font-size: 2.8rem;
   margin-right: 0.8rem;
   color: ${({ theme }) => theme.colors.brand};
@@ -203,12 +208,12 @@ const NotificationButton = styled.button`
   position: relative;
 `;
 
-const _NotificationsIcon = styled(NotificationsIcon)`
+const NotificationsIcon = styled(_NotificationsIcon)`
   font-size: 2.8rem;
   color: ${({ theme }) => theme.colors.brand};
 `;
 
-const _Badge = styled.div`
+const Badge = styled.div`
   position: absolute;
   right: 0.3rem;
   top: 0.3rem;
@@ -226,17 +231,17 @@ const MiddleWrapper = styled.div`
   padding: 0 2.4rem;
 `;
 
-const _FilterMenuBackground = styled(BackgroundBox)`
+const FilterMenuBackground = styled(_BackgroundBox)`
   width: 45%;
   height: 4rem;
-  boxshadow: 0px 4px 16px rgba(0, 0, 0, 0.08);
+  boxshadow: 0 0.4rem 1.6rem rgba(0, 0, 0, 0.08);
   cursor: pointer;
   :hover {
     background-color: ${({ theme }) => theme.colors.lighterBlue};
   }
 `;
 
-const _FilterMenu = styled(Link)`
+const FilterMenu = styled(_Link)`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -250,7 +255,7 @@ const _FilterMenu = styled(Link)`
   color: ${({ theme }) => theme.colors.brand};
 `;
 
-const _Image = styled(Image)`
+const Image = styled(_Image)`
   width: 1.6rem;
   height: 1.6rem;
   margin: 0 0.5rem 0 0;
@@ -290,27 +295,27 @@ const SearchIconButton = styled.button`
   background-color: ${({ theme }) => theme.colors.brand};
 `;
 
-const _SearchRoundedIcon = styled(SearchRoundedIcon)`
+const SearchRoundedIcon = styled(_SearchRoundedIcon)`
   font-size: 2.4rem;
   color: ${({ theme }) => theme.colors.normalWhite};
 `;
 
-const _InformationModal = styled(InformationModal)`
+const InformationModal = styled(_InformationModal)`
   top: 5rem;
   right: 3%;
 `;
 
-const _NotificationModal = styled(NotificationModal)`
+const NotificationModal = styled(_NotificationModal)`
   top: 5rem;
   right: 3%;
 `;
 
-const _SidebarModal = styled(SidebarModal)`
+const SidebarModal = styled(_SidebarModal)`
   top: 5rem;
   left: 2rem;
 `;
 
-const _SearchModal = styled(SearchModal)`
+const SearchModal = styled(_SearchModal)`
   top: 120%;
   left: 50%;
   translate: translate(-50%, 0%);
