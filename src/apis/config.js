@@ -9,6 +9,7 @@ const AUTH_TOKEN = (TOKEN && `Bearer ${TOKEN}`) || '';
 axios.defaults.baseURL = BASE_URL;
 axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 axios.defaults.headers.post['Content-Type'] = CONTENT_TYPE;
+axios.defaults.withCredentials = true;
 
 axios.interceptors.request.use(
   (config) => {
