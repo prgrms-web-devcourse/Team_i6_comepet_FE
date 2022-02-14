@@ -2,9 +2,10 @@ import React from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 
-const BackgroundBox = ({ children, margin, width, height, boxShadow, borderRadius }) => {
+const BackgroundBox = ({ className, children, margin, width, height, boxShadow, borderRadius }) => {
   return (
     <Wrapper
+      className={className}
       margin={margin}
       width={width}
       height={height}
@@ -31,6 +32,7 @@ BackgroundBox.defaultProps = {
 };
 
 BackgroundBox.propTypes = {
+  className: PropTypes.string,
   children: PropTypes.node.isRequired,
   margin: PropTypes.string,
   width: PropTypes.string,

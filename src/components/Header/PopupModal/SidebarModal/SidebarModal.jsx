@@ -10,7 +10,7 @@ import { removeCookie } from '@/utils/cookie';
 import { GET } from '@/apis/axios';
 import useSWR from 'swr';
 
-const SidebarModal = ({ src, isVisible, left, top, right, bottom }) => {
+const SidebarModal = ({ className, src, isVisible, left, top, right, bottom }) => {
   const { data } = useSWR('/me', GET);
   const nickname = data?.nickname || '';
 
@@ -31,7 +31,13 @@ const SidebarModal = ({ src, isVisible, left, top, right, bottom }) => {
   });
 
   return (
-    <Wrapper isVisible={isVisible} top={top} left={left} right={right} bottom={bottom}>
+    <Wrapper
+      className={className}
+      isVisible={isVisible}
+      top={top}
+      left={left}
+      right={right}
+      bottom={bottom}>
       <BackgroundBox width="30rem">
         <TopContainer>
           <Link to="/edit/profile">
@@ -163,6 +169,7 @@ const StyledLogoutIcon = styled(LogoutIcon)`
 `;
 
 SidebarModal.propTypes = {
+  className: PropTypes.string,
   src: PropTypes.string,
   isVisible: PropTypes.bool,
   place: PropTypes.string,

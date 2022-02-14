@@ -13,7 +13,7 @@ import { STATUS } from '@/utils/constants';
 import { AUTH_ERROR } from '@/utils/constants';
 import useAlarm from '@/hooks/useAlarm';
 
-const NotificationModal = ({ isVisible, left, right, bottom, top }) => {
+const NotificationModal = ({ className, isVisible, left, right, bottom, top }) => {
   const [isRequesting, setIsRequesting] = useState(false);
   const { data, size, setSize, mutate } = useSWRInfinite(
     (index) => `/notices?page=${index}&size=4`,
@@ -107,7 +107,13 @@ const NotificationModal = ({ isVisible, left, right, bottom, top }) => {
   });
 
   return (
-    <Wrapper isVisible={isVisible} top={top} left={left} right={right} bottom={bottom}>
+    <Wrapper
+      className={className}
+      isVisible={isVisible}
+      top={top}
+      left={left}
+      right={right}
+      bottom={bottom}>
       <BackgroundBox width="33rem">
         <TopWrapper>
           <DeleteAllButton onClick={handleDeleteAllClick}>모든 알림 지우기</DeleteAllButton>
@@ -272,6 +278,7 @@ const StyledArrowDropDownIcon = styled(ArrowDropDownIcon)`
 `;
 
 NotificationModal.propTypes = {
+  className: PropTypes.string,
   isVisible: PropTypes.bool,
   top: PropTypes.string,
   left: PropTypes.string,

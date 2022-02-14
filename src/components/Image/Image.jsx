@@ -1,13 +1,25 @@
 import { PropTypes } from 'prop-types';
 import styled from '@emotion/styled';
 
-const Image = ({ src, alt, width, height, type, mode, borderRadius, margin, boxShadow }) => {
+const Image = ({
+  className,
+  src,
+  alt,
+  width,
+  height,
+  type,
+  mode,
+  borderRadius,
+  margin,
+  boxShadow
+}) => {
   const { PUBLIC_URL } = process.env;
   const ProfileDefaultImage = `${PUBLIC_URL}/images/profile-image-default.png`;
   const PostDefaultImage = `${PUBLIC_URL}/images/post-image-default.jpg`;
 
   return (
     <StyledImage
+      className={className}
       src={src || (type == 'profile' && ProfileDefaultImage) || PostDefaultImage}
       alt={alt || '게시글 이미지'}
       width={width}
@@ -31,6 +43,7 @@ const StyledImage = styled.img`
 `;
 
 Image.propTypes = {
+  className: PropTypes.string,
   src: PropTypes.string,
   alt: PropTypes.string,
   width: PropTypes.string,
