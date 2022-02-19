@@ -10,21 +10,23 @@ import { Button } from '@/components/Button';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { GET } from '@/apis/axios';
 import useSWR from 'swr';
+import useAuth from '@/hooks/useAuth';
 
 const MainPage = () => {
+  const { isLoggedIn } = useAuth();
   const [filterConditions, setFilterConditions] = useState({});
-  const { data: likeArea } = useSWR('/me/areas', GET);
-
+  const { data: likeArea } = isLoggedIn && useSWR('/me/areas', GET);
   const userLikeCity = likeArea && likeArea.areas.length > 0 && likeArea.areas[0].cityName;
   const userLikeTown = likeArea && likeArea.areas.length > 0 && likeArea.areas[0].townName;
-
   const userLikeArea =
     (isNotFilterConditionApplied(filterConditions) && getUserLikeArea(likeArea)) || '';
+  const handleSetFilterCondition = (filterConditionObject) => {
+    filterConditionObject.start && setSortingOrder('ASC');
+    setFilterConditions(filterConditionObject);
+  };
 
   const [target, isTargetInView] = useInView();
-
   const [sortingOrder, setSortingOrder] = useState('DESC');
-
   const { data, size, setSize } = useSWRInfinite(
     (index) =>
       `/missing-posts?page=${index}&size=8&sort=id%2C${sortingOrder}` +
@@ -32,16 +34,9 @@ const MainPage = () => {
       userLikeArea,
     GET
   );
-
-  const handleSetFilterCondition = (filterConditionObject) => {
-    filterConditionObject.start && setSortingOrder('ASC');
-    setFilterConditions(filterConditionObject);
-  };
-
   const posts = data?.reduce((prevData, nextData) => {
     return { missingPosts: [...prevData.missingPosts, ...nextData.missingPosts] };
   }).missingPosts;
-
   const isReachingEnd = data && data[data?.length - 1]?.last;
   const postLength = (data && data[0]?.totalElements) || 0;
 
