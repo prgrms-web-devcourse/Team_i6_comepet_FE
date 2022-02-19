@@ -42,7 +42,8 @@ const MainPage = () => {
 
   useEffect(() => {
     if (!isReachingEnd && isTargetInView) {
-      isTargetInView && setSize(size + 1);
+      const debounce = setTimeout(() => setSize(size + 1), 1000);
+      return () => clearTimeout(debounce);
     }
   }, [isTargetInView]);
 
@@ -74,7 +75,6 @@ const MainPage = () => {
             <StyledAddCircleIcon />
           </StyledLink>
         </PostCardListWrapper>
-
         <Button
           width="50%"
           margin="6rem auto"
