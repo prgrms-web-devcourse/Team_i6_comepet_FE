@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import { BackgroundBox } from '@/components/BackgroundBox';
-import { Button } from '@/components/Button';
 import { Place, Status, PetInformation, Date } from './Category';
 import { GET } from '@/apis/axios';
 import useSWR from 'swr';
@@ -21,32 +20,18 @@ const SearchModal = ({ isVisible, onSearch, onCloseModal, usedAt }) => {
     <Wrapper isVisible={isVisible}>
       <BackgroundBox>
         <Form
-          width="31.2rem"
-          padding="1.8rem"
           onSubmit={() => {
             onSearch(parameterObject);
             onCloseModal();
           }}>
           <CategoryWrapper>
-            <Status
-              onSelectOption={handleAddParameters}
-              display={usedAt === 'ShelterPostPage' ? 'none' : 'block'}
-            />
-            <Place
-              margin="1.6rem 0 0 0"
-              onSelectOption={handleAddParameters}
-              placeData={placeData?.cities}
-            />
-            <PetInformation
-              animalData={animalData?.animals}
-              margin="1.6rem 0 0 0"
-              onSelectOption={handleAddParameters}
-            />
-            <Date margin="1.6rem 0 0 0" onSelectOption={handleAddParameters} />
+            <Status onSelectOption={handleAddParameters} usedAt={usedAt} />
+            <Place onSelectOption={handleAddParameters} placeData={placeData?.cities} />
+            <PetInformation animalData={animalData?.animals} onSelectOption={handleAddParameters} />
+            <Date onSelectOption={handleAddParameters} />
           </CategoryWrapper>
           <Button
-            bgColor="brand"
-            margin="5rem 0 0 0"
+            type="button"
             onClick={() => {
               onSearch(parameterObject);
               onCloseModal();
@@ -69,7 +54,7 @@ const SearchModal = ({ isVisible, onSearch, onCloseModal, usedAt }) => {
 const Wrapper = styled.div`
   display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
   position: absolute;
-  bottom: -400%;
+  bottom: -350%;
   left: 50%;
   transform: translate(-50%);
   z-index: 1001;
@@ -78,13 +63,18 @@ const Wrapper = styled.div`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  width: ${({ width }) => width};
-  height: ${({ height }) => height};
-  padding: ${({ padding }) => padding};
+  width: 31.2rem;
+  padding: 1.8rem;
 `;
 
-const CategoryWrapper = styled.div`
-  flex-grow: 1;
+const CategoryWrapper = styled.div``;
+
+const Button = styled.button`
+  background-color: ${({ theme }) => theme.colors.brand};
+  color: ${({ theme }) => theme.colors.normalWhite};
+  border-radius: 0.4rem;
+  height: 4rem;
+  margin-top: 3rem;
 `;
 
 const CloseModalButton = styled.button`
@@ -99,7 +89,6 @@ const StyledCloseRoundedIcon = styled(CloseRoundedIcon)`
 `;
 
 SearchModal.propTypes = {
-  className: PropTypes.string,
   isVisible: PropTypes.bool,
   onSearch: PropTypes.func,
   onCloseModal: PropTypes.func,

@@ -124,7 +124,7 @@ const Date = ({ margin, onSelectOption }) => {
           fontSize="1.2rem"
         />
       </LineBreakWrapper>
-      <LineBreakWrapper margin="1.2rem 0 0 0">
+      <LineBreakWrapper margin="1.6rem 0 0 0">
         <Label forHtml="year" bgColor="brand" size="xsmall">
           종료 날짜
         </Label>
@@ -164,7 +164,7 @@ const Date = ({ margin, onSelectOption }) => {
 };
 
 const Wrapper = styled.div`
-  margin: ${({ margin }) => margin};
+  margin: ${({ margin }) => margin || '1.6rem 0 0 0'};
 `;
 
 Date.propTypes = {

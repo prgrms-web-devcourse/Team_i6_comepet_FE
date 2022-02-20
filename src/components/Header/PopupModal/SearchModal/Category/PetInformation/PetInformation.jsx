@@ -112,11 +112,11 @@ const PetInformation = ({ margin, animalData, onSelectOption }) => {
           />
         )}
         <LineBreakWrapper>
-          <LineBreakWrapper margin="0.8rem 0 0 0">
+          <LineBreakWrapper margin="1.6rem 0 0 0">
             <Label fontHtml="sex" bgColor="brand" size="xsmall">
               나이
             </Label>
-            <LineBreakWrapper margin="0.8rem 0 0 0">
+            <LineBreakWrapper margin="1.6rem 0 0 0">
               <SelectionBox
                 onChange={handleChange}
                 options={['수컷', '암컷', '모름']}
@@ -132,7 +132,7 @@ const PetInformation = ({ margin, animalData, onSelectOption }) => {
 };
 
 const Wrapper = styled.div`
-  margin: ${({ margin }) => margin};
+  margin: ${({ margin }) => margin || '1.6rem 0 0 0'};
 `;
 
 PetInformation.propTypes = {
