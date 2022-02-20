@@ -9,9 +9,11 @@ import { BackgroundBox } from '@/components/BackgroundBox';
 import { removeCookie } from '@/utils/cookie';
 import { GET } from '@/apis/axios';
 import useSWR from 'swr';
+import useAuth from '@/hooks/useAuth';
 
 const SidebarModal = ({ className, src, isVisible, left, top, right, bottom }) => {
-  const { data } = useSWR('/me', GET);
+  const { isLoggedIn } = useAuth();
+  const { data } = isLoggedIn && useSWR('/me', GET);
   const nickname = data?.nickname || '';
 
   const handleLogoutClick = () => {

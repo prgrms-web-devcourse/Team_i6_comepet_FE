@@ -20,7 +20,7 @@ const Image = ({
   return (
     <StyledImage
       className={className}
-      src={src || (type == 'profile' && ProfileDefaultImage) || PostDefaultImage}
+      src={checkImageUrl(src) || (type == 'profile' && ProfileDefaultImage) || PostDefaultImage}
       alt={alt || '게시글 이미지'}
       width={width}
       height={height}
@@ -56,3 +56,8 @@ Image.propTypes = {
 };
 
 export default Image;
+
+const checkImageUrl = (src) => {
+  const isImageUrl = /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(src);
+  return isImageUrl ? src : null;
+};

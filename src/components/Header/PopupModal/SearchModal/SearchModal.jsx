@@ -23,8 +23,8 @@ const SearchModal = ({
 }) => {
   const { parameterObject, handleAddParameters } = useParameter('');
 
-  const { data: placeData } = useSWR('/cities', GET);
-  const { data: animalData } = useSWR('/animals', GET);
+  const { data: placeData } = isVisible && useSWR('/cities', GET);
+  const { data: animalData } = isVisible && useSWR('/animals', GET);
 
   if (!placeData || !animalData) return <div></div>;
 

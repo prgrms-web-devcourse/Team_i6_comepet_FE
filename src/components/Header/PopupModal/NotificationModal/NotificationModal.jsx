@@ -12,13 +12,14 @@ import { GET, DELETE, PATCH } from '@/apis/axios';
 import { STATUS } from '@/utils/constants';
 import { AUTH_ERROR } from '@/utils/constants';
 import useAlarm from '@/hooks/useAlarm';
+import useAuth from '@/hooks/useAuth';
 
 const NotificationModal = ({ className, isVisible, left, right, bottom, top }) => {
   const [isRequesting, setIsRequesting] = useState(false);
-  const { data, size, setSize, mutate } = useSWRInfinite(
-    (index) => `/notices?page=${index}&size=4`,
-    GET
-  );
+  const { isLoggedIn } = useAuth();
+
+  const { data, size, setSize, mutate } =
+    isLoggedIn && useSWRInfinite((index) => `/notices?page=${index}&size=4`, GET);
 
   const isReachingEnd = data && data[data?.length - 1]?.last;
   const notificationList = data?.reduce((prevData, nextData) => {
