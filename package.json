@@ -2,7 +2,7 @@
   "name": "comepet",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://3.35.254.102:26134/api/v1",
+  "proxy": "https://www.comepet.org/api/v1",
   "dependencies": {
     "@craco/craco": "^6.4.0",
     "@emotion/babel-preset-css-prop": "^11.2.0",
