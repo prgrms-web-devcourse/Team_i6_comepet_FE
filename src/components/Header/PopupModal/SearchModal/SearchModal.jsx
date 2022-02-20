@@ -1,42 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import { BackgroundBox } from '@/components/BackgroundBox';
 import { Button } from '@/components/Button';
 import { Place, Status, PetInformation, Date } from './Category';
 import { GET } from '@/apis/axios';
-import useParameter from '@/hooks/useParameter';
 import useSWR from 'swr';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
-const SearchModal = ({
-  className,
-  isVisible,
-  left,
-  top,
-  right,
-  bottom,
-  translate,
-  onSearch,
-  onCloseModal,
-  usedAt
-}) => {
-  const { parameterObject, handleAddParameters } = useParameter('');
+const SearchModal = ({ isVisible, onSearch, onCloseModal, usedAt }) => {
+  const { data: placeData } = useSWR('/cities', GET);
+  const { data: animalData } = useSWR('/animals', GET);
+  const [parameterObject, setParameterObject] = useState({});
 
-  const { data: placeData } = isVisible && useSWR('/cities', GET);
-  const { data: animalData } = isVisible && useSWR('/animals', GET);
-
-  if (!placeData || !animalData) return <div></div>;
+  const handleAddParameters = (params) => {
+    setParameterObject({ ...parameterObject, ...params });
+  };
 
   return (
-    <Wrapper
-      className={className}
-      isVisible={isVisible}
-      top={top}
-      left={left}
-      right={right}
-      bottom={bottom}
-      translate={translate}>
+    <Wrapper isVisible={isVisible}>
       <BackgroundBox>
         <Form
           width="31.2rem"
@@ -53,10 +35,10 @@ const SearchModal = ({
             <Place
               margin="1.6rem 0 0 0"
               onSelectOption={handleAddParameters}
-              placeData={placeData.cities}
+              placeData={placeData?.cities}
             />
             <PetInformation
-              animalData={animalData.animals}
+              animalData={animalData?.animals}
               margin="1.6rem 0 0 0"
               onSelectOption={handleAddParameters}
             />
@@ -85,13 +67,11 @@ const SearchModal = ({
 };
 
 const Wrapper = styled.div`
-  position: absolute;
   display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
-  top: ${({ top }) => top};
-  left: ${({ left }) => left};
-  bottom: ${({ bottom }) => bottom};
-  right: ${({ right }) => right};
-  transform: ${({ translate }) => translate};
+  position: absolute;
+  bottom: -400%;
+  left: 50%;
+  transform: translate(-50%);
   z-index: 1001;
 `;
 
@@ -121,12 +101,6 @@ const StyledCloseRoundedIcon = styled(CloseRoundedIcon)`
 SearchModal.propTypes = {
   className: PropTypes.string,
   isVisible: PropTypes.bool,
-  place: PropTypes.string,
-  top: PropTypes.string,
-  left: PropTypes.string,
-  right: PropTypes.string,
-  bottom: PropTypes.string,
-  translate: PropTypes.string,
   onSearch: PropTypes.func,
   onCloseModal: PropTypes.func,
   usedAt: PropTypes.string

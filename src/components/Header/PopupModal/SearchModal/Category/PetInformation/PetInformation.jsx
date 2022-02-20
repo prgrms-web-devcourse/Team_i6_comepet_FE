@@ -23,7 +23,7 @@ const PetInformation = ({ margin, animalData, onSelectOption }) => {
   useEffect(() => {
     if (animal !== null && animal !== '동물') {
       const targetObject = animalData?.find(({ name }) => name === animal);
-      onSelectOption({ animal: targetObject.id, animalString: targetObject.name });
+      onSelectOption({ animal: targetObject?.id, animalString: targetObject?.name });
     } else if (animal === null) {
       onSelectOption({ animal: null, animalString: null });
     }
@@ -39,7 +39,10 @@ const PetInformation = ({ margin, animalData, onSelectOption }) => {
           const selectedAnimal = e.target.value;
           const targetAnimalObject = animalData?.find(({ name }) => name === selectedAnimal);
           setAnimal(e.target.value);
-          onSelectOption({ animal: targetAnimalObject.id, animalString: targetAnimalObject.name });
+          onSelectOption({
+            animal: targetAnimalObject?.id,
+            animalString: targetAnimalObject?.name
+          });
         }
 
         kindsCheckBoxRef.current && (kindsCheckBoxRef.current.checked = false);
