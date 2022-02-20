@@ -5,7 +5,7 @@ import {
   InformationModal as _InformationModal,
   NotificationModal as _NotificationModal,
   SidebarModal as _SidebarModal,
-  SearchModal as _SearchModal
+  SearchModal
 } from './PopupModal';
 import { Link as _Link } from 'react-router-dom';
 import { BackgroundBox as _BackgroundBox } from '@/components/BackgroundBox';
@@ -123,14 +123,14 @@ const LongHeader = ({ onSearch, usedAt }) => {
       <InformationModal isVisible={isInformationModalVisible} />
       <NotificationModal isVisible={isNotificationModalVisible} />
       <SidebarModal isVisible={isSidebarModalVisible} />
-      <SearchModal
-        isVisible={isSearchModalVisible}
-        onSearch={(filterConditions) => {
-          onSearch(filterConditions);
-        }}
-        onCloseModal={handleSearchModalClick}
-        usedAt={usedAt}
-      />
+      {isSearchModalVisible && (
+        <SearchModal
+          isVisible={isSearchModalVisible}
+          onSearch={onSearch}
+          onCloseModal={handleSearchModalClick}
+          usedAt={usedAt}
+        />
+      )}
     </Wrapper>
   );
 };
@@ -234,7 +234,7 @@ const MiddleWrapper = styled.div`
 const FilterMenuBackground = styled(_BackgroundBox)`
   width: 45%;
   height: 4rem;
-  boxshadow: 0 0.4rem 1.6rem rgba(0, 0, 0, 0.08);
+  box-shadow: 0 0.4rem 1.6rem rgba(0, 0, 0, 0.08);
   cursor: pointer;
   :hover {
     background-color: ${({ theme }) => theme.colors.lighterBlue};
@@ -313,12 +313,6 @@ const NotificationModal = styled(_NotificationModal)`
 const SidebarModal = styled(_SidebarModal)`
   top: 5rem;
   left: 2rem;
-`;
-
-const SearchModal = styled(_SearchModal)`
-  top: 120%;
-  left: 50%;
-  translate: translate(-50%, 0%);
 `;
 
 LongHeader.propTypes = {

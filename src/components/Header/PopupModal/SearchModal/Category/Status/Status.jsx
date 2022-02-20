@@ -12,7 +12,7 @@ const STATUS = Object.freeze({
   완료: 'COMPLETION'
 });
 
-const Status = ({ onSelectOption, display }) => {
+const Status = ({ onSelectOption, usedAt }) => {
   const handleChange = (e) => {
     if (!isDefalutOptionSelected(e)) {
       onSelectOption({ status: STATUS[e.target.value] });
@@ -22,7 +22,7 @@ const Status = ({ onSelectOption, display }) => {
   };
 
   return (
-    <Wrapper display={display}>
+    <Wrapper usedAt={usedAt}>
       <Label forHtml="status" bgColor="brand" size="xsmall">
         상태 정보
       </Label>
@@ -40,12 +40,13 @@ const Status = ({ onSelectOption, display }) => {
 };
 
 const Wrapper = styled.div`
-  display: ${({ display }) => display};
+  display: ${({ usedAt }) => (usedAt === 'ShelterPostPage' ? 'none' : 'block')};
+  margin-top: 1.6rem;
 `;
 
 Status.propTypes = {
   onSelectOption: PropTypes.func,
-  display: PropTypes.string
+  usedAt: PropTypes.string
 };
 
 export default Status;
