@@ -1,0 +1,11 @@
+[[redirects]]
+  from = "/proxy/*"
+  to = "https://www.comepet.org/api/v1/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  
