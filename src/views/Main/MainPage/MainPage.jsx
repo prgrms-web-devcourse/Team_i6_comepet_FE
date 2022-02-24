@@ -11,6 +11,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { GET } from '@/apis/axios';
 import useSWR from 'swr';
 import useAuth from '@/hooks/useAuth';
+import { throttle } from '@/utils/helpers';
 
 const MainPage = () => {
   const { isLoggedIn } = useAuth();
@@ -42,8 +43,7 @@ const MainPage = () => {
 
   useEffect(() => {
     if (!isReachingEnd && isTargetInView) {
-      const debounce = setTimeout(() => setSize(size + 1), 1000);
-      return () => clearTimeout(debounce);
+      throttle(() => setSize(size + 1), 500)();
     }
   }, [isTargetInView]);
 
