@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
@@ -6,12 +8,12 @@ import { useInView } from 'react-intersection-observer';
 import { LongHeader } from '@/components/Header';
 import { SortHeader } from '@/views/Main/SortHeader';
 import { PostCard } from '@/components/PostCard';
-import { Button } from '@/components/Button';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+
 import { GET } from '@/apis/axios';
 import useSWR from 'swr';
 import useAuth from '@/hooks/useAuth';
 import { throttle } from '@/utils/helpers';
+import _CircularProgress from '@mui/material/CircularProgress';
 
 const MainPage = () => {
   const { isLoggedIn } = useAuth();
@@ -30,7 +32,7 @@ const MainPage = () => {
   const [sortingOrder, setSortingOrder] = useState('DESC');
   const { data, size, setSize } = useSWRInfinite(
     (index) =>
-      `/missing-posts?page=${index}&size=8&sort=id%2C${sortingOrder}` +
+      `/missing-posts?page=${index}&size=12&sort=id%2C${sortingOrder}` +
       makeFilterConditionUrl(filterConditions) +
       userLikeArea,
     GET
@@ -71,20 +73,9 @@ const MainPage = () => {
               ))}
             </PostCardList>
           )) || <NoResultText>검색 결과가 없습니다.</NoResultText>}
-          <StyledLink to="/post/create">
-            <StyledAddCircleIcon />
-          </StyledLink>
         </PostCardListWrapper>
-        <Button
-          width="50%"
-          margin="6rem auto"
-          bgColor="brand"
-          disabled={isReachingEnd}
-          onClick={() => setSize(size + 1)}>
-          {(isReachingEnd && '마지막') || '더보기'}
-        </Button>
+        <SpinnerWrapper>{!isReachingEnd && <CircularProgress ref={target} />}</SpinnerWrapper>
       </ContentWrapper>
-      <div ref={target} />
     </Wrapper>
   );
 };
@@ -94,6 +85,7 @@ const Wrapper = styled.div`
 `;
 
 const ContentWrapper = styled.div`
+  position: relative;
   padding: 17rem 2.4rem 2.4rem 2.4rem;
 `;
 
@@ -122,24 +114,14 @@ const NoResultText = styled.div`
   color: ${({ theme }) => theme.colors.normalGray};
 `;
 
-const StyledLink = styled(Link)`
+const SpinnerWrapper = styled.div`
   position: absolute;
   left: 50%;
-  bottom: -2rem;
-  z-index: 2;
-  transform: translateX(-50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 4rem;
-  height: 4rem;
-  border-radius: 50%;
-  background-color: ${({ theme }) => theme.colors.normalWhite};
+  bottom: 0;
+  transform: translate(-50%);
 `;
 
-const StyledAddCircleIcon = styled(AddCircleIcon)`
-  width: 6rem;
-  height: 6rem;
+const CircularProgress = styled(_CircularProgress)`
   color: ${({ theme }) => theme.colors.normalOrange};
 `;
 
