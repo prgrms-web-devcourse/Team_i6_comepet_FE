@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
@@ -8,11 +6,10 @@ import { useInView } from 'react-intersection-observer';
 import { LongHeader } from '@/components/Header';
 import { SortHeader } from '@/views/Main/SortHeader';
 import { PostCard } from '@/components/PostCard';
-
 import { GET } from '@/apis/axios';
 import useSWR from 'swr';
 import useAuth from '@/hooks/useAuth';
-import { throttle } from '@/utils/helpers';
+import { useThrottle } from '@/hooks/useThrottle';
 import _CircularProgress from '@mui/material/CircularProgress';
 
 const MainPage = () => {
@@ -42,10 +39,11 @@ const MainPage = () => {
   }).missingPosts;
   const isReachingEnd = data && data[data?.length - 1]?.last;
   const postLength = (data && data[0]?.totalElements) || 0;
+  const [getMorePosts, isReadyToGet] = useThrottle(() => setSize(size + 1), 1000);
 
   useEffect(() => {
-    if (!isReachingEnd && isTargetInView) {
-      throttle(() => setSize(size + 1), 500)();
+    if (!isReachingEnd && isTargetInView && isReadyToGet) {
+      getMorePosts();
     }
   }, [isTargetInView]);
 
